@@ -9,6 +9,7 @@ web:
     - "8000"
   links:
     - neo4j:neo4j
+    - postgres:postgres
   volumes:
     - /usr/src/app/static
   env_file: .env
@@ -33,3 +34,18 @@ neo4j:
    - SYS_RESOURCE
   ports:
    - "7474:7474"
+
+data:
+  restart: "no"
+  image: postgres:latest
+  volumes:
+    - /var/lib/postgresql
+  command: "true"
+
+postgres:
+  restart: always
+  image: postgres:latest
+  volumes_from:
+    - data
+  ports:
+    - "5432:5432"
