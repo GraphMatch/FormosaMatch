@@ -6,8 +6,10 @@ from flask import Flask
 from flask import request, redirect, session, abort, url_for, render_template
 from flask.ext.sqlalchemy import SQLAlchemy
 from py2neo import Graph
+from config import BaseConfig
 
 app = Flask(__name__)
+app.config.from_object(BaseConfig)
 app.config['DEBUG'] = True
 
 graph = Graph('http://neo4j:neo4j@192.168.99.100:7474/db/data/')
