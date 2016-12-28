@@ -14,6 +14,7 @@
       selectMonths: true,
       selectYears: 100,
       max: true,
+      formatSubmit: 'yyyy-mm-dd'
     });
     $('#signin-modal').modal({
       complete: function(){

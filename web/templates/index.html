@@ -31,15 +31,17 @@
       <div class="parallax"><img src="../static/img/background.jpg" alt=""></div>
     </div>
     <div class="">
-
-      <form class="col s12">
+      {% for message in get_flashed_messages() %}
+        <div class="flash">{{ message }}</div>
+      {% endfor %}
+      <form class="col s12" action="{{ url_for('register') }}" method="post" >
         <div id="signup-container" class="container">
           <div class="section">
             <div class="row center sign-up-1" >
               <h4 class="header col s12 light text-lighten-3">I'm a</h4>
 
               <div class="input-field col s12 m4  push-m1">
-                <select class="">
+                <select class="" name="preference">
                   <option value="1" selected>Straight</option>
                   <option value="2">Gay</option>
                   <option value="3">Bisexual</option>
@@ -47,7 +49,7 @@
               </div>
 
               <div class="input-field col s12 m4 push-m1">
-                <select>
+                <select name="gender">
                   <option value="1" selected>Man</option>
                   <option value="2">Woman</option>
                   <option value="3">Rather not say</option>
@@ -63,23 +65,23 @@
               <h4 class="header col s12 light text-lighten-3">Just a few more steps!</h4>
               <div class="row">
                 <div class="input-field col s12 m6 push-m3">
-                  <input type="date" id="birth_date" name="" class="datepicker">
+                  <input type="date" id="birth_date" name="birth_date" name="" class="datepicker">
                   <label for="birth_date" >Birthdate</label>
                 </div>
               </div>
               <div class="row">
                 <div class="input-field col s12 m3 push-m3">
-                    <input id="country" type="text" >
+                    <input id="country" name="country" type="text" >
                     <label for="country">Country</label>
                 </div>
                 <div class="input-field col s12 m3 push-m3">
-                    <input id="city" type="text" >
+                    <input id="city" name="city" type="text" >
                     <label for="city">City</label>
                 </div>
               </div>
               <div class="row">
                 <div class="input-field col s12 m6 push-m3">
-                  <input type="email" id="email" >
+                  <input type="email" id="email" name="email" >
                   <label for="email">Email</label>
                 </div>
               </div>
@@ -94,19 +96,20 @@
               <h4 class="header col s12 light text-lighten-3">Last step. Promise!</h4>
               <div class="row">
                 <div class="input-field col s12 m6 push-m3">
-                  <input type="text" id="username" >
+                  <input type="text" id="username" name="username" >
                   <label for="username">Username</label>
                 </div>
               </div>
               <div class="row">
                 <div class="input-field col s12 m6 push-m3">
-                  <input type="password" id="password-signup" >
+                  <input type="password" id="password-signup" name="password" >
                   <label for="password-signup">Password</label>
                 </div>
               </div>
               <div class="s12 m3 push-m1">
                 <a id="back-sign-up-2" class="btn-large waves-effect waves-light lighten-1">Back</a>
                 <a id="sign-up-3" class="btn-large waves-effect waves-light lighten-1">Done!</a>
+                <input name="signup" type="submit" id="signup" class="btn-large waves-effect waves-light lighten-1" />
               </div>
             </div>
             <!-- End of Sign up Step 3 -->
