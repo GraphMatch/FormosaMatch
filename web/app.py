@@ -21,6 +21,13 @@ def index():
     #users = queries.get_users(graph)
     return render_template('index.html')
 
+@app.route('/dashboard', methods=['GET', 'POST'])
+def dashboard():
+    """ dashboard """
+    #users = queries.get_users(graph)
+    return render_template('dashboard.html')
+
+
 @app.route('/api/register', methods=['POST'])
 def register():
     json_data = request.json
