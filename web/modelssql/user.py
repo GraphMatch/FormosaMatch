@@ -11,6 +11,7 @@ class User(db.Model):
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     email = db.Column(db.String(255), unique=True, nullable=False)
+    username = db.Column(db.String(50), unique=True, nullable=False)
     password = db.Column(db.String(255), nullable=False)
     fullname = db.Column(db.String(255), nullable=True)
     profile_picture = db.Column(db.String(255), nullable=True)
@@ -19,14 +20,15 @@ class User(db.Model):
     registered_on = db.Column(db.DateTime, nullable=False)
     admin = db.Column(db.Boolean, nullable=False, default=False)
 
-    def __init__(self, preference, gender, birth_date, country, city, email, password, admin=False):
+    def __init__(self, preference, gender, birth_date, country, city, email, username, password, admin=False):
         self.preference = preference
         self.gender = gender
         self.birth_date = birth_date
         self.country = country
         self.city = city
         self.email = email
-        self.password = bcrypt.generate_password_hash(password)
+        self.username = username
+        self.password = bcrypt.generate_password_hash(password).decode('utf-8')
         self.registered_on = datetime.datetime.now()
         self.admin = admin
 
