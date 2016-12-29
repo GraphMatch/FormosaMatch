@@ -54,8 +54,10 @@ def register():
         db.session.add(user)
         db.session.commit()
         flash('You have been registered with success')
+        session['username'] = username
+        session['logged_in'] = True
         db.session.close()
-    return render_template('dashboard.html')
+    return redirect(url_for('dashboard'))
 
 @app.route('/api/login', methods=['POST'])
 def login():
@@ -70,10 +72,12 @@ def login():
     return jsonify({'result': status})
 
 
-@app.route('/api/logout')
+@app.route('/logout')
 def logout():
     session.pop('logged_in', None)
-    return jsonify({'result': 'success'})
+    session.pop('username', None)
+    flash('You have been logged off successfully')
+    return redirect(url_for('index'))
 
 
 @app.route('/api/status')

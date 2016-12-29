@@ -26,7 +26,7 @@ class User(db.Model):
         self.country = country
         self.city = city
         self.email = email
-        self.password = password
+        self.password = bcrypt.generate_password_hash(password)
         self.registered_on = datetime.datetime.now()
         self.admin = admin
 
