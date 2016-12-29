@@ -95,6 +95,22 @@ def register():
 
         #I will check later if the password is strong enough
 
+        check_user = User.query.filter_by(email = user.email).first()
+        """
+            Check if the email is available
+        """
+        if(check_user):
+            error = True
+            flash("Sorry! The email is not available!!!")
+
+        """
+            Check if the email is available
+        """
+        check_user = User.query.filter_by(username = user.username).first()
+        if(check_user):
+            error = True
+            flash("Sorry! The username is not available!!!")
+        
         if(error != False):
             return redirect(url_for('index'))
         db.session.add(user)
