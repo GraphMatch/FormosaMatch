@@ -4,6 +4,8 @@
 import datetime
 from app import db, bcrypt
 from datetime import date
+from modelssql.question import Question
+from modelssql.match import Match
 
 class User(db.Model):
 
@@ -20,8 +22,8 @@ class User(db.Model):
     registered_on = db.Column(db.DateTime, nullable=False)
     admin = db.Column(db.Boolean, nullable=False, default=False)
     questions = db.relationship("Question", back_populates="user")
-    matches_a = db.relationship("Match", back_populates="user_b")
-    matches_b = db.relationship("Match", back_populates="user_a")
+    #matches_a = db.relationship("Match", back_populates="user_b")
+    #matches_b = db.relationship("Match", back_populates="user_a")
 
     def __init__(self, preference, gender, birth_date, country, city, email, username, password, admin=False):
         self.preference = preference

@@ -2,6 +2,7 @@
 
 
 from app import db, bcrypt
+from modelssql.question_list import QuestionList
 
 class Question(db.Model):
 
