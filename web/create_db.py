@@ -3,7 +3,11 @@
 from flask.ext.script import Manager
 from flask.ext.migrate import Migrate, MigrateCommand
 from app import app,db
+from modelssql.question_list import QuestionList
 from modelssql.user import User
+from modelssql.question import Question
+from modelssql.match import Match
+from modelssql.message import Message
 
 
 migrate = Migrate(app, db)

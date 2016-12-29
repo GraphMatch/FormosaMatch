@@ -55,6 +55,7 @@ def register():
         if(len(birth_date_submit) == 0):
             error = True
             flash('Sorry! You need to provide your birthdate')
+            return redirect(url_for('index'))
 
         birth_date = datetime.datetime.strptime(birth_date_submit, "%Y-%m-%d")
         user = User(preference, gender, birth_date, country, city, email, username, password)

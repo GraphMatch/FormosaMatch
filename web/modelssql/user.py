@@ -19,6 +19,9 @@ class User(db.Model):
     gender = db.Column(db.String(1), nullable=False)
     registered_on = db.Column(db.DateTime, nullable=False)
     admin = db.Column(db.Boolean, nullable=False, default=False)
+    questions = db.relationship("Question", back_populates="user")
+    matches_a = db.relationship("Match", back_populates="user_b")
+    matches_b = db.relationship("Match", back_populates="user_a")
 
     def __init__(self, preference, gender, birth_date, country, city, email, username, password, admin=False):
         self.preference = preference

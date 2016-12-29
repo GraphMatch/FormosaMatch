@@ -32,7 +32,7 @@
     </div>
     <div class="">
 
-      <form class="col s12" action="{{ url_for('register') }}" method="post" >
+      <form class="col s12" action="{{ url_for('register') }}" id="signup-up" method="post" >
         <div id="signup-container" class="container">
           <div class="section">
             {% for message in get_flashed_messages() %}
@@ -66,7 +66,7 @@
               <h4 class="header col s12 light text-lighten-3">Just a few more steps!</h4>
               <div class="row">
                 <div class="input-field col s12 m6 push-m3">
-                  <input type="date" id="birth_date" name="birth_date" name="" class="datepicker">
+                  <input type="date" id="birth_date" name="birth_date" class="datepicker">
                   <label for="birth_date" >Birthdate</label>
                 </div>
               </div>
@@ -109,8 +109,7 @@
               </div>
               <div class="s12 m3 push-m1">
                 <a id="back-sign-up-2" class="btn-large waves-effect waves-light lighten-1">Back</a>
-                <a id="sign-up-3" class="btn-large waves-effect waves-light lighten-1">Done!</a>
-                <input name="signup" type="submit" id="signup" class="btn-large waves-effect waves-light lighten-1" />
+                <input name="signup" type="submit" id="signup" class="btn-large waves-effect waves-light lighten-1" value="Done!" />
               </div>
             </div>
             <!-- End of Sign up Step 3 -->

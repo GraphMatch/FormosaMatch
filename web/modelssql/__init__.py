@@ -2,4 +2,4 @@
 """ application model """
 
 "Example of how to list models"
-__all__ = ["user"]
+__all__ = ["user", "question", "question_list", "match"]
