@@ -34,3 +34,16 @@ And then:
 	docker-compose up
 
 The website will be available on localhost and the Neo4j panel on localhost:7474.
+
+This command is to acces to your docker image PostgreSQL database
+	docker exec -ti IMAGE psql -U postgres
+
+Change IMAGE by the name of your image obtained by the following command:
+	docker ps -a
+
+Create your database wih this command if it doesn't exist:
+	CREATE DATABASE formosamatch
+
+From your project run this command to create the tables in the database:
+	docker-compose run web python create_db.py create_db
+	
