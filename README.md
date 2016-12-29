@@ -45,7 +45,7 @@ Change IMAGE by the name of your image obtained by the following command:
 
 Create your database wih this command if it doesn't exist:
 
-	CREATE DATABASE formosamatch
+	CREATE DATABASE formosamatch;
 
 From your project run this command to create the tables in the database:
 
