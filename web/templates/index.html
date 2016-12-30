@@ -72,11 +72,11 @@
               </div>
               <div class="row">
                 <div class="input-field col s12 m3 push-m3">
-                    <input id="country" name="country" type="text" >
+                    <input id="country" name="country" type="text" {% if country %} value = {{ country }} {% endif %} >
                     <label for="country">Country</label>
                 </div>
                 <div class="input-field col s12 m3 push-m3">
-                    <input id="city" name="city" type="text" >
+                    <input id="city" name="city" type="text" {% if city %} value = {{ city }} {% endif %} >
                     <label for="city">City</label>
                 </div>
               </div>

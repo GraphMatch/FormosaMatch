@@ -3,9 +3,11 @@ bcrypt==2.0.0
 cffi==1.5.2
 Flask==0.10.1
 Flask-Bcrypt==0.7.1
+Flask-Mail==0.9.1
 Flask-Migrate==1.8.0
 Flask-Script==2.0.5
 Flask-SQLAlchemy==2.1
+geocoder==1.19.0
 itsdangerous==0.24
 Jinja2==2.8
 Mako==1.0.3

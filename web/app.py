@@ -6,10 +6,11 @@ from flask import Flask
 from flask import request, redirect, session, abort, url_for, render_template, flash, jsonify
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.bcrypt import Bcrypt
+from flask.ext.mail import Mail
 from py2neo import Graph
 from config import BaseConfig
-import datetime
-import re
+import datetime, re, geocoder
+from modelssql.utils import *
 
 app = Flask(__name__)
 app.config['DEBUG'] = True
@@ -19,21 +20,33 @@ app.config.from_object(BaseConfig)
 graph = Graph('http://neo4j:neo4j@192.168.99.100:7474/db/data/')
 bcrypt = Bcrypt(app)
 db = SQLAlchemy(app)
+mail = Mail(app)
 
 from modelssql.user import User
+from modelssql.token import generate_confirmation_token, confirm_token
+from modelssql.email import send_email
 
-"""from modelsneo import *
-from modelssql import *"""
+
 @app.route('/', methods=['GET', 'POST'])
 def index():
     """ index handler """
-    #users = queries.get_users(graph)
-    return render_template('index.html')
+    if(is_authenticated(session)):
+        return redirect(url_for('dashboard'))
+    """
+        Try to get the country and city from the user IP address
+    """
+    ip = request.remote_addr #'140.114.202.215'
+    g = geocoder.ip(ip)
+    return render_template('index.html',
+    city = g.city,
+    country = g.country)
 
 @app.route('/dashboard', methods=['GET', 'POST'])
 def dashboard():
     """ dashboard """
-    #users = queries.get_users(graph)
+    if(not is_authenticated(session)):
+        flash('Sorry! You need to log in order to access to this page!')
+        return redirect(url_for('index'))
     return render_template('dashboard.html')
 
 
@@ -110,12 +123,35 @@ def register():
         if(check_user):
             error = True
             flash("Sorry! The username is not available!!!")
-        
+
+        """
+            Check if we have latitude and longitude from the country and city
+        """
+        g = geocoder.google(user.city + ', ' + user.country)
+        if(g.latlng == None):
+            error = True
+            flash("Sorry! The address you specified doesn't exist")
+
+        user.latitude = g.latlng[0]
+        user.longitude = g.latlng[1]
         if(error != False):
             return redirect(url_for('index'))
         db.session.add(user)
         db.session.commit()
         flash('You have been registered with success')
+
+        token = generate_confirmation_token(user.email)
+        confirm_url = url_for('confirm_email', token=token, _external=True)
+        html = render_template('activate_user.html', confirm_url=confirm_url)
+        subject = "Please confirm your email"
+        send_email(user.email, subject, html)
+        flash('A confirmation email has been sent via email.', 'success')
+
+        status = user.create_user_node()
+        if(status == True):
+            flash('User node has been created with success')
+        else:
+            flash('Failed to create user node')
         session['username'] = username
         session['logged_in'] = True
         db.session.close()
@@ -127,37 +163,48 @@ def login():
     password_signin = request.form['password-signin']
     status = False
     if user and bcrypt.check_password_hash(user.password, password_signin):
-        session['username'] = user.username
-        session['logged_in'] = True
         status = True
     else:
         user = User.query.filter_by(username=request.form['emailusername']).first()
         if user and bcrypt.check_password_hash(user.password, password_signin):
-            session['username'] = user.username
-            session['logged_in'] = True
             status = True
     if(status == False):
         flash('Login failed! Invalid username/password.')
         return redirect(url_for('index'))
+    """
+        Create the session variables to log in the user
+    """
+    login_user(user, session)
     return redirect(url_for('dashboard'))
 
 
 @app.route('/logout')
 def logout():
-    session.pop('logged_in', None)
-    session.pop('username', None)
+    logout_user(session)
     flash('You have been logged off successfully')
     return redirect(url_for('index'))
 
 
 @app.route('/api/status')
 def status():
-    if session.get('logged_in'):
-        if session['logged_in']:
-            return jsonify({'status': True})
-    else:
-        return jsonify({'status': False})
+    return jsonify({'status': is_authenticated()})
 
+@app.route('/confirm/<token>')
+def confirm_email(token):
+    try:
+        email = confirm_token(token)
+    except:
+        flash('The confirmation link is invalid or has expired.', 'danger')
+    user = User.query.filter_by(email = email).first_or_404()
+    if user.confirmed:
+        flash('Account already confirmed. Please login.', 'success')
+    else:
+        user.confirmed = True
+        user.confirmed_on = datetime.datetime.now()
+        db.session.add(user)
+        db.session.commit()
+        flash('You have confirmed your account. Thanks!', 'success')
+    return redirect(url_for('dashboard'))
 
 if __name__ == '__main__':
     app.run()

@@ -8,6 +8,7 @@ from modelssql.user import User
 from modelssql.question import Question
 from modelssql.match import Match
 from modelssql.message import Message
+import datetime
 
 
 migrate = Migrate(app, db)
@@ -32,9 +33,11 @@ def drop_db():
 @manager.command
 def create_admin():
     """Creates the admin user."""
-    db.session.add(User(email='ad@min.com', password='admin', admin=True))
+    user = User(preference = 1, gender = 'F', birth_date = '1991-01-03', country = 'Taiwan', city = 'Hsinchu City',
+    email = 'admin@formosamatch.tw', username = 'admin', password='admin', confirmed = True, confirmed_on = datetime.datetime.now(), latitude = 24.8047, longitude = 120.9714, admin = True)
+    db.session.add(user)
     db.session.commit()
-
+    user.create_user_node()
 
 @manager.command
 def create_data():

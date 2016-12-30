@@ -15,6 +15,20 @@ class BaseConfig(object):
     SQLALCHEMY_DATABASE_URI = 'postgresql://{0}:{1}@{2}:{3}/{4}'.format(
         DB_USER, DB_PASS, DB_SERVICE, DB_PORT, DB_NAME
     )
+    SECURITY_PASSWORD_SALT = '5(15ds+i2+%ik6z&!yer+ga9m=e%jcqiz_5wszg)r-z!2--b2d'
+
+    # mail settings (gmail)
+    MAIL_SERVER = 'smtp.googlemail.com'
+    MAIL_PORT = 465
+    MAIL_USE_TLS = False
+    MAIL_USE_SSL = True
+
+    # gmail authentication
+    MAIL_USERNAME = os.environ['MAIL_USERNAME']
+    MAIL_PASSWORD = os.environ['MAIL_PASSWORD']
+
+    # mail accounts
+    MAIL_DEFAULT_SENDER = os.environ['MAIL_USERNAME']
 
 # If leaving hard-coded:
 # class BaseConfig(object):
