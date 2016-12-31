@@ -14,6 +14,7 @@ from modelssql.utils import *
 
 app = Flask(__name__)
 app.config['DEBUG'] = True
+app.config['MAIL_DEBUG'] = True
 app.config.from_object(BaseConfig)
 
 
