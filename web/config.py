@@ -18,17 +18,17 @@ class BaseConfig(object):
     SECURITY_PASSWORD_SALT = '5(15ds+i2+%ik6z&!yer+ga9m=e%jcqiz_5wszg)r-z!2--b2d'
 
     # mail settings (gmail)
-    MAIL_SERVER = 'smtp.googlemail.com'
-    MAIL_PORT = 465
-    MAIL_USE_TLS = False
-    MAIL_USE_SSL = True
+    MAIL_SERVER = os.environ['MAIL_SERVER']
+    MAIL_PORT = os.environ['MAIL_PORT']
+    MAIL_USE_TLS = os.environ['MAIL_USE_TLS']
+    MAIL_USE_SSL = os.environ['MAIL_USE_SSL']
 
     # gmail authentication
     MAIL_USERNAME = os.environ['MAIL_USERNAME']
     MAIL_PASSWORD = os.environ['MAIL_PASSWORD']
 
     # mail accounts
-    MAIL_DEFAULT_SENDER = os.environ['MAIL_USERNAME']
+    MAIL_DEFAULT_SENDER = os.environ['MAIL_DEFAULT_SENDER']
 
 # If leaving hard-coded:
 # class BaseConfig(object):
