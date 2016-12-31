@@ -1,6 +1,5 @@
 (function($){
   $(function(){
-
     sideNavOptions = {
       menuWidth: 300, // Default is 240
       edge: 'right', // Choose the horizontal origin
@@ -42,5 +41,7 @@
         $(".sign-up-1").show("slide", {direction: "left"},400);
       });
     });
+
+
   }); // end of document ready
   })(jQuery); // end of jQuery name space
