@@ -49,3 +49,7 @@ color: rgba(255,255,255,.9);
     width: 80%
   }
 }
+
+.card {
+    overflow: hidden;
+}

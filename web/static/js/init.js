@@ -41,6 +41,10 @@
         $(".sign-up-1").show("slide", {direction: "left"},400);
       });
     });
+    ///ALERT BUTTON
+    $(".card-alert").on("click",".alert-button",function(){
+      $(this).parent().fadeOut();
+    });
 
 
   }); // end of document ready

@@ -36,7 +36,14 @@
         <div id="signup-container" class="container">
           <div class="section">
             {% for message in get_flashed_messages() %}
-              <div class="light text-lighten-3 center">{{ message }}</div>
+              <div class="card-alert card red lighten-5">
+                <div class="card-content red-text">
+                  <p>ERROR : {{ message }}</p>
+                </div>
+                <button type="button" style="background: none;border: none;position: absolute;top: 15px;right: 10px;font-size: 20px;color: #fff;" class="close alert-button red-text" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">×</span>
+                </button>
+              </div>
             {% endfor %}
             <div class="row center sign-up-1" >
               <h4 class="header col s12 light text-lighten-3">I'm a</h4>
