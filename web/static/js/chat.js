@@ -17,7 +17,6 @@
             $(this).removeClass('mdi-chevron-down').addClass('mdi-chevron-up');
             $('#hangout').addClass('collapsed');
         }
-
     });
 
     $('.list-text > ul > li').on('click', function() {
@@ -147,10 +146,6 @@
             width: '400px'
         });
     });
-
-
-    // viewtoggle > 1000
-
 
     // Filter
     $('.search-filter').on('keyup', function() {
