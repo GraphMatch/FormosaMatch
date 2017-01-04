@@ -13,9 +13,10 @@ import datetime, re, geocoder
 from modelssql.utils import *
 
 app = Flask(__name__)
+app.config.from_object(BaseConfig)
 app.config['DEBUG'] = True
 app.config['MAIL_DEBUG'] = True
-app.config.from_object(BaseConfig)
+
 
 
 graph = Graph('http://neo4j:neo4j@192.168.99.100:7474/db/data/')

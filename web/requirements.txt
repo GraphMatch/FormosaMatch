@@ -1,5 +1,4 @@
 alembic==0.8.4
-bcrypt==2.0.0
 cffi==1.5.2
 Flask==0.10.1
 Flask-Bcrypt==0.7.1
@@ -21,4 +20,3 @@ passlib==1.6.2
 py2neo==2.0.5
 gunicorn==19.3.0
 psycopg2==2.6.2
-python-bcrypt==0.3.1

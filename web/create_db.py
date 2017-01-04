@@ -2,7 +2,8 @@
 
 from flask.ext.script import Manager
 from flask.ext.migrate import Migrate, MigrateCommand
-from app import app,db
+from app import app as application
+from app import db
 from modelssql.question_list import QuestionList
 from modelssql.user import User
 from modelssql.question import Question
@@ -11,8 +12,8 @@ from modelssql.message import Message
 import datetime
 
 
-migrate = Migrate(app, db)
-manager = Manager(app)
+migrate = Migrate(application, db)
+manager = Manager(application)
 
 # migrations
 manager.add_command('db', MigrateCommand)

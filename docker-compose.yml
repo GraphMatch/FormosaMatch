@@ -11,9 +11,7 @@ web:
     - neo4j:neo4j
     - postgres:postgres
   volumes:
-    # - ./web:/usr/src/app/static
     - ./web:/usr/src/app
-    # - /usr/src/app/static
   env_file: .env
   command: /usr/local/bin/gunicorn --reload -w 2 -b :8000 app:app
 
@@ -38,11 +36,11 @@ neo4j:
    - "7474:7474"
 
 data:
-  restart: "no"
+  # restart: "no"
   image: postgres:latest
   volumes:
     - /var/lib/postgresql
-  command: "true"
+  command: /bin/true
 
 postgres:
   restart: always
