@@ -11,6 +11,7 @@ from py2neo import Graph
 from config import BaseConfig
 import datetime, re, geocoder
 from modelssql.utils import *
+import sys, traceback
 
 app = Flask(__name__)
 app.config.from_object(BaseConfig)
@@ -20,6 +21,7 @@ app.config['MAIL_DEBUG'] = True
 
 
 graph = Graph('http://neo4j:neo4j@192.168.99.100:7474/db/data/')
+
 bcrypt = Bcrypt(app)
 db = SQLAlchemy(app)
 mail = Mail(app)
@@ -27,6 +29,7 @@ mail = Mail(app)
 from modelssql.user import User
 from modelssql.token import generate_confirmation_token, confirm_token
 from modelssql.email import send_email
+from modelsneo.user import User as UserNeo
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -54,16 +57,18 @@ def dashboard():
 
 @app.route('/register', methods=['POST'])
 def register():
-    if request.method == 'POST':
-        preference = request.form['preference']
-        gender = request.form['gender']
-        birth_date_submit = request.form['birth_date_submit']
-        country = request.form['country']
-        city = request.form['city']
-        email = request.form['email']
-        username = request.form['username']
-        password = request.form['password']
-        error = False
+    preference = request.form['preference']
+    gender = request.form['gender']
+    birth_date_submit = request.form['birth_date_submit']
+    country = request.form['country']
+    city = request.form['city']
+    email = request.form['email']
+    username = request.form['username']
+    password = request.form['password']
+    error = False
+
+    try:
+    # if request.method == 'POST':
         """
             Check if the user filled the birthdate
         """
@@ -136,27 +141,47 @@ def register():
 
         user.latitude = g.latlng[0]
         user.longitude = g.latlng[1]
+
         if(error != False):
             return redirect(url_for('index'))
-        db.session.add(user)
-        db.session.commit()
-        flash('You have been registered with success')
 
-        token = generate_confirmation_token(user.email)
-        confirm_url = url_for('confirm_email', token=token, _external=True)
-        html = render_template('activate_user.html', confirm_url=confirm_url)
-        subject = "Please confirm your email"
-        send_email(user.email, subject, html)
-        flash('A confirmation email has been sent via email.', 'success')
 
-        status = user.create_user_node()
+
+
+        # token = generate_confirmation_token(user.email)
+        # confirm_url = url_for('confirm_email', token=token, _external=True)
+        # html = render_template('activate_user.html', confirm_url=confirm_url)
+        # subject = "Please confirm your email"
+        # send_email(user.email, subject, html)
+        # flash('A confirmation email has been sent via email.', 'success')
+        # flash('Success.', 'success')
+        status = False
+        try:
+            db.session.add(user)
+            # if (UserNeo(graph=graph, email=email, username=username, latitude=g.latlng[0], longitude=g.latlng[1]).register()):
+            status = True
+        except:
+            traceback.print_exc(file=sys.stdout)
+            # print (formatted_lines)
+            # formatted_lines = traceback.format_exc().splitlines()
+            # flash(formatted_lines)
+            # flash('Error creating user on neo4j')
+
         if(status == True):
-            flash('User node has been created with success')
-        else:
-            flash('Failed to create user node')
-        session['username'] = username
-        session['logged_in'] = True
-        db.session.close()
+            flash('You have been registered with success')
+            # flash('User node has been created with success')
+            session['username'] = username
+            session['logged_in'] = True
+            db.session.commit()
+        # else:
+            # flash('Failed to create user node')
+
+
+
+    except:
+        flash('Error 666 processing your request. Please try again.')
+
+    db.session.close()
     return redirect(url_for('dashboard'))
 
 @app.route('/login', methods=['POST'])
@@ -165,10 +190,12 @@ def login():
     password_signin = request.form['password-signin']
     status = False
     if user and bcrypt.check_password_hash(user.password, password_signin):
+        session['logged_in'] = True
         status = True
     else:
         user = User.query.filter_by(username=request.form['emailusername']).first()
         if user and bcrypt.check_password_hash(user.password, password_signin):
+            session['logged_in'] = True
             status = True
     if(status == False):
         flash('Login failed! Invalid username/password.')
@@ -176,20 +203,27 @@ def login():
     """
         Create the session variables to log in the user
     """
-    login_user(user, session)
+    # login_user(user, session)
     return redirect(url_for('dashboard'))
 
+@app.route('/api/status')
+def status():
+    if session.get('logged_in'):
+        if session['logged_in']:
+            return jsonify({'status': True})
+    else:
+        return jsonify({'status': False})
 
 @app.route('/logout')
 def logout():
     logout_user(session)
-    flash('You have been logged off successfully')
+    flash('You have been logged out successfully')
     return redirect(url_for('index'))
-
-
-@app.route('/api/status')
-def status():
-    return jsonify({'status': is_authenticated()})
+#
+#
+# @app.route('/api/status')
+# def status():
+#     return jsonify({'status': is_authenticated()})
 
 @app.route('/confirm/<token>')
 def confirm_email(token):

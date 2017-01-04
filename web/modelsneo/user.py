@@ -19,42 +19,65 @@ def date():
 
 class User(object):
     """ user object """
-    def __init__(self, graph, email=None, username=None):
+    def __init__(self, graph, email, username, latitude, longitude):
         """ set values """
         self.graph = graph
         self.email = email
         self.username = username
+        self.latitude = latitude
+        self.longitude = longitude
 
     def find(self):
         """ find a user by email or username """
         user = None
-        if self.email != None:
-            user = self.graph.find_one("User", "email", self.email)
-            #self.username = user['username']
-        elif self.username != None:
-            user = self.graph.find_one("User", "username", self.username)
-            self.email = user['email']
+        if (self.username != None) and (self.email != None):
+            # find_person = "MATCH (u:User) WHERE u.username = {U} AND u.email = {E} RETURN u"
+            # tx = self.graph.cypher.begin()
+            # tx.append(find_person, {'U': self.username, 'E': self.email})
+            # user = tx.process()
+
+            # query = """
+            # MATCH (you:User)-[:USE]->(l:Language)<-[:USE]-(u:User)
+            # WHERE you.email = {email} AND you <> u
+            # WITH u, COLLECT(l.name) as langs
+            # RETURN u.username AS similar_user, langs
+            # """
+            # return self.graph.cypher.execute(query, email=self.email)
+
+            find_user = "MATCH (u:User) WHERE u.username = {U} AND u.email = {E} RETURN u"
+            return self.graph.cypher.execute(find_user, U=self.username, E=self.email)
+
+        # if self.email != None:
+            # user = self.graph.find_one("User", "email", self.email)
+            # self.username = user['username']
+        # elif self.username != None:
+            # user = self.graph.find_one("User", "username", self.username)
+            # self.email = user['email']
         return user
 
-    def register(self, password):
+    # def register(self, password):
+    def register(self):
         """ register a new user if not exists """
         if not self.find():
             user = Node("User",
                         email=self.email,
                         username=self.username,
-                        password=bcrypt.encrypt(password))
+                        latitude=self.latitude,
+                        longitude=self.longitude,
+                        # password=bcrypt.encrypt(password)
+                        )
             self.graph.create(user)
             return True
         else:
             return False
 
-    def verify_password(self, password):
-        """ return if password is right """
-        user = self.find()
-        if user:
-            return bcrypt.verify(password, user['password'])
-        else:
-            return False
+    # def verify_password(self, password):
+    #     """ return if password is right """
+    #     user = self.find()
+    #     if user:
+    #         return bcrypt.verify(password, user['password'])
+    #     else:
+    #         return False
 
     def get_similar_users(self):
         """Find three users who are most similar to the logged-in user

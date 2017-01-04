@@ -64,10 +64,10 @@ class User(db.Model):
         today = date.today()
         return today.year - self.birth_date.year - ((today.month, today.day) < (self.birth_date.month, self.birth_date.day))
 
-    def create_user_node(self):
-        try:
-            user = Node('User', username = self.username, latitude = self.latitude, longitude = self.longitude)
-            graph.create(user)
-            return True
-        except Exception as e:
-            return False
+    # def create_user_node(self):
+    #     try:
+    #         user = Node('User', username = self.username, latitude = self.latitude, longitude = self.longitude)
+    #         graph.create(user)
+    #         return True
+    #     except Exception as e:
+    #         return False
