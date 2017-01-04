@@ -507,10 +507,17 @@ ul.nav li {
 ul.nav li:hover {
   background: #f4f4f4;
 }
-.mdi-send, .mdi-radiobox-marked{
+
+.list-chat.shown {
+  overflow: auto;
+  height: 76%;
+}
+
+div.chat .mdi {
   color: #666666;
   font-size: 1.2em;
   cursor: pointer;
+  font-size: 24px !important;
 }
 input.nostyle {
   border: 0;

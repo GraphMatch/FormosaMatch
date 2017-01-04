@@ -25,7 +25,7 @@
         // timeout just for eyecandy...
         setTimeout(function() {
             $('.shown').removeClass('shown');
-
+            
             $('.list-chat').addClass('shown');
             setRoute('.list-chat');
             $('.chat-input').focus();
