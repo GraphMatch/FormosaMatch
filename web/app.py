@@ -51,7 +51,8 @@ def dashboard():
     if(not is_authenticated(session)):
         flash('Sorry! You need to log in order to access to this page!')
         return redirect(url_for('index'))
-    return render_template('dashboard.html')
+    user = User.query.filter_by(username = session['username']).first()
+    return render_template('dashboard.html',current_user = user )
 
 
 @app.route('/register', methods=['POST'])
@@ -65,7 +66,6 @@ def register():
     username = request.form['username']
     password = request.form['password']
     error = False
-
     try:
     # if request.method == 'POST':
         """
@@ -133,6 +133,7 @@ def register():
         """
             Check if we have latitude and longitude from the country and city
         """
+
         g = geocoder.google(user.city + ', ' + user.country)
         if(g.latlng == None):
             error = True
@@ -173,6 +174,7 @@ def login():
     password_signin = request.form['password-signin']
     status = False
     if user and bcrypt.check_password_hash(user.password, password_signin):
+        session['username'] = user.username
         session['logged_in'] = True
         session['email'] = user.email
         if(user.profile_picture is None) or (len(user.profile_picture) > 0):
@@ -183,6 +185,7 @@ def login():
     else:
         user = User.query.filter_by(username=request.form['emailusername']).first()
         if user and bcrypt.check_password_hash(user.password, password_signin):
+            session['username'] = user.username
             session['logged_in'] = True
             session['email'] = user.email
             if(user.profile_picture is None) or (len(user.profile_picture) > 0):
