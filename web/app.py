@@ -18,9 +18,8 @@ app.config.from_object(BaseConfig)
 app.config['DEBUG'] = True
 app.config['MAIL_DEBUG'] = True
 
-
-
-graph = Graph('http://neo4j:neo4j@192.168.99.100:7474/db/data/')
+graph = Graph('http://neo4j:admin123@neo4j:7474/db/data/')
+# graph = Graph(host='192.168.99.100', http_port=7474, https_port= 7473, bolt_port=7687, user='neo4j', password='admin123')
 
 bcrypt = Bcrypt(app)
 db = SQLAlchemy(app)
@@ -145,41 +144,25 @@ def register():
         if(error != False):
             return redirect(url_for('index'))
 
-
-
-
-        # token = generate_confirmation_token(user.email)
-        # confirm_url = url_for('confirm_email', token=token, _external=True)
-        # html = render_template('activate_user.html', confirm_url=confirm_url)
-        # subject = "Please confirm your email"
-        # send_email(user.email, subject, html)
-        # flash('A confirmation email has been sent via email.', 'success')
-        # flash('Success.', 'success')
+        db.session.add(user)
         status = False
         try:
-            db.session.add(user)
-            # if (UserNeo(graph=graph, email=email, username=username, latitude=g.latlng[0], longitude=g.latlng[1]).register()):
-            status = True
+            if (UserNeo(graph=graph, email=email, username=username, latitude=g.latlng[0], longitude=g.latlng[1]).register()):
+                status = True
+
         except:
-            traceback.print_exc(file=sys.stdout)
-            # print (formatted_lines)
-            # formatted_lines = traceback.format_exc().splitlines()
-            # flash(formatted_lines)
-            # flash('Error creating user on neo4j')
+            flash("Error on user creation")
+            formatted_lines = traceback.format_exc().splitlines()
+            for line in formatted_lines:
+                flash(line)
 
         if(status == True):
-            flash('You have been registered with success')
-            # flash('User node has been created with success')
             session['username'] = username
             session['logged_in'] = True
             db.session.commit()
-        # else:
-            # flash('Failed to create user node')
-
-
 
     except:
-        flash('Error 666 processing your request. Please try again.')
+        flash('Error processing your request. Please try again.')
 
     db.session.close()
     return redirect(url_for('dashboard'))
@@ -225,22 +208,22 @@ def logout():
 # def status():
 #     return jsonify({'status': is_authenticated()})
 
-@app.route('/confirm/<token>')
-def confirm_email(token):
-    try:
-        email = confirm_token(token)
-    except:
-        flash('The confirmation link is invalid or has expired.', 'danger')
-    user = User.query.filter_by(email = email).first_or_404()
-    if user.confirmed:
-        flash('Account already confirmed. Please login.', 'success')
-    else:
-        user.confirmed = True
-        user.confirmed_on = datetime.datetime.now()
-        db.session.add(user)
-        db.session.commit()
-        flash('You have confirmed your account. Thanks!', 'success')
-    return redirect(url_for('dashboard'))
+# @app.route('/confirm/<token>')
+# def confirm_email(token):
+#     try:
+#         email = confirm_token(token)
+#     except:
+#         flash('The confirmation link is invalid or has expired.', 'danger')
+#     user = User.query.filter_by(email = email).first_or_404()
+#     if user.confirmed:
+#         flash('Account already confirmed. Please login.', 'success')
+#     else:
+#         user.confirmed = True
+#         user.confirmed_on = datetime.datetime.now()
+#         db.session.add(user)
+#         db.session.commit()
+#         flash('You have confirmed your account. Thanks!', 'success')
+#     return redirect(url_for('dashboard'))
 
 if __name__ == '__main__':
     app.run()

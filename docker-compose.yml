@@ -28,12 +28,17 @@ nginx:
     - web:web
 
 neo4j:
-  image: tpires/neo4j
+  # image: tpires/neo4j
+  image: neo4j:latest
+  environment:
+      - NEO4J_AUTH=neo4j/admin123
   env_file: .env
   cap_add:
    - SYS_RESOURCE
   ports:
-   - "7474:7474"
+    - "7474:7474"
+    - "7373:7373"
+    - "7687:7687"
 
 data:
   # restart: "no"

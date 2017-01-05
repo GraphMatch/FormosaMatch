@@ -96,3 +96,24 @@ This should return a JSON response like:
     "result": "success"
   }
 ```
+
+# Info on neo4j configuration:
+Because we are running on docker on dev, when creating the graph connection on app.py, we are using the docker hostname for the neo4j container, which is "neo4j". When deploying to production, please put the correct hostname or IP.
+
+	graph = Graph('http://NEO4j_USER:NEO4j_PASS@neo4j:7474/db/data/')
+
+To check if the Flask container can connect to the neo4j container, you can run from inside the Flask container:
+
+	curl http://neo4j:7474
+
+	This should return a JSON response like:
+
+	```json
+		{
+			"management" : "http://neo4j:7474/db/manage/",
+			"data" : "http://neo4j:7474/db/data/",
+			"bolt" : "bolt://neo4j:7687"
+		}
+	```
+
+Note: remember to replace with the proper neo4j hostname or IP.
