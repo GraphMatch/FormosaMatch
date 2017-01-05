@@ -1,0 +1,10 @@
+//deleting
+MATCH (n)
+DETACH DELETE n
+
+LOAD CSV WITH HEADERS FROM "file:///D:/downloads/normalizedProfiles.csv" AS row
+CREATE (:User { bodyType: (row.bodytype) , cats:(row.cats), childrenHave:(row.childrenHave), diet:(row.omnivore), dogs: (row.dogs), drinking:(row.drinking), drugs: (row.drugs), educationModifier: (row.educationModifier), educationValue: (row.educationValue), gender:(row.gender), height: (row.heightCm), locationFormatted: (row.locationFormatted), monogamous: (row.monogamous), orientation: (row.orientation), religionModifier: (row.religionModifier), religionValue: (row.religionValue), sign: (row.sign), smoking: (row.smoking), status: (row.status), username: (row.username), weed: (row.weed), latitude: toFloat(row.lat), longitude:toFloat(row.long), minAge: toInt(row.minAge), maxAge: toInt(row.maxAge), language: (row.language), ethnicity: (row.Ethnicity), age: toInt(row.age), sexPreference: (row.sexPreference) })
+
+CREATE INDEX ON :User(username);
+
+
