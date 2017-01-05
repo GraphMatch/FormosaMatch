@@ -59,13 +59,14 @@ def dashboard():
 def register():
     preference = request.form['preference']
     gender = request.form['gender']
-    birth_date_submit = request.form['birth_date_submit']
+    birth_date_submit = request.form['birth_date']
     country = request.form['country']
     city = request.form['city']
     email = request.form['email']
     username = request.form['username']
     password = request.form['password']
     error = False
+
     try:
     # if request.method == 'POST':
         """
@@ -133,7 +134,6 @@ def register():
         """
             Check if we have latitude and longitude from the country and city
         """
-
         g = geocoder.google(user.city + ', ' + user.country)
         if(g.latlng == None):
             error = True
@@ -147,6 +147,7 @@ def register():
 
         db.session.add(user)
         status = False
+
         try:
             if (UserNeo(graph=graph, email=email, username=username, latitude=g.latlng[0], longitude=g.latlng[1]).register()):
                 status = True
@@ -156,6 +157,8 @@ def register():
             formatted_lines = traceback.format_exc().splitlines()
             for line in formatted_lines:
                 flash(line)
+            db.session.close()
+            return redirect(url_for('index'))
 
         if(status == True):
             session['username'] = username
@@ -164,6 +167,8 @@ def register():
 
     except:
         flash('Error processing your request. Please try again.')
+        db.session.close()
+        return redirect(url_for('index'))
 
     db.session.close()
     return redirect(url_for('dashboard'))
@@ -288,8 +293,12 @@ def profile():
     user_neo = UserNeo(graph, user.email).find()
     age_range = []
     if(user_neo == None):
-        age_range.append(20)
-        age_range.append(35)
+
+        today = date.today()
+        age = today.year - birth_date.year - ((today.month, today.day) < (birth_date.month, birth_date.day))
+        age_range.append(28)
+        age_range.append(age+10)
+
     else:
         age_range = user_neo['age_interest'].split('-')
 
