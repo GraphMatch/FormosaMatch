@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    {% include "partials/head.html" %}
+    <!-- <link href="../static/css/chat.css" type="text/css" rel="stylesheet" media="screen,projection"> -->
+    <link rel="stylesheet" href="//cdn.materialdesignicons.com/1.1.70/css/materialdesignicons.min.css">
+  </head>
+  <body>
+    {% include "partials/navbar.html" %}
+    <!--  {% include "partials/chat.html"%} -->
+    <div class="">
+      <form class="col s4" action="{{ url_for('profile') }}" id="signup-up" method="post" enctype="multipart/form-data">
+        <div id="signup-container" class="container">
+          <div class="row center">
+            <h5 class="header col s12 light text-lighten-3">Update my profile!</h5>
+            {% for message in get_flashed_messages() %}
+              <div class="light text-lighten-3 center">{{ message }}</div>
+            {% endfor %}
+            <div class="row">
+              <div class="file-field input-field col s3 m6 push-m3">
+                <div class="btn">
+                  <span>Profile picture</span>
+                  <input type="file" name="profile_picture">
+                </div>
+                <div class="file-path-wrapper">
+                  <input class="file-path validate" type="text">
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="input-field col s3 m6 push-m3">
+                <select name="preference">
+                  <option value="straight" {% if user.preference == "straight" %} selected {% endif %} >Straight</option>
+                  <option value="gay" {% if user.preference == "gay" %} selected {% endif %} >Gay</option>
+                  <option value="bisexual" {% if user.preference == "bisexual" %} selected {% endif %} >Bisexual</option>
+                </select>
+                <label for="preference">I am a</label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="input-field col s3 m6 push-m3">
+                <select name="gender">
+                  <option value="man" {% if user.gender == "man" %} selected {% endif %} >Man</option>
+                  <option value="woman" {% if user.gender == "woman" %} selected {% endif %} >Woman</option>
+                </select>
+                <label for="gender">I am a</label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="input-field col s3 m6 push-m3">
+                <select name="sex_interest">
+                  <option value="man" {% if usernode['sex_interest'] == "man" %} selected {% endif %} >Man</option>
+                  <option value="woman" {% if usernode['sex_interest'] == "woman" %} selected {% endif %} >Woman</option>
+                  <option value="both" {% if usernode['sex_interest'] == "woman" %} selected {% endif %} >Both</option>
+                </select>
+                <label for="sex_interest">I looking for</label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="input-field col s3 m6 push-m3" id="age_range">
+
+              </div>
+            </div>
+            <div class="row">
+              <div class="input-field col s3 m6 push-m3">
+                <label for="search_distance">Search distance</label>
+                <p class="range-field">
+                  <input type="range" id="search_distance" name="search_distance" value = {{ usernode['search_distance'] }} />
+                </p>
+              </div>
+            </div>
+            <div class="row">
+              <div class="input-field col s3 m6 push-m3">
+                <input type="date" id="birth_date" name="birth_date" class="datepicker" value= {{ user.birth_date }} >
+                <label for="birth_date">Birthdate</label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="input-field col s3 m6 push-m3">
+                <input id="country" name="country" type="text" value= {{ user.country }} >
+                <label for="country">Country</label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="input-field col s3 m6 push-m3">
+                <input id="city" name="city" type="text" value= {{ user.city }} >
+                <label for="city">City</label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="input-field col s3 m6 push-m3">
+                <input type="email" id="email" name="email" value= {{ user.email }} >
+                <label for="email">Email</label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="input-field col s3 m6 push-m3">
+                <input type="password" id="password" name="password">
+                <label for="password">New password</label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="input-field col s3 m6 push-m3">
+                <input type="password" id="password_repeat" name="password_repeat">
+                <label for="password_repeat">Retape the new password</label>
+              </div>
+            </div>
+            <input type="hidden" id="age_range_min" name="age_range_min">
+            <input type="hidden" id="age_range_max" name="age_range_max">
+            <div class="s12 m3 push-m1">
+              <input name="update" type="submit" id="update" class="btn-large waves-effect waves-light lighten-1" value="Update!" />
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <!--  Scripts -->
+    {% include "partials/scripts.html" %}
+    <script type="text/javascript">
+    var start_min = {{ age_range_min }}
+    var start_max = {{ age_range_max }}
+    var slider = document.getElementById('age_range');
+      noUiSlider.create(slider, {
+       start: [ start_min , start_max ],
+       connect: true,
+       step: 1,
+       range: {
+         'min': 18,
+         'max': 80
+       }
+      });
+      slider.noUiSlider.on('update', function( values, handle ) {
+       if ( handle ) {
+         $("#age_range_max").val(values[handle]);
+      	} else {
+          $("#age_range_min").val(values[handle]);
+      	}
+      });
+    </script>
+    <!--  End of Scripts-->
+  </body>
+</html>

@@ -3,15 +3,15 @@
       <div class="background">
         <img src="../static/img/office.jpg">
       </div>
-      <a href="#!user"><img class="circle" src="../static/img/yuna.jpg"></a>
-      <a href="#!name"><span class="white-text name">Victor 小三</span></a>
-      <a href="#!email"><span class="white-text email">xiaosanweika@gmail.com</span></a>
+      <a href="{{ url_for('profile') }}"><img class="circle" src='../static/picture/{{ session['profile_picture'] }}'></a>
+      <a href="{{ url_for('profile') }}"><span class="white-text name">{{ session['username'] }}</span></a>
+      <a href="{{ url_for('profile') }}"><span class="white-text email">{{ session['email'] }}</span></a>
     </div></li>
     <li><a href="#!"><i class="material-icons">supervisor_account</i>Matches</a></li>
     <li><a href="#!"><i class="material-icons">person_pin</i>Browse</a></li>
     <li><div class="divider"></div></li>
     <li><a class="subheader">Settings</a></li>
-    <li><a class="waves-effect" href="#!"><i class="material-icons">perm_identity</i>My Profile</a></li>
+    <li><a class="waves-effect" href="{{ url_for('profile') }}"><i class="material-icons">perm_identity</i>My Profile</a></li>
     <li><a class="waves-effect" href="{{ url_for('logout') }}"><i class="material-icons">power_settings_new</i>Log out</a></li>
 </ul>
 <a href="#" data-activates="slide-out" class="button-collapse"><i class="material-icons">menu</i></a>

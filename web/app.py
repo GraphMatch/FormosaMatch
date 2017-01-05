@@ -12,11 +12,16 @@ from config import BaseConfig
 import datetime, re, geocoder
 from modelssql.utils import *
 import sys, traceback
+import os
+from werkzeug import secure_filename
+import uuid
 
 app = Flask(__name__)
 app.config.from_object(BaseConfig)
 app.config['DEBUG'] = True
 app.config['MAIL_DEBUG'] = True
+app.config['UPLOAD_FOLDER'] = 'static/picture' #os.environ['UPLOAD_FOLDER']
+ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
 
 
 
@@ -59,7 +64,7 @@ def dashboard():
 def register():
     preference = request.form['preference']
     gender = request.form['gender']
-    birth_date_submit = request.form['birth_date_submit']
+    birth_date_submit = request.form['birth_date']
     country = request.form['country']
     city = request.form['city']
     email = request.form['email']
@@ -191,11 +196,21 @@ def login():
     status = False
     if user and bcrypt.check_password_hash(user.password, password_signin):
         session['logged_in'] = True
+        session['email'] = user.email
+        if(len(user.profile_picture) > 0):
+            session['profile_picture'] = user.profile_picture
+        else:
+            session['profile_picture'] = 'default.jpg'
         status = True
     else:
         user = User.query.filter_by(username=request.form['emailusername']).first()
         if user and bcrypt.check_password_hash(user.password, password_signin):
             session['logged_in'] = True
+            session['email'] = user.email
+            if(len(user.profile_picture) > 0):
+                session['profile_picture'] = user.profile_picture
+            else:
+                session['profile_picture'] = 'default.jpg'
             status = True
     if(status == False):
         flash('Login failed! Invalid username/password.')
@@ -219,6 +234,101 @@ def logout():
     logout_user(session)
     flash('You have been logged out successfully')
     return redirect(url_for('index'))
+
+@app.route('/profile', methods=['GET', 'POST'])
+def profile():
+    """ profile """
+    if(not is_authenticated(session)):
+        flash('Sorry! You need to log in order to access to this page!')
+        return redirect(url_for('index'))
+    username = session.get('username')
+    user = User.query.filter_by(username = username).first()
+    if request.method == 'POST':
+        file = request.files['profile_picture']
+        filename = ""
+        if file and allowed_file(file.filename):
+            filename = str(uuid.uuid1()) + '.' + secure_filename(file.filename).split(".")[-1]
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+
+        preference = request.form['preference']
+        gender = request.form['gender']
+        sex_interest = request.form['sex_interest']
+        age_range_min = request.form['age_range_min']
+        age_range_max = request.form['age_range_max']
+        search_distance = request.form['search_distance']
+        birth_date_submit = request.form['birth_date']
+        country = request.form['country']
+        city = request.form['city']
+        email = request.form['email']
+        password = request.form['password']
+        password_repeat = request.form['password_repeat']
+        error = False
+        #Validate the entered values
+        if(len(country.strip()) < 2):
+            error = True
+            flash("Sorry! You need to provide your country's name with at least two characters")
+        """
+            Check if the user provided his city's name
+        """
+        if(len(city.strip()) < 2):
+            error = True
+            flash("Sorry! You need to provide your city's name with at least two characters")
+        """
+            Check if the user provided a correct email address
+        """
+        match = re.match('^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$', user.email)
+        if match == None:
+            error = True
+            flash("Sorry! You need to provide a correct email address")
+
+        g = geocoder.google(city + ', ' + country)
+        if(g.latlng == None):
+            error = True
+            flash("Sorry! The address you specified doesn't exist")
+
+        if(len(password) > 0 and password != password_repeat):
+            error = True
+            flash("Sorry! You have to repeat the same password")
+
+        if(error != False):
+            return redirect(url_for('profile'))
+
+        user.country = country
+        user.city = city
+        user.latitude = g.latlng[0]
+        user.longitude = g.latlng[1]
+        user.profile_picture = filename
+        user.preference = preference
+        user.gender = gender
+        birth_date = datetime.datetime.strptime(birth_date_submit, "%Y-%m-%d")
+        user.birth_date = birth_date
+        user.email = email
+        if(len(password) > 0 ):
+            user.password = bcrypt.generate_password_hash(password).decode('utf-8')
+        age_interest = str(age_range_min) + '-' + str(age_range_max)
+        user_neo = UserNeo(graph, email, username, preference, sex_interest, search_distance, age_interest, country, city, g.latlng[0], g.latlng[1])
+        user_neo.register()
+        db.session.commit()
+        return redirect(url_for('dashboard'))
+    user_neo = UserNeo(graph, user.email).find()
+    age_range = []
+    if(user_neo == None):
+        age_range.append(20)
+        age_range.append(35)
+    else:
+        age_range = user_neo['age_interest'].split('-')
+
+    return render_template('profile.html',
+        user = user,
+        age_range_min = age_range[0],
+        age_range_max = age_range[1],
+        usernode = user_neo
+        )
+
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
 #
 #
 # @app.route('/api/status')
