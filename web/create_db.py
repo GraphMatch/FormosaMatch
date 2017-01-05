@@ -38,7 +38,7 @@ def create_admin():
     email = 'admin@formosamatch.tw', username = 'admin', password='admin', confirmed = True, confirmed_on = datetime.datetime.now(), latitude = 24.8047, longitude = 120.9714, admin = True)
     db.session.add(user)
     db.session.commit()
-    user.create_user_node()
+    # user.create_user_node()
 
 @manager.command
 def create_data():

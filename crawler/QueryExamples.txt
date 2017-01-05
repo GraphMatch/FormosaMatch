@@ -1,0 +1,5 @@
+match (a:User {username:"07flying"}),(b:User {})
+where (b.sexPreference = a.gender or b.sexPreference = 'everyone')
+and (a.sexPreference  = b.gender or a.sexPreference = 'everyone')
+RETURN a.username, b.username, toInt(distance(point(a),point(b)) / 1000) as distance 
+order by distance asc limit 10;
