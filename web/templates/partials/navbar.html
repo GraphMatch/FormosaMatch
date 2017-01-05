@@ -3,9 +3,13 @@
       <div class="background">
         <img src="../static/img/office.jpg">
       </div>
-      <a href="#!user"><img class="circle" src="../static/img/yuna.jpg"></a>
-      <a href="#!name"><span class="white-text name">Victor 小三</span></a>
-      <a href="#!email"><span class="white-text email">xiaosanweika@gmail.com</span></a>
+      {% if current_user.profile_picture == None %}
+        <a href="#!user"><img class="circle" src="../static/img/no-pic.png"></a>
+      {% else %}
+        <a href="#!user"><img class="circle" src="{{ current_user.profile_picture }}"></a>
+      {% endif%}
+      <a href="#!name"><span class="white-text name">{{ current_user.username }}</span></a>
+      <a href="#!email"><span class="white-text email">{{ current_user.email }}</span></a>
     </div></li>
     <li><a href="#!"><i class="material-icons">supervisor_account</i>Matches</a></li>
     <li><a href="#!"><i class="material-icons">person_pin</i>Browse</a></li>
