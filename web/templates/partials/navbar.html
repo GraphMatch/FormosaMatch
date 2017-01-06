@@ -3,10 +3,10 @@
       <div class="background">
         <img src="../static/img/office.jpg">
       </div>
-      {% if current_user.profile_picture == None %}
-        <a href="{{ url_for('profile') }}"><img class="circle" src="../static/img/no-pic.png"></a>
+      {% if current_user.profile_picture is defined %}
+        <a href="{{ url_for('profile') }}"><img class="circle" src="../static/picture/{{ current_user.profile_picture }}"></a>
       {% else %}
-        <a href="{{ url_for('profile') }}"><img class="circle" src="{{ current_user.profile_picture }}"></a>
+        <a href="{{ url_for('profile') }}"><img class="circle" src="../static/picture/no-pic.png"></a>
       {% endif%}
       <a href="{{ url_for('profile') }}"><span class="white-text name">{{ current_user.username }}</span></a>
       <a href="{{ url_for('profile') }}"><span class="white-text email">{{ current_user.email }}</span></a>
