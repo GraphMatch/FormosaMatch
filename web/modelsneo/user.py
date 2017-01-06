@@ -50,8 +50,6 @@ class User(object):
         self.smoking = smoking
         self.minAge = minAge
         self.maxAge = maxAge
-
-        user = self.find(self)
         self.version = py2neo.__version__.split('.')
 
 
