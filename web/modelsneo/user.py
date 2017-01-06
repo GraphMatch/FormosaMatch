@@ -198,7 +198,7 @@ class User(object):
         if int(version[0]) >= 3:
             return self.graph.run(query).data()
         else:
-            return self.graph.cypher.execute(query).data()
+            return self.graph.cypher.execute(query)
 
 
     def like_user(self,username):
@@ -206,7 +206,7 @@ class User(object):
         if int(self.version[0]) >= 3:
             self.graph.run(query).data()
         else:
-            self.graph.cypher.execute(query).data()
+            self.graph.cypher.execute(query)
         return self
 
 
@@ -216,7 +216,7 @@ class User(object):
         if int(self.version[0]) >= 3:
             result = self.graph.run(query).data()
         else:
-            result = self.graph.cypher.execute(query).data()
+            result = self.graph.cypher.execute(query)
         if result is not None and result != []:
             #we got a match!!
             query = "MATCH (n:User {username: '" + self.username + "' }) MATCH (m:User {username: '" + username + "'}) CREATE (n)-[r:MATCH{matchId: (n.username + m.username)}]->(m)"
@@ -225,8 +225,8 @@ class User(object):
                 self.graph.run(query).data()
                 self.graph.run(query2).data()
             else:
-                self.graph.cypher.execute(query).data()
-                self.graph.cypher.execute(query2).data()
+                self.graph.cypher.execute(query)
+                self.graph.cypher.execute(query2)
             return True
         return False
 
@@ -237,4 +237,4 @@ def get_matches(self,startFrom = 0,resultAmount = 10):
     if int(self.version[0]) >= 3:
         return self.graph.run(query).data()
     else:
-        return self.graph.cypher.execute(query).data()
+        return self.graph.cypher.execute(query)
