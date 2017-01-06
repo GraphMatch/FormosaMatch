@@ -1,13 +1,10 @@
 # user.py
 
-
 import datetime
 from app import db, bcrypt, graph
 from datetime import date
 from modelssql.question import Question
 from modelssql.match import Match
-from py2neo import Graph, Node, Relationship
-
 
 class User(db.Model):
 
@@ -20,16 +17,19 @@ class User(db.Model):
     fullname = db.Column(db.String(255), nullable=True)
     profile_picture = db.Column(db.String(255), nullable=True)
     birth_date = db.Column(db.DateTime, nullable=False)
-    gender = db.Column(db.String(1), nullable=False)
+    gender = db.Column(db.String(10), nullable=False)
     registered_on = db.Column(db.DateTime, nullable=False)
-    confirmed = db.Column(db.Boolean, nullable=False, default=False)
-    confirmed_on = db.Column(db.DateTime, nullable=True)
-    admin = db.Column(db.Boolean, nullable=False, default=False)
+    preference = db.Column(db.String(50), nullable=False)
+    country = db.Column(db.String(50), nullable=False)
+    city = db.Column(db.String(50), nullable=False)
+    latitude = db.Column(db.DECIMAL(10,7), nullable=True)
+    longitude = db.Column(db.DECIMAL(10,7), nullable=True)
     questions = db.relationship("Question", back_populates="user")
+    firstTime = db.Column(db.Boolean, nullable=False, default=False)
     #matches_a = db.relationship("Match", back_populates="user_b")
     #matches_b = db.relationship("Match", back_populates="user_a")
 
-    def __init__(self, preference, gender, birth_date, country, city, email, username, password, confirmed = False, confirmed_on = None, latitude = -1, longitude = -1, admin = False):
+    def __init__(self, preference, gender, birth_date, country, city, email, username, password, latitude = -1, longitude = -1, firstTime=False):
         self.preference = preference
         self.gender = gender
         self.birth_date = birth_date
@@ -39,11 +39,9 @@ class User(db.Model):
         self.username = username
         self.password = bcrypt.generate_password_hash(password).decode('utf-8')
         self.registered_on = datetime.datetime.now()
-        self.confirmed = confirmed
-        self.confirmed_on = confirmed_on
-        self.admin = admin
         self.latitude = latitude
         self.longitude = longitude
+        self.firstTime = firstTime
 
     def is_authenticated(self):
         return True
