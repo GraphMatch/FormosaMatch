@@ -40,7 +40,7 @@
           <div class="card">
             <div class="card-image">
               <img src="https://scontent-hkg3-1.xx.fbcdn.net/v/t1.0-9/14224726_10154410151630102_4417490480241454900_n.jpg?oh=c9cbeefb6d078518008762756113ca90&oe=59206B32">
-              <span class="card-title" style="width:100%; background: rgba(0, 0, 0, 0.5);">hectCam</span>
+              <span class="card-title" style="width:100%; background: rgba(0, 0, 0, 0.5);">bellechen91108</span>
             </div>
             <div class="center card-content">
               <h5>27 · Taipei</h5>
@@ -150,6 +150,43 @@
     {% include "partials/chat.html"%}
     <!--  Scripts -->
     {% include "partials/scripts.html" %}
+    <script>
+    $( ".no-like" ).click(function() {
+      thisParent = $(this).parent();
+      var usernameClicked = ($(this).parent().parent().children('.card-image').children('.card-title').text())
+
+      $.ajax
+      (
+        {
+          url: {{ url_for('like', username='') }}+usernameClicked,
+          success: function(result)
+          {
+            if (result.success)
+            {
+              thisParent.html("<a class=\"waves-effect waves-teal btn deep-purple lighten-2\">Liked<i class=\"material-icons left\">done</i></a>")
+              console.log(result.message);
+              if(result.matched)
+              {
+                console.log('You got a match');
+              }
+              else
+              {
+                console.log('You did not get a match');
+              }
+
+
+
+            }
+            else
+            {
+              console.log(result.error);
+            }
+
+          }
+        }
+      );
+    });
+    </script>
     <!--  End of Scripts-->
   </body>
 </html>

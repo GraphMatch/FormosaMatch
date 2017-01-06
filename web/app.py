@@ -337,14 +337,18 @@ def like(username):
             if (userLikedNeo.find()) is not None:
                 currentUserNeo.like_user(username)
             else:
-                return jsonify({'error': 'userLikedNeo not found'})
+                return jsonify({'success':0, 'error': 'userLikedNeo not found'})
         else:
-            return jsonify({'error': 'userLiked not found'})
+            return jsonify({'success':0, 'error': 'userLiked not found'})
     else:
-        return jsonify({'error': 'userNeo not found'})
+        return jsonify({'success':0, 'error': 'userNeo not found'})
 
     msgStr = "User " + currentUsername + " liked " + username
-    return jsonify({'currentUsername': currentUsername, 'message': msgStr})
+    matched = 0
+    if (currentUserNeo.check_if_match(username)):
+        matched = 1
+        
+    return jsonify({'success': 1, 'matched':matched, 'message': msgStr})
 
 @app.route('/my_matches', methods=['GET', 'POST'])
 def my_matches():
