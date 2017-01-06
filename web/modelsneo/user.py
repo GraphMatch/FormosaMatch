@@ -33,15 +33,19 @@ class User(object):
         self.gender = gender
         self.age = age
         self.orientation = orientation
+        self.sexPreference = None
         if gender == 'woman' and orientation == 'straight':
             self.sexPreference = 'man'
-        if gender == 'woman' and orientation == 'gay':
+        elif gender == 'woman' and orientation == 'gay':
             self.sexPreference = 'woman'
-        if gender == 'man' and orientation == 'straight':
+        elif gender == 'woman' and orientation == 'bisexual':
+            self.sexPreference = 'everyone'
+        elif gender == 'man' and orientation == 'straight':
             self.sexPreference = 'woman'
-        if gender == 'man' and orientation == 'gay':
+        elif gender == 'man' and orientation == 'gay':
             self.sexPreference = 'man'
-
+        elif gender == 'man' and orientation == 'bisexual':
+            self.sexPreference = 'everyone'
         self.locationFormatted = locationFormatted
         self.height = height
         self.bodyType = bodyType
@@ -62,7 +66,7 @@ class User(object):
         """ register a new user if not exists """
 
         user = self.find()
-        if  latitude is None or longitude is None:
+        if self.latitude is None or self.longitude is None:
             print('CANT UPDATE WITH NO LAT LONG')
         elif not user:
             user = Node("User",
