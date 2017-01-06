@@ -6,7 +6,7 @@ padding: 0 15px;
 }
 
 .brand-logo{
-  height: 160px;
+  height: 64px;
 }
 .icon-block .material-icons {
 font-size: inherit;
@@ -74,8 +74,8 @@ main, header, footer {
 }
 
 .match-status span {
-  text-decoration-line: underline;
-  text-decoration-style: dotted;
+  border-bottom: 2px dotted #fff;
+  cursor: pointer;
 }
 
 .waves-effect {
