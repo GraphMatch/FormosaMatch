@@ -57,8 +57,17 @@ def dashboard():
     if(not is_authenticated(session)):
         flash('Sorry! You need to log in order to access to this page!')
         return redirect(url_for('index'))
-    user = User.query.filter_by(username = session['username']).first()
-    return render_template('dashboard.html',current_user = user )
+
+    session_username = session["username"]
+    user = User.query.filter_by(username = session_username).first()
+    userNeo = UserNeo(graph=graph, username= session_username)
+    matches = []
+    if userNeo.find() is not None:
+        matches = userNeo.get_browse_nodes()
+    flash(matches)
+    return render_template('dashboard.html',
+    current_user = user ,
+    browse_nodes = matches)
 
 
 @app.route('/register', methods=['POST'])
