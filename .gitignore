@@ -20,3 +20,6 @@ htmlcov
 .coverage
 .coverage.*
 *,cover
+
+#Ignore uploaded files
+web/static/picture/

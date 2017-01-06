@@ -21,7 +21,7 @@ app = Flask(__name__)
 app.config.from_object(BaseConfig)
 app.config['DEBUG'] = True
 app.config['MAIL_DEBUG'] = True
-app.config['UPLOAD_FOLDER'] = 'static/picture' #os.environ['UPLOAD_FOLDER']
+
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
 
 graph = Graph('http://neo4j:admin123@neo4j:7474/db/data/')
@@ -328,6 +328,25 @@ def allowed_file(filename):
 def logout():
     logout_user(session)
     return redirect(url_for('index'))
+
+@app.route('/like/<username>')
+def like(username):
+    currentUsername = session.get('username')
+    currentUserNeo = UserNeo(graph=graph, username=currentUsername)
+    if (currentUserNeo.find()) is not None:
+        if (User.query.filter_by(username = username).first()) is not None:
+            userLikedNeo = UserNeo(graph=graph, username=username)
+            if (userLikedNeo.find()) is not None:
+                currentUserNeo.like_user(username)
+            else:
+                return jsonify({'error': 'userLikedNeo not found'})
+        else:
+            return jsonify({'error': 'userLiked not found'})
+    else:
+        return jsonify({'error': 'userNeo not found'})
+
+    msgStr = "User " + currentUsername + " liked " + username
+    return jsonify({'currentUsername': currentUsername, 'message': msgStr})
 
 if __name__ == '__main__':
     app.run()

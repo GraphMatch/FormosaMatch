@@ -29,6 +29,7 @@ class BaseConfig(object):
 
     # mail accounts
     MAIL_DEFAULT_SENDER = os.environ['MAIL_DEFAULT_SENDER']
+    UPLOAD_FOLDER = os.environ['UPLOAD_FOLDER']
 
 # If leaving hard-coded:
 # class BaseConfig(object):
