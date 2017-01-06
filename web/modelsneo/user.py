@@ -112,12 +112,14 @@ class User(object):
 
 
         if minAge is None:
-            minAge = user['age'] - 5
-            if minAge < 18:
-                minAge = 18
+            if user['age'] is not None:
+                minAge = user['age'] - 5
+                if minAge < 18:
+                    minAge = 18
 
         if maxAge is None:
-            maxAge = user['age'] + 5
+            if user['age'] is not None:
+                maxAge = user['age'] + 5
 
         if sexPreference is None:
             sexPreference = user['gender']
@@ -236,10 +238,10 @@ class User(object):
         return False
 
 
-def get_matches(self,startFrom = 0,resultAmount = 10):
-    query = "MATCH (a:User {username:'" + self.username + "'}), (b:User) WHERE (a)-[:MATCH]-(b) return b "
-    query = query + ' skip ' + str(startFrom) + ' limit ' + str(resultAmount);
-    if int(self.version[0]) >= 3:
-        return self.graph.run(query).data()
-    else:
-        return self.graph.cypher.execute(query)
+    def get_matches(self,startFrom = 0,resultAmount = 10):
+        query = "MATCH (a:User {username:'" + self.username + "'}), (b:User) WHERE (a)-[:MATCH]-(b) return b "
+        query = query + ' skip ' + str(startFrom) + ' limit ' + str(resultAmount);
+        if int(self.version[0]) >= 3:
+            return self.graph.run(query).data()
+        else:
+            return self.graph.cypher.execute(query)
