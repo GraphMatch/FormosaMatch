@@ -5,6 +5,7 @@ import uuid
 from datetime import datetime
 #from passlib.hash import bcrypt
 from py2neo import Node, Relationship, Graph
+import py2neo
 
 def timestamp():
     """ create a timestamp """
@@ -20,7 +21,7 @@ def date():
 class User(object):
     """ user object """
 
-    def __init__(self, graph, username, latitude, longitude, gender = None, age = None,orientation = None,
+    def __init__(self, graph, username, latitude, longitude, gender = 'woman', age = None,orientation = None,
                  sexPreference = None, locationFormatted = None, height = 0, bodyType = None, drinking = None,
                  educationValue = None, smoking = None,  minAge = None, maxAge = None
                  ):
@@ -41,6 +42,7 @@ class User(object):
         self.smoking = smoking
         self.minAge = minAge
         self.maxAge = maxAge
+        self.version = py2neo.__version__.split('.')
 
 
     def find(self):
@@ -106,7 +108,7 @@ class User(object):
 
         #expected 'woman' or 'man'
         if gender is not None:
-            query = query + " AND (b.gender = '" + gender + "' or b.gender is null) "
+            query = query + " AND (b.gender = '" + gender + "') "
             order = order + 'b.gender asc,'
 
         #orientation, expected 'straight', 'bisexual' or 'gay'
@@ -116,7 +118,7 @@ class User(object):
 
         # sexPreference, expected 'woman', 'man' or 'everyone'
         if sexPreference is not None:
-            query = query + " AND (b.sexPreference = '" + sexPreference + "' or b.sexPreference is null)"
+            query = query + " AND (b.sexPreference = '" + sexPreference + "' or b.sexPreference is null or b.sexPreference = 'everyone')"
             order = order + 'b.sexPreference asc,'
 
         # locationFormatted, expected a string
@@ -159,6 +161,7 @@ class User(object):
             query = query + " AND (toFloat(b.age) >= " + str(minAge) + " or b.age is null or toFloat(b.age) = 0)"
             order = order + 'b.age asc,'
 
+
         # maxHeight, expected a integer for cm
         if maxAge is not None:
             query = query + " AND (toFloat(b.age) <= " + str(maxAge) + " or b.age is null or toFloat(b.age) = 0)"
@@ -170,21 +173,38 @@ class User(object):
 
         query = query + ' skip ' + str(startFrom) + ' limit ' + str(resultAmount);
         #print(query)
-        return self.graph.run(query).data()
+        version = py2neo.__version__.split('.')
+        if int(version[0]) >= 3:
+            return self.graph.run(query).data()
+        else:
+            return self.graph.cypher.execute(query).data()
 
 
     def like_user(self,username):
-        query = "MATCH (n:User {username: '" +self.username+ "' }) MATCH (m:User {username: '" + username + "'}) CREATE (n)-[r:LIKES{matchId: (n.username + m.username)}]->(m)"
-        self.graph.run(query).data()
+        query = "MATCH (n:User {username: '" +self.username+ "' }) MATCH (m:User {username: '" + username + "'}) CREATE (n)-[r:LIKES]->(m)"
+        if int(self.version[0]) >= 3:
+            self.graph.run(query).data()
+        else:
+            self.graph.cypher.execute(query).data()
         return self
 
 
     def check_if_match(self, username):
         #check if the like is mutual
         query = "MATCH (a:User {username:'" + username + "'}), (b:User {username:'" + self.username + "'}) WHERE (a)-[:LIKES]->(b) and (b)-[:LIKES]->(a) return a"
-        result = self.graph.run(query).data()
-        print(result)
+        if int(self.version[0]) >= 3:
+            result = self.graph.run(query).data()
+        else:
+            result = self.graph.cypher.execute(query).data()
         if result is not None and result != []:
             #we got a match!!
+            query = "MATCH (n:User {username: '" + self.username + "' }) MATCH (m:User {username: '" + username + "'}) CREATE (n)-[r:MATCH{matchId: (n.username + m.username)}]->(m)"
+            query2 = "MATCH (n:User {username: '" + self.username + "' }) MATCH (m:User {username: '" + username + "'}) CREATE (m)-[r:MATCH{matchId: (m.username + n.username)}]->(n)"
+            if int(self.version[0]) >= 3:
+                self.graph.run(query).data()
+                self.graph.run(query2).data()
+            else:
+                self.graph.cypher.execute(query).data()
+                self.graph.cypher.execute(query2).data()
             return True
         return False
