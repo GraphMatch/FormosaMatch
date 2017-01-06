@@ -20,7 +20,7 @@ def date():
 class User(object):
     """ user object """
     def __init__(self, graph, username, latitude, longitude, gender = None, age = None,orientation = None,
-                 sexPreference = None, locationFormatted = None, height = None, bodyType = None, drinking = None,
+                 sexPreference = None, locationFormatted = None, height = 0, bodyType = None, drinking = None,
                  educationValue = None, smoking = None,  minAge = None, maxAge = None
                  ):
         """ set values """
