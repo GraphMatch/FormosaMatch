@@ -99,22 +99,23 @@ class User(object):
                     startFrom = 0, resultAmount = 10):
         """Find users close to me given the preferences."""
         #setting default values
+        user = self.find()
         if gender is None:
-            if self.gender == 'woman':
+            if user['gender'] == 'woman':
                 gender = 'man'
             else:
                 gender = 'woman'
 
         if minAge is None:
-            minAge = self.age - 5
+            minAge = user['age'] - 5
             if minAge < 18:
                 minAge = 18
 
         if maxAge is None:
-            maxAge = self.age + 5
+            maxAge = user['age'] + 5
 
-        if sexPreference in None:
-            sexPreference = self.gender
+        if sexPreference is None:
+            sexPreference = user['gender']
 
 
 
