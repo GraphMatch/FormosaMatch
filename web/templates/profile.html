@@ -29,12 +29,12 @@
             </div>
             <div class="row">
               <div class="input-field col s3 m6 push-m3">
-                <select name="preference">
-                  <option value="straight" {% if current_user.preference == "straight" %} selected {% endif %} >Straight</option>
-                  <option value="gay" {% if current_user.preference == "gay" %} selected {% endif %} >Gay</option>
-                  <option value="bisexual" {% if current_user.preference == "bisexual" %} selected {% endif %} >Bisexual</option>
+                <select name="orientation">
+                  <option value="straight" {% if current_user.orientation == "straight" %} selected {% endif %} >Straight</option>
+                  <option value="gay" {% if current_user.orientation == "gay" %} selected {% endif %} >Gay</option>
+                  <option value="bisexual" {% if current_user.orientation == "bisexual" %} selected {% endif %} >Bisexual</option>
                 </select>
-                <label for="preference">I am a</label>
+                <label for="orientation">I am a</label>
               </div>
             </div>
             <div class="row">
@@ -46,16 +46,16 @@
                 <label for="gender">I am a</label>
               </div>
             </div>
-            <div class="row">
+            <!-- <div class="row">
               <div class="input-field col s3 m6 push-m3">
-                <select name="sex_interest">
+                <select name="sexPreference">
                   <option value="man" {% if usernode['sexPreference'] == "man" %} selected {% endif %} >Man</option>
                   <option value="woman" {% if usernode['sexPreference'] == "woman" %} selected {% endif %} >Woman</option>
                   <option value="everyone" {% if usernode['sexPreference'] == "everyone" %} selected {% endif %} >Everyone</option>
                 </select>
-                <label for="sex_interest">I looking for</label>
+                <label for="sexPreference">I looking for</label>
               </div>
-            </div>
+            </div> -->
             <div class="row">
               <div class="input-field col s3 m6 push-m3">
                 <select name="body_type">

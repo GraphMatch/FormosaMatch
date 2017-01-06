@@ -19,7 +19,7 @@ class User(db.Model):
     birth_date = db.Column(db.DateTime, nullable=False)
     gender = db.Column(db.String(10), nullable=False)
     registered_on = db.Column(db.DateTime, nullable=False)
-    preference = db.Column(db.String(50), nullable=False)
+    orientation = db.Column(db.String(50), nullable=False)
     country = db.Column(db.String(50), nullable=False)
     city = db.Column(db.String(50), nullable=False)
     latitude = db.Column(db.DECIMAL(10,7), nullable=True)
@@ -29,8 +29,8 @@ class User(db.Model):
     #matches_a = db.relationship("Match", back_populates="user_b")
     #matches_b = db.relationship("Match", back_populates="user_a")
 
-    def __init__(self, preference, gender, birth_date, country, city, email, username, password, latitude = -1, longitude = -1, firstTime=False):
-        self.preference = preference
+    def __init__(self, orientation, gender, birth_date, country, city, email, username, password, latitude = -1, longitude = -1, firstTime=False):
+        self.orientation = orientation
         self.gender = gender
         self.birth_date = birth_date
         self.country = country

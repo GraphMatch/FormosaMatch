@@ -3,13 +3,14 @@
 from flask.ext.script import Manager
 from flask.ext.migrate import Migrate, MigrateCommand
 from app import app as application
-from app import db
+from app import db, graph
 from modelssql.question_list import QuestionList
 from modelssql.user import User
 from modelssql.match import Match
 from modelssql.question import Question
 from modelssql.match import Match
 from modelssql.message import Message
+from modelsneo.user import User as UserNeo
 import datetime
 import csv
 
@@ -36,18 +37,19 @@ def drop_db():
 @manager.command
 def create_admin():
     """Creates the admin user."""
-    user = User(preference = 1, gender = 'F', birth_date = '1991-01-03', country = 'Taiwan', city = 'Hsinchu City',
+    user = User(preference = 1, gender = 'woman', birth_date = '1991-01-03', country = 'Taiwan', city = 'Hsinchu City',
     email = 'admin@formosamatch.tw', username = 'admin', password='admin', latitude = 24.8047, longitude = 120.9714)
     db.session.add(user)
     db.session.commit()
 
 @manager.command
 def create_match_users():
-    user = User(preference = "straight", gender = 'M', birth_date = '1991-01-03', country = 'Taiwan', city = 'Hsinchu City',
+    user = User(preference = "straight", gender = 'man', birth_date = '1991-01-03', country = 'Taiwan', city = 'Hsinchu City',
     email = 'roblescoulter@gmail.com', username = 'roblescoulter', password='admin123', latitude = 24.8047, longitude = 120.9714)
     db.session.add(user)
+    db.session.commit()
 
-    user1 = User(preference = "straight", gender = 'F', birth_date = '1991-01-03', country = 'Taiwan', city = 'Hsinchu City',
+    user1 = User(preference = "straight", gender = 'woman', birth_date = '1991-01-03', country = 'Taiwan', city = 'Hsinchu City',
     email = 'alemeraz@gmail.com', username = 'alemeraz', password='admin123', latitude = 24.8047, longitude = 120.9714)
     db.session.add(user1)
     db.session.commit()
@@ -86,6 +88,59 @@ def create_questions():
         db.session.commit()
     print("Finished")
 
+@manager.command
+def create_neo4j_and_rdb_from_csv():
+    """
+    Creates the neo4j DB initial data and the RDB initial data from the CSV file
+    """
+
+    with open('crawleddata/Profiles.csv', newline='') as csvfile:
+        csvreader = csv.reader(csvfile, delimiter=',', quotechar='|')
+        for row in csvreader:
+            if (row[0] != 'birthDateDay'):
+                birthDateDay = (row[0])
+                birthDateMonth = (row[1])
+                birthDateYear = (row[2])
+                birthDateFull = (birthDateYear+"-"+birthDateMonth+"-"+birthDateDay)
+                bodytype = (row[3])
+                drinking = (row[4])
+                educationValue = (row[5])
+                gender = (row[6])
+                heightCm = (row[7])
+                locationFormatted = (row[8])
+                smoking = (row[9])
+                username = (row[10])
+                email = username+"@gmail.com"
+                latitude = (row[11])
+                longitude = (row[12])
+                minAge = (row[13])
+                maxAge = (row[14])
+                age = (row[15])
+                sexPreference = (row[16])
+                orientation = (row[17])
+
+                birth_date = datetime.datetime.strptime(birthDateFull, "%Y-%m-%d")
+                user = User(orientation, gender, birth_date, 'Taiwan', locationFormatted, email, username, 'admin123',  latitude, longitude, False)
+                db.session.add(user)
+                db.session.commit()
+
+                user_neo = UserNeo(graph=graph, username=username, latitude=latitude, longitude=longitude,
+                    minAge = minAge, maxAge = maxAge, gender = gender, age=user.calculate_age(),
+                    orientation = orientation, locationFormatted = locationFormatted,
+                    bodyType = bodytype, drinking = drinking,
+                    educationValue = educationValue, smoking = smoking, height = heightCm)
+
+                user_neo.register()
+
+    #,,,,,,,,,,,,,,,
+    # Loading CSV
+    # LOAD CSV WITH HEADERS FROM "file:///crawleddata/Profiles.csv " AS row CREATE (:User { bodyType: (row.bodytype) , drinking:(row.drinking), educationValue: (row.educationValue), gender:(row.gender), height: (row.heightCm), locationFormatted: (row.locationFormatted), orientation: (row.orientation),  smoking: (row.smoking), username: (row.username), latitude: toFloat(row.lat), longitude:toFloat(row.long), minAge: toInt(row.minAge), maxAge: toInt(row.maxAge),  age: toInt(row.age), sexPreference: (row.sexPreference) })
+    # queryLoadCsv = "LOAD CSV WITH HEADERS FROM \"file:///crawleddata/Profiles.csv \" AS row CREATE (:User { bodyType: (row.bodytype) , drinking:(row.drinking), educationValue: (row.educationValue), gender:(row.gender), height: (row.heightCm), locationFormatted: (row.locationFormatted), orientation: (row.orientation),  smoking: (row.smoking), username: (row.username), latitude: toFloat(row.lat), longitude:toFloat(row.long), minAge: toInt(row.minAge), maxAge: toInt(row.maxAge),  age: toInt(row.age), sexPreference: (row.sexPreference) })"
+    # graph.cypher.execute(queryLoadCsv)
+
+    # Creating index for users
+    queryIndexUsers = "CREATE INDEX ON :User(username);"
+    graph.cypher.execute(queryIndexUsers)
 
 if __name__ == '__main__':
     manager.run()
