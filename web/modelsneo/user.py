@@ -168,12 +168,12 @@ class User(object):
             query = query + 'order by ' + order
 
         query = query + ' skip ' + str(startFrom) + ' limit ' + str(resultAmount);
-        print(query)
+        #print(query)
         return self.graph.run(query).data()
 
 
     def like_user(self,username):
-        query = "MATCH (n:User {username: '" +self.username+ "' }) MATCH (m:User {username: '" + username + "'}) CREATE (n)-[r:LIKES]->(m)"
+        query = "MATCH (n:User {username: '" +self.username+ "' }) MATCH (m:User {username: '" + username + "'}) CREATE (n)-[r:LIKES{matchId: (n.username + m.username)}]->(m)"
         self.graph.run(query).data()
         return self
 
@@ -184,6 +184,6 @@ class User(object):
         result = self.graph.run(query).data()
         print(result)
         if result is not None and result != []:
-            #we go a match!!
+            #we got a match!!
             return True
         return False
