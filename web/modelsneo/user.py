@@ -226,7 +226,8 @@ class User(object):
             self.graph.run(query).data()
         else:
             self.graph.cypher.execute(query)
-        return self
+        matched = self.check_if_match(username)
+        return dumps([{'created': True, 'matched': matched}])
 
 
     def check_if_match(self, username):

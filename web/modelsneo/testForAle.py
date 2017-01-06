@@ -24,7 +24,7 @@ print(user.get_browse_nodes())
 #get user Profile
 #print(user.find())
 
-#print(user.like_user('frank0728').check_if_match('frank0728'))
+print(user.like_user('frank0728'))
 
 user2 = UserNeo(graph=graph, username='frank0728',latitude=2.32,longitude=43.2)
 #user2.check_if_match('ale')
