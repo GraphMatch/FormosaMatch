@@ -12,11 +12,17 @@ from config import BaseConfig
 import datetime, re, geocoder
 from modelssql.utils import *
 import sys, traceback
+from datetime import date
+from werkzeug import secure_filename
+import uuid
+import os
 
 app = Flask(__name__)
 app.config.from_object(BaseConfig)
 app.config['DEBUG'] = True
 app.config['MAIL_DEBUG'] = True
+
+ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
 
 graph = Graph('http://neo4j:admin123@neo4j:7474/db/data/')
 # graph = Graph(host='192.168.99.100', http_port=7474, https_port= 7473, bolt_port=7687, user='neo4j', password='admin123')
@@ -149,7 +155,7 @@ def register():
         status = False
 
         try:
-            if (UserNeo(graph=graph, email=email, username=username, latitude=g.latlng[0], longitude=g.latlng[1]).register()):
+            if (UserNeo(graph=graph, username=username, latitude=g.latlng[0], longitude=g.latlng[1], gender = gender, age=user.calculate_age(), orientation = preference, locationFormatted = city).register()):
                 status = True
 
         except:
@@ -182,10 +188,10 @@ def login():
         session['username'] = user.username
         session['logged_in'] = True
         session['email'] = user.email
-        if(user.profile_picture is None) or (len(user.profile_picture) > 0):
+        if(len(user.profile_picture) > 0):
             session['profile_picture'] = user.profile_picture
         else:
-            session['profile_picture'] = 'default.jpg'
+            session['profile_picture'] = 'no-pic.png'
         status = True
     else:
         user = User.query.filter_by(username=request.form['emailusername']).first()
@@ -196,7 +202,7 @@ def login():
             if(user.profile_picture is None) or (len(user.profile_picture) > 0):
                 session['profile_picture'] = user.profile_picture
             else:
-                session['profile_picture'] = 'default.jpg'
+                session['profile_picture'] = 'no-pic.png'
             status = True
     if(status == False):
         flash('Login failed! Invalid username/password.')
@@ -235,7 +241,11 @@ def profile():
         sex_interest = request.form['sex_interest']
         age_range_min = request.form['age_range_min']
         age_range_max = request.form['age_range_max']
-        search_distance = request.form['search_distance']
+        body_type = request.form['body_type']
+        drinking = request.form['drinking']
+        smoking = request.form['smoking']
+        educationValue = request.form['educationValue']
+        heightCm = request.form['heightCm']
         birth_date_submit = request.form['birth_date']
         country = request.form['country']
         city = request.form['city']
@@ -285,25 +295,26 @@ def profile():
         user.email = email
         if(len(password) > 0 ):
             user.password = bcrypt.generate_password_hash(password).decode('utf-8')
-        age_interest = str(age_range_min) + '-' + str(age_range_max)
-        user_neo = UserNeo(graph, email, username, preference, sex_interest, search_distance, age_interest, country, city, g.latlng[0], g.latlng[1])
+        user_neo = UserNeo(graph=graph, username=username, latitude=g.latlng[0], longitude=g.latlng[1],
+            minAge = age_range_min, maxAge = age_range_max, gender = gender, age=user.calculate_age(),
+            orientation = preference, locationFormatted = city,
+            bodyType = body_type, drinking = drinking, sexPreference = sex_interest,
+            educationValue = educationValue, smoking = smoking, height = heightCm)
         user_neo.register()
         db.session.commit()
         return redirect(url_for('dashboard'))
-    user_neo = UserNeo(graph, user.email).find()
+    user_neo = UserNeo(graph, username = user.username, latitude = 0, longitude = 0).find()
     age_range = []
-    if(user_neo == None):
-
+    if(user_neo == None or user_neo['minAge'] == None):
         today = date.today()
-        age = today.year - birth_date.year - ((today.month, today.day) < (birth_date.month, birth_date.day))
+        age = today.year - user.birth_date.year - ((today.month, today.day) < (user.birth_date.month, user.birth_date.day))
         age_range.append(28)
         age_range.append(age+10)
-
     else:
-        age_range = user_neo['age_interest'].split('-')
+        age_range = user_neo['minAge'], user_neo['maxAge']
 
     return render_template('profile.html',
-        user = user,
+        current_user = user,
         age_range_min = age_range[0],
         age_range_max = age_range[1],
         usernode = user_neo
@@ -317,6 +328,25 @@ def allowed_file(filename):
 def logout():
     logout_user(session)
     return redirect(url_for('index'))
+
+@app.route('/like/<username>')
+def like(username):
+    currentUsername = session.get('username')
+    currentUserNeo = UserNeo(graph=graph, username=currentUsername)
+    if (currentUserNeo.find()) is not None:
+        if (User.query.filter_by(username = username).first()) is not None:
+            userLikedNeo = UserNeo(graph=graph, username=username)
+            if (userLikedNeo.find()) is not None:
+                currentUserNeo.like_user(username)
+            else:
+                return jsonify({'error': 'userLikedNeo not found'})
+        else:
+            return jsonify({'error': 'userLiked not found'})
+    else:
+        return jsonify({'error': 'userNeo not found'})
+
+    msgStr = "User " + currentUsername + " liked " + username
+    return jsonify({'currentUsername': currentUsername, 'message': msgStr})
 
 if __name__ == '__main__':
     app.run()

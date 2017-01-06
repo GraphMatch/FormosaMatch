@@ -30,9 +30,9 @@
             <div class="row">
               <div class="input-field col s3 m6 push-m3">
                 <select name="preference">
-                  <option value="straight" {% if user.preference == "straight" %} selected {% endif %} >Straight</option>
-                  <option value="gay" {% if user.preference == "gay" %} selected {% endif %} >Gay</option>
-                  <option value="bisexual" {% if user.preference == "bisexual" %} selected {% endif %} >Bisexual</option>
+                  <option value="straight" {% if current_user.preference == "straight" %} selected {% endif %} >Straight</option>
+                  <option value="gay" {% if current_user.preference == "gay" %} selected {% endif %} >Gay</option>
+                  <option value="bisexual" {% if current_user.preference == "bisexual" %} selected {% endif %} >Bisexual</option>
                 </select>
                 <label for="preference">I am a</label>
               </div>
@@ -40,8 +40,8 @@
             <div class="row">
               <div class="input-field col s3 m6 push-m3">
                 <select name="gender">
-                  <option value="man" {% if user.gender == "man" %} selected {% endif %} >Man</option>
-                  <option value="woman" {% if user.gender == "woman" %} selected {% endif %} >Woman</option>
+                  <option value="man" {% if current_user.gender == "man" %} selected {% endif %} >Man</option>
+                  <option value="woman" {% if current_user.gender == "woman" %} selected {% endif %} >Woman</option>
                 </select>
                 <label for="gender">I am a</label>
               </div>
@@ -49,11 +49,60 @@
             <div class="row">
               <div class="input-field col s3 m6 push-m3">
                 <select name="sex_interest">
-                  <option value="man" {% if usernode['sex_interest'] == "man" %} selected {% endif %} >Man</option>
-                  <option value="woman" {% if usernode['sex_interest'] == "woman" %} selected {% endif %} >Woman</option>
-                  <option value="both" {% if usernode['sex_interest'] == "woman" %} selected {% endif %} >Both</option>
+                  <option value="man" {% if usernode['sexPreference'] == "man" %} selected {% endif %} >Man</option>
+                  <option value="woman" {% if usernode['sexPreference'] == "woman" %} selected {% endif %} >Woman</option>
+                  <option value="everyone" {% if usernode['sexPreference'] == "everyone" %} selected {% endif %} >Everyone</option>
                 </select>
                 <label for="sex_interest">I looking for</label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="input-field col s3 m6 push-m3">
+                <select name="body_type">
+                  <option value="curvy" {% if usernode['bodyType'] == "curvy" %} selected {% endif %} >Curvy</option>
+                  <option value="thin" {% if usernode['bodyType'] == "thin" %} selected {% endif %} >Thin</option>
+                  <option value="jacked" {% if usernode['bodyType'] == "jacked" %} selected {% endif %} >Jacked</option>
+                  <option value="average_build" {% if usernode['bodyType'] == "average_build" %} selected {% endif %} >Average build</option>
+                  <option value="fit" {% if usernode['bodyType'] == "fit" %} selected {% endif %} >Fit</option>
+                  <option value="rather_not_say" {% if usernode['bodyType'] == "rather_not_say" %} selected {% endif %} >Rather_not_say</option>
+                  <option value="a_little_extra" {% if usernode['bodyType'] == "a_little_extra" %} selected {% endif %} >A little extra</option>
+                  <option value="overweight" {% if usernode['bodyType'] == "overweight" %} selected {% endif %} >Overweight</option>
+                  <option value="full_figured" {% if usernode['bodyType'] == "full_figured" %} selected {% endif %} >Full figured</option>
+                  <option value="used_up" {% if usernode['bodyType'] == "used_up" %} selected {% endif %} >Used up</option>
+                </select>
+                <label for="body_type">My body type</label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="input-field col s3 m6 push-m3">
+                <select name="drinking">
+                  <option value="socially" {% if usernode['drinking'] == "socially" %} selected {% endif %} >Socially</option>
+                  <option value="not_at_all" {% if usernode['drinking'] == "not_at_all" %} selected {% endif %} >Not at all</option>
+                  <option value="often" {% if usernode['drinking'] == "often" %} selected {% endif %} >Often</option>
+                </select>
+                <label for="drinking">Do you drink?</label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="input-field col s3 m6 push-m3">
+                <select name="smoking">
+                  <option value="no" {% if usernode['smoking'] == "no" %} selected {% endif %} >No</option>
+                  <option value="yes" {% if usernode['smoking'] == "yes" %} selected {% endif %} >Yes</option>
+                  <option value="sometimes" {% if usernode['smoking'] == "sometimes" %} selected {% endif %} >Sometimes</option>
+                </select>
+                <label for="smoking">Do you smoke?</label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="input-field col s3 m6 push-m3">
+                <select name="educationValue">
+                  <option value="university" {% if usernode['educationValue'] == "university" %} selected {% endif %} >University</option>
+                  <option value="post_grad" {% if usernode['educationValue'] == "post_grad" %} selected {% endif %} >Postgraduate</option>
+                  <option value="two_year_college" {% if usernode['educationValue'] == "two_year_college" %} selected {% endif %} >Two years in college</option>
+                  <option value="high_school" {% if usernode['educationValue'] == "high_school" %} selected {% endif %} >High school</option>
+                  <option value="space_camp" {% if usernode['educationValue'] == "space_camp" %} selected {% endif %} >Space camp</option>
+                </select>
+                <label for="educationValue">Your education level</label>
               </div>
             </div>
             <div class="row">
@@ -63,33 +112,33 @@
             </div>
             <div class="row">
               <div class="input-field col s3 m6 push-m3">
-                <label for="search_distance">Search distance</label>
+                <label for="heightCm">My height(cm)</label>
                 <p class="range-field">
-                  <input type="range" id="search_distance" name="search_distance" value = {{ usernode['search_distance'] }} />
+                  <input type="range" id="heightCm" min="90" max="250" name="heightCm" value = {{ usernode['height'] }} />
                 </p>
               </div>
             </div>
             <div class="row">
               <div class="input-field col s3 m6 push-m3">
-                <input type="date" id="birth_date" name="birth_date" class="datepicker" value= {{ user.birth_date }} >
+                <input type="date" id="birth_date" name="birth_date" class="datepicker" value= {{ current_user.birth_date }} >
                 <label for="birth_date">Birthdate</label>
               </div>
             </div>
             <div class="row">
               <div class="input-field col s3 m6 push-m3">
-                <input id="country" name="country" type="text" value= {{ user.country }} >
+                <input id="country" name="country" type="text" value= {{ current_user.country }} >
                 <label for="country">Country</label>
               </div>
             </div>
             <div class="row">
               <div class="input-field col s3 m6 push-m3">
-                <input id="city" name="city" type="text" value= {{ user.city }} >
+                <input id="city" name="city" type="text" value= {{ current_user.city }} >
                 <label for="city">City</label>
               </div>
             </div>
             <div class="row">
               <div class="input-field col s3 m6 push-m3">
-                <input type="email" id="email" name="email" value= {{ user.email }} >
+                <input type="email" id="email" name="email" value= {{ current_user.email }} >
                 <label for="email">Email</label>
               </div>
             </div>
