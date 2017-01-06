@@ -29,7 +29,7 @@ birthDateDay,birthDateMonth,birthDateYear,bodytype,drinking,educationValue,gende
 21,11,1979,curvy,socially,university,woman,160,yan-shan,no,s-ching,21.74301312,110.2242171,34,45,37,man,straight
 26,5,1988,,,,woman,0,yan-shan,,velopethecat,21.54294344,110.2923291,28,42,28,man,straight
 13,12,1986,fit,socially,university,woman,164,tung-shih,no,nanababikawaii99,34.10436625,112.0814037,22,46,30,man,straight
-30,10,1984,rather_not_say,socially,post_grad,woman,164,tung-shih,sometimes,yuliu_rock,34.10447408,112.0994599,22,42,32,everyone,gay
+30,10,1984,rather_not_say,socially,post_grad,woman,164,tung-shih,sometimes,yuliu_rock,34.10447408,112.0994599,22,42,32,woman,gay
 29,8,1981,curvy,socially,university,woman,165,tung-shih,no,irene916,34.16075313,112.1052428,32,42,35,man,straight
 28,5,1977,,,,woman,0,pang-po,,minicutemei,33.00784853,112.1960835,26,64,39,man,straight
 14,10,1990,thin,,university,man,182,tung-shih,no,goyah,33.93238934,112.3202719,19,36,26,woman,straight
@@ -80,7 +80,7 @@ birthDateDay,birthDateMonth,birthDateYear,bodytype,drinking,educationValue,gende
 6,5,1991,,,,woman,0,kao-hsiung-ka,no,may_echo,22.57993123,120.2491727,19,36,25,man,straight
 10,1,1983,,,,woman,0,kao-hsiung-ka,,liwem,22.71955654,120.2533035,23,52,34,man,straight
 9,5,1988,,,,woman,0,kao-hsiung-ka,,doristangchia,22.52218145,120.25466,28,35,28,man,straight
-5,9,1997,average_build,not_at_all,university,man,181,kao-hsiung-ka,no,xbenitox,22.59457581,120.2558016,18,26,19,everyone,gay
+5,9,1997,average_build,not_at_all,university,man,181,kao-hsiung-ka,no,xbenitox,22.59457581,120.2558016,18,26,19,man,gay
 25,9,1987,,,,woman,0,kao-hsiung-ka,,artedontcare,22.57685617,120.2562241,21,44,29,man,straight
 2,4,1972,,,,man,0,kao-hsiung-ka,,singwhtm,22.65057837,120.2611566,18,39,44,woman,straight
 9,6,1979,,,,woman,0,kao-hsiung-ka,,clarita89,22.55411618,120.2634325,35,45,37,man,straight
@@ -133,7 +133,7 @@ birthDateDay,birthDateMonth,birthDateYear,bodytype,drinking,educationValue,gende
 27,10,1988,,,university,woman,0,kao-hsiung-ka,,ombeline-k,22.66796233,120.3123549,20,30,28,man,straight
 29,8,1981,,often,high_school,man,183,kao-hsiung-ka,sometimes,joshabare,22.63345253,120.3130943,18,27,35,woman,straight
 22,6,1982,,socially,university,man,186,kao-hsiung-ka,no,johnnymvp,22.55425863,120.3133253,18,35,34,woman,straight
-1,1,1994,average_build,not_at_all,high_school,man,173,kao-hsiung-ka,no,evans830101,22.56516954,120.3147142,22,50,23,everyone,gay
+1,1,1994,average_build,not_at_all,high_school,man,173,kao-hsiung-ka,no,evans830101,22.56516954,120.3147142,22,50,23,man,gay
 12,7,1993,average_build,socially,,man,175,kao-hsiung-ka,no,xwzhu,22.56339304,120.3148667,18,32,23,woman,straight
 15,10,1989,,,,woman,0,kao-hsiung-ka,no,shelin1015,22.52929567,120.3151038,20,40,27,man,straight
 24,9,1989,,socially,university,woman,165,kao-hsiung-ka,no,liangen,22.62316029,120.3154985,25,30,27,man,straight
@@ -208,7 +208,7 @@ birthDateDay,birthDateMonth,birthDateYear,bodytype,drinking,educationValue,gende
 1,6,1992,,not_at_all,university,woman,158,kao-hsiung-ka,no,katyren92,22.40190173,120.3719004,18,32,24,man,straight
 28,7,1985,,,university,woman,0,kao-hsiung-ka,no,michaju-hsiao,22.40038658,120.3732578,22,48,31,man,straight
 21,3,1982,,,,man,0,kao-hsiung-ka,,alexsky123,22.56142768,120.3733782,21,34,34,woman,straight
-11,12,1970,,not_at_all,,man,0,kao-hsiung-ka,no,jeanyma,22.72626834,120.3766539,42,55,46,everyone,gay
+11,12,1970,,not_at_all,,man,0,kao-hsiung-ka,no,jeanyma,22.72626834,120.3766539,42,55,46,man,gay
 30,10,1977,,socially,,woman,0,kao-hsiung-ka,no,aliceyangthecat,22.58222394,120.3768924,33,46,39,man,straight
 3,2,1979,,,post_grad,woman,0,kao-hsiung-ka,no,truejean,22.53287747,120.3770649,28,45,37,man,straight
 28,8,1992,,,,man,0,kao-hsiung-ka,,guo-wei,22.72763446,120.3777015,19,34,24,woman,straight
@@ -292,11 +292,11 @@ birthDateDay,birthDateMonth,birthDateYear,bodytype,drinking,educationValue,gende
 8,6,1992,,,,woman,0,tai-chung-shih,,sophiahoooo,22.64414158,120.5314467,18,26,24,man,straight
 2,6,1989,,socially,,man,0,chang-hua,no,berlinhuang,23.97863504,120.5325967,20,40,27,woman,straight
 18,5,1990,rather_not_say,socially,university,woman,156,kao-hsiung-ka,,xinning,22.62705867,120.5326002,18,30,26,man,straight
-1,12,1996,,,,man,0,kao-hsiung-ka,,hi065,22.6122859,120.5363956,18,26,20,everyone,gay
+1,12,1996,,,,man,0,kao-hsiung-ka,,hi065,22.6122859,120.5363956,18,26,20,man,gay
 9,12,1992,,,,woman,0,chang-hua,,bhebhe_jinky,24.07931527,120.5375886,25,39,24,man,straight
 23,8,1991,,,,man,0,tai-chung-shih,,listen1991,22.75519544,120.538735,19,36,25,woman,straight
 30,1,1985,fit,,,man,0,chang-hua,,ocean1778,24.04359177,120.5398059,22,48,31,woman,straight
-12,4,1996,average_build,not_at_all,,man,170,chang-hua,no,stanleytsai,24.05479083,120.5427322,18,35,20,everyone,gay
+12,4,1996,average_build,not_at_all,,man,170,chang-hua,no,stanleytsai,24.05479083,120.5427322,18,35,20,man,gay
 8,4,1987,,,,woman,0,kao-hsiung-ka,,yijing_kei,22.574629,120.5448068,18,99,29,man,straight
 13,7,1996,thin,not_at_all,high_school,woman,167,chang-hua,no,betty_bb,24.07382515,120.5458811,18,25,20,man,straight
 22,11,1994,,socially,university,woman,167,tai-chung-shih,no,littledarkize,22.57328181,120.5464851,18,32,22,everyone,bisexual
@@ -398,7 +398,7 @@ birthDateDay,birthDateMonth,birthDateYear,bodytype,drinking,educationValue,gende
 9,8,1979,,,,woman,0,tai-chung-shih,,fion88,22.57692751,120.6576256,25,60,37,man,straight
 8,6,1992,,,,woman,0,tai-chung-shih,,lenkahan,22.45937692,120.6581906,19,34,24,man,straight
 23,6,1981,curvy,socially,,woman,161,tai-chung-shih,no,aelanbelle,22.6558015,120.6584567,30,54,35,man,straight
-23,10,1987,thin,not_at_all,university,man,0,tai-chung-shih,no,xiaomie,22.70694733,120.6587479,21,44,29,everyone,gay
+23,10,1987,thin,not_at_all,university,man,0,tai-chung-shih,no,xiaomie,22.70694733,120.6587479,21,44,29,man,gay
 5,6,1992,average_build,socially,university,man,175,tai-chung-shih,no,osmond1290,22.61905883,120.6592206,18,36,24,everyone,bisexual
 18,11,1969,,,,man,0,tai-chung-shih,,taya2320,22.66157615,120.6598045,30,42,47,woman,straight
 19,5,1977,fit,socially,university,man,183,tai-chung-shih,no,marley496,22.56161431,120.6605053,21,40,39,woman,straight
@@ -631,11 +631,11 @@ birthDateDay,birthDateMonth,birthDateYear,bodytype,drinking,educationValue,gende
 10,4,1984,curvy,,university,woman,159,tai-chung-shih,no,hengyilee,22.6158015,120.7854847,29,38,32,man,straight
 24,8,1990,fit,socially,university,man,181,tai-chung-shih,no,kenmanalang,22.62434851,120.787053,20,38,26,woman,straight
 26,1,1988,,,,woman,0,tai-chung-shih,,blanchewilliam,22.57968179,120.7894841,21,42,28,man,straight
-1,7,1990,,,,man,0,miao-li,,garychen1990,24.42721102,120.7895794,22,35,26,everyone,gay
+1,7,1990,,,,man,0,miao-li,,garychen1990,24.42721102,120.7895794,22,35,26,man,gay
 7,8,1972,average_build,not_at_all,university,woman,158,tai-chung-shih,no,sandyhsu61,22.5778113,120.7899244,37,50,44,man,straight
 25,7,1968,,,high_school,woman,0,miao-li,no,ruiyanpeng_taco,24.44754639,120.7901765,31,82,48,man,straight
 29,11,1987,,socially,,woman,0,tai-chung-shih,no,venusjanairo,22.63841198,120.7903605,30,40,29,man,straight
-26,5,1990,,,,woman,0,tai-chung-shih,,honkidansu,22.64897686,120.7923594,20,38,26,everyone,gay
+26,5,1990,,,,woman,0,tai-chung-shih,,honkidansu,22.64897686,120.7923594,20,38,26,woman,gay
 29,5,1987,,socially,university,woman,160,tai-chung-shih,no,j6qo4g0,22.54288483,120.7941137,25,40,29,man,straight
 2,1,1989,a_little_extra,socially,university,woman,152,tai-chung-shih,no,lingc1989,22.55587641,120.7953356,23,33,28,man,straight
 26,1,1987,curvy,socially,university,woman,166,tai-chung-shih,,charlene7155,22.58554431,120.7954902,18,40,29,man,straight
@@ -681,7 +681,7 @@ birthDateDay,birthDateMonth,birthDateYear,bodytype,drinking,educationValue,gende
 8,5,1996,,,university,woman,163,tai-chung-shih,no,tingyunnn,22.59526235,120.8658485,18,30,20,man,straight
 20,9,1994,thin,socially,university,woman,157,tai-chung-shih,no,caitlin_1994,22.62184015,120.8684269,18,26,22,man,straight
 24,8,1988,average_build,socially,post_grad,man,178,hsin-chu,no,bala0824,24.61129805,120.8698562,18,38,28,woman,straight
-5,8,1996,average_build,socially,,man,170,tai-chung-shih,no,mingyichu,22.56918496,120.8725528,20,50,20,everyone,gay
+5,8,1996,average_build,socially,,man,170,tai-chung-shih,no,mingyichu,22.56918496,120.8725528,20,50,20,man,gay
 27,8,1972,fit,socially,post_grad,man,173,tai-chung-shih,no,sportingbugs,22.70909596,120.8756387,18,45,44,woman,straight
 27,3,1980,overweight,not_at_all,university,woman,160,miao-li,no,sunny690327,24.5739521,120.8769821,25,58,36,man,straight
 28,4,1985,,,,woman,175,tai-chung-shih,yes,bignohsu,22.60543881,120.8773566,18,55,31,man,straight
@@ -742,7 +742,7 @@ birthDateDay,birthDateMonth,birthDateYear,bodytype,drinking,educationValue,gende
 3,8,1975,fit,,,man,187,nan-tou,,giraffesforthewn,23.96508529,120.9606278,19,68,41,woman,straight
 14,9,1996,,,,man,0,tai-chung-shih,,braveplater,22.63278904,120.9620023,18,20,20,woman,straight
 18,11,1974,average_build,socially,post_grad,woman,155,hsin-chu,no,sweet1118,24.75658244,120.9639458,40,55,42,man,straight
-21,12,1973,used_up,not_at_all,university,man,187,tai-chung-shih,no,troubletaiwan,22.50099787,120.9639708,20,38,43,everyone,gay
+21,12,1973,used_up,not_at_all,university,man,187,tai-chung-shih,no,troubletaiwan,22.50099787,120.9639708,20,38,43,man,gay
 20,1,1990,,,,man,0,tai-chung-shih,,kafiliyo,22.70229939,120.9640348,20,38,26,woman,straight
 13,7,1992,,,,woman,0,hsin-chu,,rdolor,24.66828979,120.9674752,19,34,24,man,straight
 24,4,1989,,,,woman,0,hsin-chu,,madhi24,24.82399919,120.9713815,28,40,27,man,straight
@@ -922,7 +922,7 @@ birthDateDay,birthDateMonth,birthDateYear,bodytype,drinking,educationValue,gende
 29,4,1982,average_build,socially,post_grad,woman,165,taipei,no,catcalifornia,25.1032761,121.4087448,30,45,34,man,straight
 4,11,1976,,not_at_all,post_grad,woman,165,taipei,no,joannelee1104,24.98060758,121.4108215,27,55,40,man,straight
 13,12,1984,,socially,post_grad,woman,167,taipei,no,eatinglin,24.95365992,121.4124019,21,38,32,man,straight
-13,10,1987,,,post_grad,man,0,taipei,,festal1987,25.07822222,121.4125606,21,42,29,everyone,gay
+13,10,1987,,,post_grad,man,0,taipei,,festal1987,25.07822222,121.4125606,21,42,29,man,gay
 26,1,1998,,,,man,0,taipei,,hung4627,24.97455652,121.4126029,18,30,18,woman,straight
 27,5,1998,,socially,university,woman,150,taipei,no,annthecutie,24.99135112,121.4134268,18,26,18,man,straight
 21,12,1993,,,,woman,164,taipei,no,sunny_fang,25.07731267,121.4139116,18,30,23,man,straight
@@ -1029,7 +1029,7 @@ birthDateDay,birthDateMonth,birthDateYear,bodytype,drinking,educationValue,gende
 13,4,1984,,,,woman,0,taipei,,syl0413,25.03699586,121.4612601,30,38,32,man,straight
 30,8,1967,fit,socially,university,man,172,taipei,yes,joyfree_,25.05037172,121.4616532,40,50,49,woman,straight
 12,12,1990,,,,woman,0,taipei,no,abbyend,25.05821058,121.4622522,20,36,26,man,straight
-23,3,1994,,socially,university,man,0,taipei,no,joeycl,24.98045763,121.462599,22,35,22,everyone,gay
+23,3,1994,,socially,university,man,0,taipei,no,joeycl,24.98045763,121.462599,22,35,22,man,gay
 23,11,1983,,often,,woman,170,taipei,no,igolalalala,25.23793254,121.4626431,28,43,33,man,straight
 15,8,1977,,often,university,man,0,taipei,yes,max1977ok,24.89720201,121.4627778,26,64,39,woman,straight
 4,9,1977,average_build,socially,university,woman,0,taipei,no,9refresh,25.04533473,121.4628627,36,42,39,man,straight
@@ -1070,7 +1070,7 @@ birthDateDay,birthDateMonth,birthDateYear,bodytype,drinking,educationValue,gende
 13,8,1994,thin,not_at_all,university,woman,158,taipei,no,wei_taiwan,24.98663592,121.4685276,22,35,22,everyone,bisexual
 3,1,1988,average_build,socially,post_grad,woman,166,taipei,no,roseline5,25.05249485,121.4688084,29,40,29,man,straight
 18,8,1992,average_build,,university,woman,171,taipei,no,wonkaholic,24.98332856,121.4689638,24,36,24,man,straight
-6,7,1981,average_build,socially,post_grad,man,171,taipei,no,coketea,24.89372309,121.4693484,27,45,35,everyone,gay
+6,7,1981,average_build,socially,post_grad,man,171,taipei,no,coketea,24.89372309,121.4693484,27,45,35,man,gay
 10,9,1987,thin,,,woman,160,taipei,no,bibivi,25.08869115,121.4695364,20,36,29,man,straight
 18,1,1980,fit,often,university,man,174,taipei,no,chung-ji,25.05574264,121.4695662,18,56,36,woman,straight
 24,4,1980,fit,socially,post_grad,man,174,taipei,no,wawrinkac,25.22512046,121.4699212,18,40,36,woman,straight
@@ -1123,7 +1123,7 @@ birthDateDay,birthDateMonth,birthDateYear,bodytype,drinking,educationValue,gende
 4,3,1994,,,university,woman,0,taipei,,yujie_chiu,24.95653048,121.4795682,18,30,22,man,straight
 1,11,1988,,,,man,184,taipei,,pphillan,25.07266583,121.4799161,18,34,28,woman,straight
 3,3,1991,,socially,,man,181,taipei,sometimes,easonlan,25.0329636,121.4799567,19,36,25,woman,straight
-13,6,1984,,not_at_all,post_grad,woman,160,taipei,no,adornofangirl,25.04450206,121.4803204,22,60,32,everyone,gay
+13,6,1984,,not_at_all,post_grad,woman,160,taipei,no,adornofangirl,25.04450206,121.4803204,22,60,32,woman,gay
 8,8,1995,thin,not_at_all,university,woman,155,taipei,no,yukikuran,24.97713836,121.4804466,21,30,21,man,straight
 17,10,1984,,socially,,woman,0,taipei,,wl_claire,24.85931091,121.4807273,30,40,32,man,straight
 1,5,1984,,,,man,0,taipei,,alisamba,25.04362711,121.4807981,26,64,32,woman,straight
@@ -1288,7 +1288,7 @@ birthDateDay,birthDateMonth,birthDateYear,bodytype,drinking,educationValue,gende
 22,12,1984,,,,woman,158,taipei,,jasrhensadiasa,24.77655334,121.5059862,22,48,32,man,straight
 10,3,1995,,,,woman,0,taipei,,serenafanfan,24.91069286,121.5059953,18,28,21,man,straight
 17,12,1998,,,,man,0,taipei,,gogooothecat,25.00573847,121.5061851,18,26,18,woman,straight
-10,4,1970,average_build,not_at_all,post_grad,woman,163,taipei,no,seve7nthecat,25.17370434,121.5063816,30,50,46,everyone,gay
+10,4,1970,average_build,not_at_all,post_grad,woman,163,taipei,no,seve7nthecat,25.17370434,121.5063816,30,50,46,woman,gay
 5,5,1990,rather_not_say,,,woman,0,taipei,,rowena_atuan,25.15491482,121.5066992,20,38,26,man,straight
 31,1,1979,thin,socially,university,woman,152,taipei,no,jadedrose35,25.0525235,121.5067266,35,40,37,man,straight
 6,1,1980,,,,woman,0,taipei,,yichingliu,25.00143207,121.5068494,25,58,37,man,straight
@@ -1430,7 +1430,7 @@ birthDateDay,birthDateMonth,birthDateYear,bodytype,drinking,educationValue,gende
 15,10,1985,,,,woman,0,taipei,,lolitiffany,24.93447875,121.5167221,31,35,31,man,straight
 14,10,1988,,,,man,0,taipei,,andreataipei,24.96890666,121.516808,21,42,28,woman,straight
 17,10,1983,average_build,socially,post_grad,man,178,taipei,no,yihuan3663,25.17142514,121.5168392,23,35,33,woman,straight
-5,4,1983,,socially,university,man,180,taipei,no,valterosaul,25.0809636,121.5168684,30,40,33,everyone,gay
+5,4,1983,,socially,university,man,180,taipei,no,valterosaul,25.0809636,121.5168684,30,40,33,man,gay
 27,1,1985,fit,socially,post_grad,man,188,taipei,no,chilin127,24.94322001,121.5168831,21,31,31,woman,straight
 24,3,1982,,socially,post_grad,woman,0,taipei,no,lol_tp,25.15138465,121.5169687,28,42,34,man,straight
 1,3,1983,average_build,socially,university,man,178,taipei,sometimes,chiahung0301,24.97965478,121.5170397,23,60,33,everyone,bisexual
@@ -1655,7 +1655,7 @@ birthDateDay,birthDateMonth,birthDateYear,bodytype,drinking,educationValue,gende
 31,7,1966,average_build,socially,university,woman,155,taipei,no,ifannie0731,25.01984554,121.5323778,47,55,50,man,straight
 9,11,1977,,,,woman,163,taipei,no,chocomilk_w,24.94467531,121.5324856,26,50,39,man,straight
 2,11,1969,thin,socially,,woman,160,taipei,no,amiw333,25.06932724,121.5326918,46,55,47,man,straight
-29,4,1988,,,,man,0,taipei,,occult30,25.12387269,121.532932,21,42,28,everyone,gay
+29,4,1988,,,,man,0,taipei,,occult30,25.12387269,121.532932,21,42,28,man,gay
 18,3,1987,,socially,,woman,164,taipei,no,pearl318,24.99119456,121.5331287,20,47,29,man,straight
 13,2,1996,,,,woman,155,taipei,,sharon0213,25.05548151,121.5331362,18,28,20,man,straight
 25,3,1992,,socially,,man,0,taipei,,silencemonkey,25.08543736,121.5331687,19,34,24,woman,straight
@@ -1685,7 +1685,7 @@ birthDateDay,birthDateMonth,birthDateYear,bodytype,drinking,educationValue,gende
 18,5,1981,average_build,socially,university,man,0,taipei,no,ethan-vwgti,25.0450239,121.5348924,23,48,35,woman,straight
 26,11,1996,,socially,university,man,165,taipei,no,ivanfan,25.02215279,121.5349506,18,26,20,woman,straight
 16,10,1970,fit,socially,university,man,181,taipei,no,cat_terrylee,25.08398401,121.5349589,18,55,46,woman,straight
-18,11,1988,,,,woman,0,taipei,,pingpong2u,25.10256917,121.534998,21,42,28,everyone,gay
+18,11,1988,,,,woman,0,taipei,,pingpong2u,25.10256917,121.534998,21,42,28,woman,gay
 18,4,1987,,socially,,man,195,taipei,no,phil18041987,24.79685249,121.5351238,20,38,29,woman,straight
 28,11,1983,average_build,socially,,woman,160,taipei,no,veronyh,25.0329636,121.5352544,24,35,33,man,straight
 20,8,1990,,,,woman,0,taipei,,pgmagg,25.12927508,121.53536,26,35,26,man,straight
@@ -1700,7 +1700,7 @@ birthDateDay,birthDateMonth,birthDateYear,bodytype,drinking,educationValue,gende
 17,4,1995,average_build,socially,university,woman,160,taipei,no,diane275,25.05636261,121.5360459,18,45,21,man,straight
 22,9,1983,,,,man,0,taipei,,reno-r,25.09266509,121.536047,20,35,33,woman,straight
 10,2,1990,,socially,,man,175,taipei,,colakoyang,25.00709038,121.5360972,18,35,26,woman,straight
-12,9,1994,a_little_extra,socially,university,woman,160,taipei,no,chris_y912,24.92616748,121.5362224,20,30,22,everyone,gay
+12,9,1994,a_little_extra,socially,university,woman,160,taipei,no,chris_y912,24.92616748,121.5362224,20,30,22,woman,gay
 27,10,1971,average_build,socially,university,woman,0,taipei,no,6thavenue,25.05705999,121.5362691,30,52,45,man,straight
 22,8,1988,,socially,university,woman,158,taipei,,ceeceeyt,25.08870496,121.5362811,29,36,28,man,straight
 1,1,1991,average_build,socially,post_grad,woman,160,taipei,no,kathrorine,24.99951493,121.5363006,20,40,26,man,straight
@@ -1790,7 +1790,7 @@ birthDateDay,birthDateMonth,birthDateYear,bodytype,drinking,educationValue,gende
 20,12,1997,,,,woman,0,taipei,,amy80124,25.00272602,121.5423499,18,26,19,man,straight
 27,11,1969,average_build,often,,man,181,taipei,sometimes,handolkim,25.04301385,121.5423603,25,48,47,woman,straight
 25,1,1978,average_build,socially,university,woman,163,taipei,no,bonnieregina,25.10572479,121.5424383,33,46,38,man,straight
-26,6,1993,fit,socially,university,man,170,taipei,no,evanxfavor,24.94724931,121.5424991,23,35,23,everyone,gay
+26,6,1993,fit,socially,university,man,170,taipei,no,evanxfavor,24.94724931,121.5424991,23,35,23,man,gay
 26,4,1970,fit,not_at_all,post_grad,man,179,taipei,no,epicure_hsu,25.09365326,121.5425797,25,50,46,woman,straight
 4,11,1979,,not_at_all,,woman,165,taipei,no,sara-ssra,25.05677312,121.5425815,25,60,37,man,straight
 21,5,1991,,socially,university,woman,156,taipei,no,winnielulu,25.04440852,121.5426386,27,32,25,man,straight
@@ -1897,11 +1897,11 @@ birthDateDay,birthDateMonth,birthDateYear,bodytype,drinking,educationValue,gende
 27,3,1993,,,,man,0,taipei,,luluhaha,25.27322334,121.5485918,18,32,23,woman,straight
 9,6,1988,,socially,post_grad,woman,159,taipei,no,3san3,25.04836644,121.5486309,25,35,28,man,straight
 1,8,1980,,,,woman,0,taipei,,amersha,24.99880211,121.5487601,30,36,36,man,straight
-27,7,1996,thin,socially,university,man,168,taipei,no,kayong,25.02732026,121.5487815,18,26,20,everyone,gay
+27,7,1996,thin,socially,university,man,168,taipei,no,kayong,25.02732026,121.5487815,18,26,20,man,gay
 27,6,1990,fit,socially,university,man,178,taipei,no,theaaronlee,24.97724512,121.5487832,18,25,26,woman,straight
 19,8,1971,,,,woman,0,taipei,,lilycola,25.0329636,121.5488063,38,55,45,man,straight
 21,2,1982,,,,man,0,taipei,,marmasummer,25.06583741,121.5488979,24,54,34,woman,straight
-2,6,1991,fit,,,man,175,taipei,,tonykch,24.98988668,121.548935,19,41,25,everyone,gay
+2,6,1991,fit,,,man,175,taipei,,tonykch,24.98988668,121.548935,19,41,25,man,gay
 22,5,1989,,socially,two_year_college,woman,167,taipei,no,benamao,25.06346469,121.5489884,20,40,27,man,straight
 14,1,1985,average_build,not_at_all,,woman,160,taipei,no,irisrabbit,25.11199586,121.5490334,25,35,31,man,straight
 1,12,1992,,socially,,man,177,taipei,no,paulpaul2016,25.01091951,121.5490907,19,34,24,woman,straight
@@ -1973,7 +1973,7 @@ birthDateDay,birthDateMonth,birthDateYear,bodytype,drinking,educationValue,gende
 6,8,1989,,,,woman,0,taipei,,yanachen,24.984253,121.5530044,27,40,27,man,straight
 2,5,1985,,,,man,0,taipei,,scampygrassnake,25.09875307,121.5531245,22,35,31,woman,straight
 10,11,1977,fit,socially,university,woman,157,taipei,,whatever16544,25.02325486,121.5532811,21,50,39,man,straight
-14,3,1992,thin,,,man,173,taipei,no,james81314,25.09056729,121.553337,22,40,24,everyone,gay
+14,3,1992,thin,,,man,173,taipei,no,james81314,25.09056729,121.553337,22,40,24,man,gay
 19,5,1984,average_build,socially,post_grad,woman,165,taipei,no,bonniecai,24.9582748,121.5533495,30,40,32,man,straight
 10,4,1966,,,,woman,0,taipei,no,bdmasa,25.18952926,121.5534268,35,50,50,man,straight
 9,7,1987,,socially,post_grad,woman,163,taipei,no,jdvoyage,24.83420584,121.5534703,21,44,29,man,straight
@@ -2127,7 +2127,7 @@ birthDateDay,birthDateMonth,birthDateYear,bodytype,drinking,educationValue,gende
 14,4,1967,average_build,socially,,man,168,taipei,,malo-saurus,24.96023633,121.562933,31,55,49,woman,straight
 27,10,1987,,,,woman,0,taipei,,clairetw,25.04589463,121.5630958,21,44,29,man,straight
 29,8,1978,fit,socially,,woman,166,taipei,no,mimi870595,25.00633244,121.5631039,30,58,38,man,straight
-9,2,1991,fit,socially,university,man,177,taipei,sometimes,littlestartsai,24.97914229,121.5631411,19,36,25,everyone,gay
+9,2,1991,fit,socially,university,man,177,taipei,sometimes,littlestartsai,24.97914229,121.5631411,19,36,25,man,gay
 3,2,1990,,socially,university,woman,155,taipei,no,maine0203,25.05291925,121.56329,30,45,26,man,straight
 15,11,1994,,socially,university,woman,164,taipei,,doris753b,24.8721919,121.5634005,21,26,22,man,straight
 26,3,1992,,,,woman,0,taipei,,puddingwang,25.0700815,121.5636816,24,30,24,man,straight
@@ -2142,7 +2142,7 @@ birthDateDay,birthDateMonth,birthDateYear,bodytype,drinking,educationValue,gende
 29,11,1987,,,,woman,0,taipei,,irisclairethecat,24.87349516,121.5654268,25,50,29,man,straight
 20,11,1984,,socially,,woman,0,taipei,sometimes,naffyj,24.89078351,121.5654268,27,37,32,man,straight
 9,3,1967,,,,woman,0,taipei,,katherine5639,24.91056777,121.5654268,39,84,49,man,straight
-8,9,1981,average_build,not_at_all,post_grad,man,171,taipei,no,ru8456,24.91458354,121.5654268,30,40,35,everyone,gay
+8,9,1981,average_build,not_at_all,post_grad,man,171,taipei,no,ru8456,24.91458354,121.5654268,30,40,35,man,gay
 9,8,1978,fit,socially,university,man,173,taipei,no,kylebasstwn,24.92561897,121.5654268,18,58,38,woman,straight
 21,7,1994,,,,man,0,taipei,,henryyyy12,24.96225653,121.5654268,18,30,22,woman,straight
 21,6,1982,,,post_grad,woman,161,taipei,,leila_ch,24.96341473,121.5654268,26,40,34,man,straight
@@ -2319,7 +2319,7 @@ birthDateDay,birthDateMonth,birthDateYear,bodytype,drinking,educationValue,gende
 2,9,1985,overweight,,university,woman,0,taipei,no,anitainmytwlife,24.98778906,121.5757361,21,40,31,man,straight
 3,11,1988,,,,woman,0,taipei,no,shihyun,25.38803606,121.5757361,20,38,28,man,straight
 24,8,1993,average_build,,,woman,158,taipei,no,hayleyism,24.99848084,121.5758299,18,30,23,man,straight
-19,11,1983,average_build,socially,,man,170,taipei,no,landick,25.02523733,121.575898,19,60,33,everyone,gay
+19,11,1983,average_build,socially,,man,170,taipei,no,landick,25.02523733,121.575898,19,60,33,man,gay
 11,4,1981,,socially,,man,183,taipei,no,srupsilon,24.98579379,121.5759531,20,35,35,woman,straight
 11,7,1974,,,,woman,0,tien-mu,,lithz,25.12291672,121.5759959,27,68,42,man,straight
 26,2,1987,,,,woman,0,taipei,,funfunday,25.0971427,121.5762027,28,33,29,man,straight
@@ -2346,7 +2346,7 @@ birthDateDay,birthDateMonth,birthDateYear,bodytype,drinking,educationValue,gende
 21,3,1986,,,,woman,0,taipei,no,tingting_y,24.91813106,121.5773114,22,46,30,man,straight
 17,8,1984,,,,woman,0,taipei,,odysseygirl817,24.97258624,121.5775923,23,50,32,man,straight
 18,11,1986,,,,woman,0,taipei,,itscarohsu,24.96844747,121.5776967,22,36,30,man,straight
-17,12,1993,thin,socially,university,man,169,taipei,no,ives_li,24.9931566,121.5778282,22,39,23,everyone,gay
+17,12,1993,thin,socially,university,man,169,taipei,no,ives_li,24.9931566,121.5778282,22,39,23,man,gay
 6,5,1979,thin,not_at_all,post_grad,woman,155,taipei,no,deborahteoh,25.00434675,121.5779095,24,56,37,man,straight
 8,11,1983,thin,,post_grad,man,175,taipei,,williehu,25.0809636,121.5779896,23,52,33,woman,straight
 16,12,1985,fit,socially,post_grad,man,170,taipei,no,tonywongk21,24.98750905,121.5780531,24,32,31,woman,straight
@@ -2419,7 +2419,7 @@ birthDateDay,birthDateMonth,birthDateYear,bodytype,drinking,educationValue,gende
 28,1,1987,thin,socially,post_grad,man,173,taipei,no,bblase,24.9514972,121.582376,21,29,29,woman,straight
 17,9,1994,,,,woman,0,taipei,,onon_e,25.0273245,121.582376,20,30,22,man,straight
 26,2,1996,,socially,university,woman,156,taipei,no,ninaaa_l,25.12724931,121.582376,18,26,20,man,straight
-22,1,1989,average_build,socially,university,woman,165,taipei,no,jane0925,25.05244412,121.5824268,24,38,27,everyone,gay
+22,1,1989,average_build,socially,university,woman,165,taipei,no,jane0925,25.05244412,121.5824268,24,38,27,woman,gay
 9,11,1993,average_build,socially,university,woman,150,nan-shih-chiao,no,demil1109,24.99699719,121.5824539,20,50,23,man,straight
 21,10,1976,,,,man,0,taipei,,uzordhonest,25.23914917,121.5825697,32,41,40,woman,straight
 5,1,1994,,socially,post_grad,woman,164,taipei,no,shineirisyo,24.94187449,121.5826682,22,35,23,man,straight
@@ -2449,7 +2449,7 @@ birthDateDay,birthDateMonth,birthDateYear,bodytype,drinking,educationValue,gende
 9,12,1980,,,,woman,165,taipei,no,roney3366,24.98738719,121.58386,28,48,36,man,straight
 11,10,1990,,,,man,0,taipei,,noufayy,25.04800119,121.5839453,20,38,26,woman,straight
 18,1,1990,,,,woman,0,taipei,,cess_18,24.98779226,121.5840411,20,38,26,man,straight
-23,3,1987,average_build,socially,university,woman,165,taipei,no,taipeipig,25.07251162,121.5841184,18,35,29,everyone,gay
+23,3,1987,average_build,socially,university,woman,165,taipei,no,taipeipig,25.07251162,121.5841184,18,35,29,woman,gay
 26,1,1975,a_little_extra,socially,university,woman,0,taipei,no,baby8852,24.97235754,121.5841475,30,45,41,man,straight
 9,7,1990,,socially,,man,181,taipei,no,faustino888,24.86798044,121.5842356,18,37,26,woman,straight
 4,3,1986,,socially,,woman,0,taipei,no,loskfvz,25.17487779,121.5842503,28,45,30,man,straight
@@ -2517,7 +2517,7 @@ birthDateDay,birthDateMonth,birthDateYear,bodytype,drinking,educationValue,gende
 29,12,1976,fit,socially,,man,182,taipei,no,burningchili3,25.04059719,121.5895496,22,45,40,woman,straight
 10,11,1994,,,,woman,0,taipei,,shuanmania,25.06185937,121.5895814,18,30,22,man,straight
 3,1,1964,fit,socially,university,man,193,taipei,no,srfr3,25.09728213,121.589596,18,60,53,woman,straight
-22,3,1992,average_build,socially,,man,176,taipei,yes,a44455566,25.04609009,121.5898767,19,34,24,everyone,gay
+22,3,1992,average_build,socially,,man,176,taipei,yes,a44455566,25.04609009,121.5898767,19,34,24,man,gay
 15,9,1976,fit,socially,university,woman,165,taipei,sometimes,carrielin28,24.9079636,121.58995,30,45,40,man,straight
 26,1,1981,average_build,socially,,woman,160,taipei,no,reesespbcups26,25.02340337,121.5899804,33,40,35,man,straight
 9,12,1987,,socially,,woman,0,taipei,no,lisaluluy,24.93822676,121.5900905,18,80,29,everyone,bisexual
@@ -2614,8 +2614,8 @@ birthDateDay,birthDateMonth,birthDateYear,bodytype,drinking,educationValue,gende
 6,4,1990,jacked,socially,university,man,173,taipei,no,chrisliou,25.05685438,121.5961393,20,30,26,woman,straight
 7,12,1988,,,,man,0,taipei,no,lancer777,24.96959224,121.5962638,21,35,28,woman,straight
 20,5,1987,,socially,,woman,0,taipei,no,annattaipei,24.97980745,121.5963107,27,37,29,man,straight
-18,7,1989,a_little_extra,,,man,173,taipei,,kausiou,24.57217929,121.5963546,18,99,27,everyone,gay
-27,4,1990,,,,man,0,taipei,,rchentw,24.95033648,121.5964346,20,50,26,everyone,gay
+18,7,1989,a_little_extra,,,man,173,taipei,,kausiou,24.57217929,121.5963546,18,99,27,man,gay
+27,4,1990,,,,man,0,taipei,,rchentw,24.95033648,121.5964346,20,50,26,man,gay
 2,10,1988,thin,socially,post_grad,woman,157,taipei,no,waitplz,25.03960077,121.5964346,20,35,28,man,straight
 16,4,1979,,,,woman,0,taipei,,bag_o_nonie,25.00182173,121.5966118,35,45,37,man,straight
 25,9,1986,,,post_grad,woman,155,taipei,no,pinhui,25.20549881,121.5966255,25,40,30,man,straight
@@ -2658,7 +2658,7 @@ birthDateDay,birthDateMonth,birthDateYear,bodytype,drinking,educationValue,gende
 16,2,1989,thin,socially,university,woman,162,taipei,no,bag_o_joice,25.0329636,121.5991003,28,38,27,man,straight
 14,5,1985,average_build,socially,university,woman,168,taipei,no,emiliechou,24.99476135,121.599111,18,35,31,man,straight
 17,3,1980,,,,man,0,taipei,,seijiiiii,25.03076096,121.5991175,18,30,36,woman,straight
-9,9,1982,,,,man,0,taipei,,olivermw,24.95065907,121.5991492,24,54,34,everyone,gay
+9,9,1982,,,,man,0,taipei,,olivermw,24.95065907,121.5991492,24,54,34,man,gay
 30,3,1990,,,,man,0,taipei,,raychiu7330,24.95470273,121.5991821,20,38,26,woman,straight
 9,11,1965,fit,socially,,man,193,taipei,no,happyforever16,25.29189217,121.5992614,32,60,51,woman,straight
 1,1,1985,average_build,socially,university,woman,0,taipei,no,heyheyareyouok,24.86573952,121.5993251,29,46,32,man,straight
@@ -2807,7 +2807,7 @@ birthDateDay,birthDateMonth,birthDateYear,bodytype,drinking,educationValue,gende
 26,10,1984,,,,woman,0,taipei,,kayla3703,25.05302696,121.6086233,23,50,32,man,straight
 28,6,1997,,,,woman,0,taipei,,stu_stuuu,24.9799333,121.60867,18,26,19,man,straight
 15,12,1988,average_build,socially,university,woman,160,taipei,no,jaclyn1215,24.96808349,121.6089051,27,40,28,man,straight
-20,8,1992,,socially,university,man,178,taipei,no,culinary08,25.08157471,121.6089051,18,35,24,everyone,gay
+20,8,1992,,socially,university,man,178,taipei,no,culinary08,25.08157471,121.6089051,18,35,24,man,gay
 19,11,1993,,,,woman,170,taipei,,yiyi-kuo,25.04956111,121.6090235,18,32,23,man,straight
 6,9,1987,average_build,,university,woman,162,taipei,no,angel_didi,24.93460294,121.6091552,20,38,29,man,straight
 26,8,1986,,,,woman,0,taipei,,elaine0826inabox,25.17008735,121.6091835,22,46,30,man,straight
@@ -2951,7 +2951,7 @@ birthDateDay,birthDateMonth,birthDateYear,bodytype,drinking,educationValue,gende
 5,9,1979,thin,socially,post_grad,woman,160,taipei,,trippingt,25.00489342,121.6195313,33,43,37,man,straight
 24,11,1988,,,,woman,0,taipei,,stephaniealcanci,24.97965478,121.6195579,30,50,28,man,straight
 2,1,1980,average_build,socially,,man,185,taipei,no,johnk0102,25.03675627,121.6196203,24,36,37,woman,straight
-24,12,1977,average_build,socially,,man,174,taipei,no,kao1977,24.99930975,121.6196688,26,50,39,everyone,gay
+24,12,1977,average_build,socially,,man,174,taipei,no,kao1977,24.99930975,121.6196688,26,50,39,man,gay
 31,10,1993,,,,man,0,taipei,,denisconstantin,24.97627755,121.6197746,18,36,23,woman,straight
 3,6,1963,average_build,socially,post_grad,man,0,taipei,no,hsucf,25.46415626,121.6199481,23,45,53,woman,straight
 16,7,1991,,often,university,woman,154,taipei,no,zonalin,24.97640251,121.6199723,22,35,25,man,straight
@@ -3101,7 +3101,7 @@ birthDateDay,birthDateMonth,birthDateYear,bodytype,drinking,educationValue,gende
 19,5,1983,,,,woman,0,taipei,,shingingstart,25.03527041,121.6345512,30,40,33,man,straight
 28,8,1986,fit,socially,post_grad,woman,165,taipei,no,janewu28,24.99684903,121.634631,28,35,30,man,straight
 17,9,1966,rather_not_say,not_at_all,,woman,0,taipei,no,sabrina0917,25.02995759,121.6348712,30,55,50,man,straight
-8,10,1987,,socially,university,woman,0,taipei,sometimes,gracyshih,24.97519468,121.6349057,21,42,29,everyone,gay
+8,10,1987,,socially,university,woman,0,taipei,sometimes,gracyshih,24.97519468,121.6349057,21,42,29,woman,gay
 21,1,1986,average_build,socially,post_grad,man,177,taipei,no,martinko,25.14857054,121.6349057,24,34,30,woman,straight
 1,11,1990,,socially,,man,0,taipei,no,hisayhellonow,24.72808555,121.6351383,18,45,26,woman,straight
 1,7,1982,fit,socially,university,man,181,taipei,no,italian_o,24.99315095,121.6353569,18,32,34,woman,straight
@@ -3197,7 +3197,7 @@ birthDateDay,birthDateMonth,birthDateYear,bodytype,drinking,educationValue,gende
 5,9,1993,,,,woman,0,taipei,,hyacinthdialino,25.00230821,121.6518142,25,38,23,man,straight
 1,7,1993,,,,woman,0,taipei,,celiahoneylin,25.05595211,121.6522615,25,37,23,man,straight
 19,6,1989,,socially,university,woman,158,taipei,no,ladycoco9,25.09029918,121.6522689,27,35,27,man,straight
-21,10,1992,,,,woman,0,taipei,,onlyforninel,25.09631202,121.6522955,18,25,24,everyone,gay
+21,10,1992,,,,woman,0,taipei,,onlyforninel,25.09631202,121.6522955,18,25,24,woman,gay
 28,1,1985,,,post_grad,man,183,taipei,no,legend---ary,24.98250488,121.6523833,22,30,31,woman,straight
 23,9,1986,full_figured,socially,post_grad,woman,172,taipei,no,drymartinia,25.14407471,121.6523833,29,56,30,man,straight
 4,11,1992,fit,socially,post_grad,man,171,taipei,no,timonade,25.05637497,121.6527284,18,42,24,woman,straight
@@ -3223,7 +3223,7 @@ birthDateDay,birthDateMonth,birthDateYear,bodytype,drinking,educationValue,gende
 20,3,1987,average_build,not_at_all,university,woman,163,taipei,no,fremalyn,24.97414007,121.6593865,21,44,29,man,straight
 31,7,1987,a_little_extra,socially,university,man,181,taipei,no,dahweng,25.1449039,121.6594635,21,44,29,woman,straight
 26,2,1994,,,,man,182,taipei,,scottlee_1994,24.98168155,121.6601014,18,28,22,woman,straight
-4,5,1992,fit,socially,,man,178,taipei,no,charleswu,25.02370434,121.6606649,22,30,24,everyone,gay
+4,5,1992,fit,socially,,man,178,taipei,no,charleswu,25.02370434,121.6606649,22,30,24,man,gay
 3,12,1977,,,,woman,0,taipei,,yamiebenz,25.04894534,121.661034,38,52,39,man,straight
 8,8,1988,,,,woman,0,taipei,,sam0808thecat,25.14201232,121.6613864,21,42,28,man,straight
 8,8,1979,curvy,not_at_all,two_year_college,woman,161,taipei,no,ronskie-o-matic,25.0329636,121.6616835,36,50,37,man,straight
@@ -3295,12 +3295,12 @@ birthDateDay,birthDateMonth,birthDateYear,bodytype,drinking,educationValue,gende
 1,10,1988,,,university,woman,156,taipei,no,gwagwameow,25.0329636,121.6787769,25,32,28,man,straight
 7,12,1989,fit,,post_grad,woman,170,taipei,no,vanessacy,24.96562353,121.6788833,25,35,27,man,straight
 3,5,1993,,,,woman,0,taipei,,susanna1993,24.8642136,121.6789403,25,36,23,man,straight
-18,6,1984,,socially,post_grad,woman,163,taipei,no,blazy_y,25.10104871,121.6796459,22,46,32,everyone,gay
+18,6,1984,,socially,post_grad,woman,163,taipei,no,blazy_y,25.10104871,121.6796459,22,46,32,woman,gay
 27,4,1976,average_build,,,man,0,taipei,no,avocadomy,25.16774621,121.6798682,18,55,40,woman,straight
 3,8,1983,,,post_grad,woman,0,taipei,,jenninhaste,25.11978032,121.6809283,23,52,33,man,straight
 12,2,1982,curvy,socially,,woman,165,taipei,no,zyl168,24.97756587,121.6814489,34,44,34,man,straight
 22,11,1987,,not_at_all,,man,170,taipei,sometimes,remooocuteinabox,25.05910739,121.6815884,20,37,29,woman,straight
-5,8,1986,average_build,,,man,0,taipei,,eddieou,25.04944712,121.6819912,22,46,30,everyone,gay
+5,8,1986,average_build,,,man,0,taipei,,eddieou,25.04944712,121.6819912,22,46,30,man,gay
 21,12,1990,average_build,socially,university,man,178,taipei,no,qed93,25.07533648,121.6820935,18,50,26,woman,straight
 12,8,1998,thin,,,woman,172,taipei,no,kai_boobear,25.01728206,121.6821583,18,26,18,man,straight
 13,3,1992,fit,not_at_all,university,man,170,taipei,no,leoben313,25.07425824,121.6830739,19,30,24,woman,straight
@@ -3328,7 +3328,7 @@ birthDateDay,birthDateMonth,birthDateYear,bodytype,drinking,educationValue,gende
 14,12,1985,,,,man,0,taipei,,crsport,25.02537635,121.6964428,28,48,31,woman,straight
 30,3,1984,fit,,university,woman,163,taipei,,nijntjepluis,25.04522518,121.6964809,25,42,32,man,straight
 14,2,1981,,,,woman,163,taipei,no,kaya0214,25.01505726,121.6981428,28,45,35,man,straight
-12,10,1984,average_build,often,post_grad,woman,168,taipei,no,liebefrei,24.9232075,121.6983908,21,45,32,everyone,gay
+12,10,1984,average_build,often,post_grad,woman,168,taipei,no,liebefrei,24.9232075,121.6983908,21,45,32,woman,gay
 15,9,1976,fit,socially,post_grad,man,175,taipei,,kevin8taipei,25.11553241,121.6987601,23,52,40,woman,straight
 23,5,1988,fit,,post_grad,woman,170,taipei,no,cassiezu,24.98470322,121.7002583,25,38,28,man,straight
 6,1,1991,fit,socially,university,woman,163,taipei,no,jia_chang,24.95493812,121.7026109,25,35,26,man,straight
@@ -3363,7 +3363,7 @@ birthDateDay,birthDateMonth,birthDateYear,bodytype,drinking,educationValue,gende
 19,9,1990,,,,man,183,taipei,no,tanyc09,25.04846748,121.7201438,19,36,26,woman,straight
 4,11,1987,,,,man,0,taipei,,nikbugs,25.0123592,121.7214268,21,44,29,woman,straight
 17,4,1975,curvy,socially,post_grad,woman,158,taipei,no,livelife0417,25.33097685,121.7214552,26,56,41,man,straight
-1,1,1998,thin,socially,,woman,149,taipei,no,salvadorfang,25.06715163,121.7214778,18,20,19,everyone,gay
+1,1,1998,thin,socially,,woman,149,taipei,no,salvadorfang,25.06715163,121.7214778,18,20,19,woman,gay
 20,6,1978,curvy,,university,woman,155,taipei,,md-pjl,25.05022788,121.7221432,27,44,38,man,straight
 1,1,1990,,,,woman,0,taipei,,daisysy,25.12688625,121.7224516,20,38,27,man,straight
 8,7,1994,,,,woman,0,taipei,,parkshinye,24.98710822,121.7226849,24,30,22,man,straight
@@ -3423,7 +3423,7 @@ birthDateDay,birthDateMonth,birthDateYear,bodytype,drinking,educationValue,gende
 23,11,1985,,socially,post_grad,man,188,taipei,sometimes,tsaitang,25.03807607,121.7707839,22,48,31,woman,straight
 13,11,1990,,socially,,man,0,taipei,,ruehl1892,25.05163027,121.7718488,19,36,26,woman,straight
 23,11,1994,,not_at_all,university,woman,160,taipei,no,sweetie_chloe,25.00477871,121.7721576,18,30,22,man,straight
-21,11,1990,,not_at_all,university,man,168,taipei,no,bencome6868,24.99245434,121.7725697,18,50,26,everyone,gay
+21,11,1990,,not_at_all,university,man,168,taipei,no,bencome6868,24.99245434,121.7725697,18,50,26,man,gay
 29,3,1989,,,,woman,0,taipei,,sammiecai,25.01046871,121.7733914,20,40,27,man,straight
 21,6,1977,thin,socially,two_year_college,woman,167,taipei,no,cindyyuan,25.24129693,121.7734805,35,45,39,man,straight
 16,7,1992,,,,woman,168,taipei,no,lunayun,24.98835393,121.774382,24,34,24,man,straight
