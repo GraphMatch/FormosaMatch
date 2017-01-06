@@ -52,7 +52,6 @@ class User(object):
         user = self.find()
         if not user:
             user = Node("User",
-                        email=self.email,
                         username=self.username,
                         latitude=self.latitude,
                         longitude=self.longitude,
