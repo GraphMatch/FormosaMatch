@@ -9,6 +9,7 @@
     $('.button-collapse').sideNav();
     $('.parallax').parallax();
     $('select').material_select();
+    $(".modal").modal();
     $(".datepicker").pickadate({
       selectMonths: true,
       selectYears: 100,
@@ -44,6 +45,22 @@
     ///ALERT BUTTON
     $(".card-alert").on("click",".alert-button",function(){
       $(this).parent().fadeOut();
+    });
+
+    $(".looking-for").on("click",function() {
+      $("#looking-for").modal("open");
+    });
+
+    $(".interested-in").on("click",function() {
+      $("#interested-in").modal("open");
+    });
+
+    $(".age-range").on("click",function() {
+      $("#age-range").modal("open");
+    });
+
+    $(".range-distance").on("click",function() {
+      $("#range-distance").modal("open");
     });
 
 
