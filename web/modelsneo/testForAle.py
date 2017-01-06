@@ -26,3 +26,4 @@ print(user.get_matches())
 #get user Profile
 print(user.find())
 
+print(user.like_user('frank0728').check_if_match('frank0728'))

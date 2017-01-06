@@ -275,3 +275,23 @@ class User(object):
         query = query + 'order by ' + order + ' distance asc skip ' + str(startFrom) + ' limit ' + str(resultAmount);
 
         return self.graph.run(query).data()
+
+
+    def like_user(self,username):
+        query = "MATCH (n:User {username: '" +self.username+ "' }) MATCH (m:User {username: '" + username + "'}) CREATE (n)-[r:LIKES]->(m)"
+        self.graph.run(query).data()
+        return self
+
+
+    def check_if_match(self, username):
+        #check if the like is mutual
+        query = "MATCH (a:User {username:'" + username + "'}), (b:User {username:'" + self.username + "'}) WHERE (a)-[:LIKES]->(b) and (b)-[:LIKES]->(a) return a"
+        result = self.graph.run(query).data()
+        print(result)
+        if result is not None and result != []:
+            #we go a match!!
+            return True
+        return False
+
+
+
