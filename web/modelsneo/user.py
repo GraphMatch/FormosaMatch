@@ -6,6 +6,8 @@ from datetime import datetime
 #from passlib.hash import bcrypt
 from py2neo import Node, Relationship, Graph
 import py2neo
+from json import dumps
+
 
 def timestamp():
     """ create a timestamp """
@@ -33,15 +35,19 @@ class User(object):
         self.gender = gender
         self.age = age
         self.orientation = orientation
+        self.sexPreference = None
         if gender == 'woman' and orientation == 'straight':
             self.sexPreference = 'man'
-        if gender == 'woman' and orientation == 'gay':
+        elif gender == 'woman' and orientation == 'gay':
             self.sexPreference = 'woman'
-        if gender == 'man' and orientation == 'straight':
+        elif gender == 'woman' and orientation == 'bisexual':
+            self.sexPreference = 'everyone'
+        elif gender == 'man' and orientation == 'straight':
             self.sexPreference = 'woman'
-        if gender == 'man' and orientation == 'gay':
+        elif gender == 'man' and orientation == 'gay':
             self.sexPreference = 'man'
-
+        elif gender == 'man' and orientation == 'bisexual':
+            self.sexPreference = 'everyone'
         self.locationFormatted = locationFormatted
         self.height = height
         self.bodyType = bodyType
@@ -62,7 +68,7 @@ class User(object):
         """ register a new user if not exists """
 
         user = self.find()
-        if  latitude is None or longitude is None:
+        if self.latitude is None or self.longitude is None:
             print('CANT UPDATE WITH NO LAT LONG')
         elif not user:
             user = Node("User",
@@ -105,8 +111,8 @@ class User(object):
 
 
     def get_browse_nodes(self, distance = 25, gender = None, orientation = None, sexPreference = None,
-                    locationFormatted = None, minHeight = None, maxHeight = None, bodyType = None,
-                    drinking = None, educationValue = None, smoking = None, minAge = None, maxAge = None,
+                    minHeight = None, maxHeight = None, bodyType = None, drinking = None, educationValue = None,
+                         smoking = None, minAge = None, maxAge = None,
                     startFrom = 0, resultAmount = 20):
         """Find users close to me given the preferences."""
         #setting default values
@@ -160,19 +166,14 @@ class User(object):
             query = query + " AND (b.sexPreference = '" + sexPreference + "' or b.sexPreference is null or b.sexPreference = 'everyone')"
             order = order + 'b.sexPreference asc,'
 
-        # locationFormatted, expected a string
-        if locationFormatted is not None:
-            query = query + " AND (b.locationFormatted = '" + locationFormatted + "')"
-            order = order + 'b.locationFormatted asc,'
-
         # minHeight, expected a integer for cm
         if minHeight is not None:
-            query = query + " AND (toFloat(b.height) >= " + str(minHeight) + " or b.height is null or toFloat(b.height) = 0)"
+            query = query + " AND (toFloat(b.height) >= " + str(minHeight) + " or toFloat(b.height) = 0 or b.height is null)"
             order = order + 'b.heigh desc,'
 
         # maxHeight, expected a integer for cm
         if maxHeight is not None:
-            query = query + " AND (toFloat(b.height) <= " + str(maxHeight) + " or b.height is null or toFloat(b.height) = 0)"
+            query = query + " AND (toFloat(b.height) <= " + str(maxHeight) + " or toFloat(b.height) = 0 or b.height is null)"
 
         # bodyType, expected a string (may become a list in future?)
         if bodyType is not None:
@@ -186,7 +187,6 @@ class User(object):
 
        # educationValue, expected a string
         if educationValue is not None:
-            query = query + " AND (b.educationModifier = 'working_on' or b.educationModifier is null)"
             query = query + " AND (b.educationValue  = '" + educationValue + "' or b.educationValue is null)"
             order = order + 'b.educationValue asc,'
 
@@ -215,9 +215,9 @@ class User(object):
         print(query)
         version = py2neo.__version__.split('.')
         if int(version[0]) >= 3:
-            return self.graph.run(query).data()
+            return dumps(self.graph.run(query).data())
         else:
-            return self.graph.cypher.execute(query)
+            return dumps(self.graph.cypher.execute(query))
 
 
     def like_user(self,username):
@@ -226,7 +226,8 @@ class User(object):
             self.graph.run(query).data()
         else:
             self.graph.cypher.execute(query)
-        return self
+        matched = self.check_if_match(username)
+        return dumps([{'created': True, 'matched': matched}])
 
 
     def check_if_match(self, username):
@@ -254,6 +255,6 @@ class User(object):
         query = "MATCH (a:User {username:'" + self.username + "'}), (b:User) WHERE (a)-[:MATCH]-(b) return b "
         query = query + ' skip ' + str(startFrom) + ' limit ' + str(resultAmount);
         if int(self.version[0]) >= 3:
-            return self.graph.run(query).data()
+            return dumps(self.graph.run(query).data())
         else:
-            return self.graph.cypher.execute(query)
+            return dumps(self.graph.cypher.execute(query))

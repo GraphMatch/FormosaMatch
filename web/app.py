@@ -32,8 +32,6 @@ db = SQLAlchemy(app)
 mail = Mail(app)
 
 from modelssql.user import User
-from modelssql.token import generate_confirmation_token, confirm_token
-from modelssql.email import send_email
 from modelsneo.user import User as UserNeo
 
 
@@ -72,7 +70,7 @@ def dashboard():
 
 @app.route('/register', methods=['POST'])
 def register():
-    preference = request.form['preference']
+    orientation = request.form['orientation']
     gender = request.form['gender']
     birth_date_submit = request.form['birth_date']
     country = request.form['country']
@@ -93,7 +91,7 @@ def register():
             return redirect(url_for('index'))
 
         birth_date = datetime.datetime.strptime(birth_date_submit, "%Y-%m-%d")
-        user = User(preference, gender, birth_date, country, city, email, username, password)
+        user = User(orientation, gender, birth_date, country, city, email, username, password)
         """
             Check if the is old enough for our service
         """
@@ -164,7 +162,7 @@ def register():
         status = False
 
         try:
-            if (UserNeo(graph=graph, username=username, latitude=g.latlng[0], longitude=g.latlng[1], gender = gender, age=user.calculate_age(), orientation = preference, locationFormatted = city).register()):
+            if (UserNeo(graph=graph, username=username, latitude=g.latlng[0], longitude=g.latlng[1], gender = gender, age=user.calculate_age(), orientation = orientation, locationFormatted = city).register()):
                 status = True
 
         except:
@@ -245,9 +243,9 @@ def profile():
             filename = str(uuid.uuid1()) + '.' + secure_filename(file.filename).split(".")[-1]
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 
-        preference = request.form['preference']
+        orientation = request.form['orientation']
         gender = request.form['gender']
-        sex_interest = request.form['sex_interest']
+        # sexPreference = request.form['sexPreference']
         age_range_min = request.form['age_range_min']
         age_range_max = request.form['age_range_max']
         body_type = request.form['body_type']
@@ -297,7 +295,7 @@ def profile():
         user.latitude = g.latlng[0]
         user.longitude = g.latlng[1]
         user.profile_picture = filename
-        user.preference = preference
+        user.orientation = orientation
         user.gender = gender
         birth_date = datetime.datetime.strptime(birth_date_submit, "%Y-%m-%d")
         user.birth_date = birth_date
@@ -306,8 +304,8 @@ def profile():
             user.password = bcrypt.generate_password_hash(password).decode('utf-8')
         user_neo = UserNeo(graph=graph, username=username, latitude=g.latlng[0], longitude=g.latlng[1],
             minAge = age_range_min, maxAge = age_range_max, gender = gender, age=user.calculate_age(),
-            orientation = preference, locationFormatted = city,
-            bodyType = body_type, drinking = drinking, sexPreference = sex_interest,
+            orientation = orientation, locationFormatted = city,
+            bodyType = body_type, drinking = drinking,
             educationValue = educationValue, smoking = smoking, height = heightCm)
         user_neo.register()
         db.session.commit()
