@@ -274,5 +274,4 @@ class User(object):
         query = query + ' RETURN b.username, b.age, b.locationFormatted, toInt(distance(point(a),point(b)) / 1000) as distance '
         query = query + 'order by ' + order + ' distance asc skip ' + str(startFrom) + ' limit ' + str(resultAmount);
 
-        print(query)
         return self.graph.run(query).data()
