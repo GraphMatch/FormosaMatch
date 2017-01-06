@@ -101,10 +101,15 @@ class User(object):
         #setting default values
         user = self.find()
         if gender is None:
-            if user['gender'] == 'woman':
+            if user['gender'] == 'woman' and user['orientation'] == 'straight':
                 gender = 'man'
-            else:
+            elif user['gender'] == 'woman' and user['orientation'] == 'gay':
                 gender = 'woman'
+            elif user['gender'] == 'man' and user['orientation'] == 'straight':
+                gender = 'woman'
+            elif user['gender'] == 'man' and user['orientation'] == 'gay':
+                gender = 'man'
+
 
         if minAge is None:
             minAge = user['age'] - 5
