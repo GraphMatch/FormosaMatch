@@ -19,7 +19,7 @@ user = UserNeo(graph=graph, username='ale', latitude=20.312, longitude=120.4232,
 #                       drinking='socially', educationValue='post_grad', smoking='no',
 #                      minAge='18',maxAge='40',resultAmount=10,startFrom=0))
 
-#print(user.get_matches())
+print(user.get_browse_nodes())
 
 #get user Profile
 #print(user.find())

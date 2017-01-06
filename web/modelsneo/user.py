@@ -93,7 +93,7 @@ class User(object):
         return True
 
 
-    def get_matches(self, distance = 25, gender = None, orientation = None, sexPreference = None,
+    def get_browse_nodes(self, distance = 25, gender = None, orientation = None, sexPreference = None,
                     locationFormatted = None, minHeight = None, maxHeight = None, bodyType = None,
                     drinking = None, educationValue = None, smoking = None, minAge = None, maxAge = None,
                     startFrom = 0, resultAmount = 10):
