@@ -11,13 +11,13 @@ graph = Graph(host='127.0.0.1', http_port=7474, https_port= 7473, bolt_port=7687
 ##instance User
 user = UserNeo(graph=graph, username='ale', latitude=20.312, longitude=120.4232, gender ='woman')
 #create or update User
-user.register()
+#user.register()
 #get Matches
 ##all filters are optional
-print(user.get_matches(distance=1000, gender = 'man', orientation='straight',sexPreference='woman',
-                      locationFormatted='taipei', minHeight=100, maxHeight=200, bodyType='fit',
-                       drinking='socially', educationValue='post_grad', smoking='no',
-                      minAge='18',maxAge='40',resultAmount=10,startFrom=0))
+#print(user.get_matches(distance=1000, gender = 'man', orientation='straight',sexPreference='woman',
+#                      locationFormatted='taipei', minHeight=100, maxHeight=200, bodyType='fit',
+#                       drinking='socially', educationValue='post_grad', smoking='no',
+#                      minAge='18',maxAge='40',resultAmount=10,startFrom=0))
 
 #print(user.get_matches())
 
@@ -29,4 +29,4 @@ print(user.get_matches(distance=1000, gender = 'man', orientation='straight',sex
 user2 = UserNeo(graph=graph, username='frank0728',latitude=2.32,longitude=43.2)
 #user2.check_if_match('ale')
 
-print(user2.get_matches())
+print(user.get_matches())
