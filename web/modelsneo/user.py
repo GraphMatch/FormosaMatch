@@ -21,8 +21,8 @@ def date():
 class User(object):
     """ user object """
 
-    def __init__(self, graph, username, latitude, longitude, gender = 'woman', age = None,orientation = None,
-                 sexPreference = None, locationFormatted = 'taipei', height = 0, bodyType = None, drinking = None,
+    def __init__(self, graph, username, latitude = None, longitude = None, gender = 'woman', age = None,orientation = None
+                 , locationFormatted = 'taipei', height = 0, bodyType = None, drinking = None,
                  educationValue = None, smoking = None,  minAge = None, maxAge = None
                  ):
         """ set values """
@@ -33,7 +33,15 @@ class User(object):
         self.gender = gender
         self.age = age
         self.orientation = orientation
-        self.sexPreference = sexPreference
+        if gender == 'woman' and orientation == 'straight':
+            self.sexPreference = 'man'
+        if gender == 'woman' and orientation == 'gay':
+            self.sexPreference = 'woman'
+        if gender == 'man' and orientation == 'straight':
+            self.sexPreference = 'woman'
+        if gender == 'man' and orientation == 'gay':
+            self.sexPreference = 'man'
+
         self.locationFormatted = locationFormatted
         self.height = height
         self.bodyType = bodyType
@@ -52,8 +60,11 @@ class User(object):
 
     def register(self):
         """ register a new user if not exists """
+
         user = self.find()
-        if not user:
+        if  latitude is None or longitude is None:
+            print('CANT UPDATE WITH NO LAT LONG')
+        elif not user:
             user = Node("User",
                         username=self.username,
                         latitude=self.latitude,
@@ -93,10 +104,10 @@ class User(object):
         return True
 
 
-    def get_matches(self, distance = 25, gender = None, orientation = None, sexPreference = None,
+    def get_browse_nodes(self, distance = 25, gender = None, orientation = None, sexPreference = None,
                     locationFormatted = None, minHeight = None, maxHeight = None, bodyType = None,
                     drinking = None, educationValue = None, smoking = None, minAge = None, maxAge = None,
-                    startFrom = 0, resultAmount = 10):
+                    startFrom = 0, resultAmount = 20):
         """Find users close to me given the preferences."""
         #setting default values
         user = self.find()
@@ -200,7 +211,8 @@ class User(object):
             query = query + 'order by ' + order
 
         query = query + ' skip ' + str(startFrom) + ' limit ' + str(resultAmount);
-        #print(query)
+
+        print(query)
         version = py2neo.__version__.split('.')
         if int(version[0]) >= 3:
             return self.graph.run(query).data()
