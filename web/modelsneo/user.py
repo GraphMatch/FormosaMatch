@@ -4,7 +4,7 @@
 import uuid
 from datetime import datetime
 #from passlib.hash import bcrypt
-from py2neo import Node, Relationship
+from py2neo import Node, Relationship, Graph
 
 def timestamp():
     """ create a timestamp """
@@ -136,42 +136,143 @@ class User(object):
             user.push()
         return True
 
-    # def get_similar_users(self):
-    #     """Find three users who are most similar to the logged-in user
-    #     based on tags they've both blogged about."""
-    #     query = """
-    #     MATCH (you:User)-[:PUBLISHED]->(:Project)<-[:TAGGED]-(tag:Tag),
-    #           (they:User)-[:PUBLISHED]->(:Project)<-[:TAGGED]-(tag)
-    #     WHERE you.email = {email} AND you <> they
-    #     WITH they, COLLECT(DISTINCT tag.name) AS tags, COUNT(DISTINCT tag) AS len
-    #     ORDER BY len DESC LIMIT 3
-    #     RETURN they.username AS similar_user, tags
-    #     """
-    #
-    #     return self.graph.cypher.execute(query, email=self.email)
 
-    # def get_similar_users_lang(self):
-    #     """Find three users who are most similar to the logged-in user
-    #     based on languages they've both use."""
-    #     query = """
-    #     MATCH (you:User)-[:USE]->(l:Language)<-[:USE]-(u:User)
-    #     WHERE you.email = {email} AND you <> u
-    #     WITH u, COLLECT(l.name) as langs
-    #     RETURN u.username AS similar_user, langs
-    #     """
-    #
-    #     return self.graph.cypher.execute(query, email=self.email)
+    def get_matches(self, distance = None, gender = None, orientation = None, sexPreference = None,
+                    locationFormatted = None, status = None, language = None, ethnicity = None, minHeight = None,
+                    maxHeight = None, bodyType = None, cats = None, childrenHave = None, diet = None, dogs = None,
+                    drinking = None, drugs = None, educationValue = None, monogamous = None, sign = None,
+                    smoking = None, religionValue = None, weed = None, minAge = None, maxAge = None, startFrom = 0,
+                    resultAmount = 10):
+        """Find users close to me given the preferences."""
+        query = "match (a:User {username: '" + self.username + "'}),(b:User {}) "
+        query = query + ' WHERE 1 = 1'
+        order = ''
 
-    # def get_commonality_of_user(self, email):
-    #     """Find how many of the logged-in user's posts the other user
-    #     has liked and which tags they've both blogged about. """
-    #     query = """
-    #     MATCH (they:User {email:{they}}),
-    #           (you:User {email:{you}})
-    #     OPTIONAL MATCH (they)-[:LIKED]->(project:Project)<-[:PUBLISHED]-(you)
-    #     OPTIONAL MATCH (they)-[:PUBLISHED]->(:Project)<-[:TAGGED]-(tag:Tag),
-    #                    (you)-[:PUBLISHED]->(:Project)<-[:TAGGED]-(tag)
-    #     RETURN COUNT(DISTINCT project) AS likes, COLLECT(DISTINCT tag.name) AS tags
-    #     """
-    #
-    #     return self.graph.cypher.execute(query, they=email, you=self.email)[0]
+        #distance, expected Integer
+        if distance is not None:
+            query = query + ' AND toInt(distance(point(a),point(b)) / 1000) <=  ' + str(distance)
+
+        #expected 'woman' or 'man'
+        if gender is not None:
+            query = query + " AND (b.gender = '" + gender + "' or b.gender is null) "
+            order = order + 'b.gender asc,'
+
+        #orientation, expected 'straight', 'bisexual' or 'gay'
+        if orientation is not None:
+            query = query + " AND (b.orientation = '" + orientation + "' or b.orientation is null)"
+            order = order + 'b.orientation asc,'
+
+        # sexPreference, expected 'woman', 'man' or 'everyone'
+        if sexPreference is not None:
+            query = query + " AND (b.sexPreference = '" + sexPreference + "' or b.sexPreference is null)"
+            order = order + 'b.sexPreference asc,'
+
+        # locationFormatted, expected a string
+        if locationFormatted is not None:
+            query = query + " AND (b.locationFormatted = '" + locationFormatted + "' or b.locationFormatted is null)"
+            order = order + 'b.locationFormatted asc,'
+
+        # status, expected a string
+        if status is not None:
+            query = query + " AND (b.status = '" + status + "' or b.status is null)"
+            order = order + 'b.status asc,'
+
+        # language, expected a string
+        if language is not None:
+            query = query + " AND (b.language = '" + language + "' or b.language is null)"
+            order = order + 'b.language asc,'
+
+        # ethnicity, expected a string
+        if ethnicity is not None:
+            query = query + " AND (b.ethnicity = '" + ethnicity + "' or b.ethnicity is null)"
+            order = order + 'b.ethnicity asc,'
+
+        # minHeight, expected a integer for cm
+        if minHeight is not None:
+            query = query + " AND (toFloat(b.height) >= " + str(minHeight) + " or b.height is null or toFloat(b.height) = 0)"
+            order = order + 'b.heigh desc,'
+
+        # maxHeight, expected a integer for cm
+        if maxHeight is not None:
+            query = query + " AND (toFloat(b.height) <= " + str(maxHeight) + " or b.height is null or toFloat(b.height) = 0)"
+
+        # bodyType, expected a string (may become a list in future?)
+        if bodyType is not None:
+            query = query + " AND (b.bodyType = '" + bodyType + "' or b.bodyType is null)"
+            order = order + 'b.bodyType asc,'
+
+        # cats, expected a string
+        if cats is not None:
+            query = query + " AND (b.cats = '" + cats + "' or b.cats is null)"
+            order = order + 'b.cats asc,'
+        # children have, expected a string
+        if childrenHave is not None:
+            query = query + " AND (b.childrenHave = '" + childrenHave + "' or b.childrenHave is null)"
+            order = order + 'b.childrenHave asc,'
+
+        # diet, expected a string
+        if diet is not None:
+            query = query + " AND (b.diet = '" + diet + "' or b.diet is null)"
+            order = order + 'b.diet asc,'
+
+        # dogs, expected a string
+        if dogs is not None:
+            query = query + " AND (b.dogs = '" + dogs + "' or b.dogs is null)"
+            order = order + 'b.dogs asc,'
+
+        # drinking, expected a string
+        if drinking is not None:
+            query = query + " AND (b.drinking = '" + drinking + "' or b.drinking is null)"
+            order = order + 'b.drinking asc,'
+
+        # drugs, expected a string
+        if drugs is not None:
+            query = query + " AND (b.drugs = '" + drugs + "' or b.drugs is null)"
+            order = order + 'b.drugs asc,'
+
+        # educationValue, expected a string
+        if educationValue is not None:
+            query = query + " AND (b.educationModifier = 'working_on' or b.educationModifier is null)"
+            query = query + " AND (b.educationValue  = '" + educationValue + "' or b.educationValue is null)"
+            order = order + 'b.educationValue asc,'
+
+        # drugs, expected a string
+        if monogamous is not None:
+            query = query + " AND (b.monogamous = '" + monogamous + "' or b.monogamous is null)"
+            order = order + 'b.monogamous asc,'
+
+        # sign, expected a string
+        if sign is not None:
+            query = query + " AND (b.sign = '" + sign + "' or b.sign is null)"
+            order = order + 'b.sign asc,'
+
+        # smoking, expected a string
+        if smoking is not None:
+            query = query + " AND (b.smoking = '" + smoking + "' or b.smoking is null)"
+            order = order + 'b.smoking asc,'
+
+        # religioValue, expected a string
+        if religionValue is not None:
+            query = query + " AND (b.religionModifier = 'and_its_important' or b.religionModifier is null)"
+            query = query + " AND (b.religionValue  = '" + religionValue + "' or b.religionValue is null)"
+            order = order + 'b.religionValue asc,'
+
+        # weed, expected a string
+        if weed is not None:
+            query = query + " AND (b.weed = '" + weed + "' or b.weed is null)"
+            order = order + 'b.weed asc,'
+
+        # minAge, expected a integer for age
+        if minAge is not None:
+            query = query + " AND (toFloat(b.age) >= " + str(minAge) + " or b.age is null or toFloat(b.age) = 0)"
+            order = order + 'b.age asc,'
+
+        # maxHeight, expected a integer for cm
+        if maxAge is not None:
+            query = query + " AND (toFloat(b.age) <= " + str(maxAge) + " or b.age is null or toFloat(b.age) = 0)"
+
+        query = query + ' RETURN b.username, b.age, b.locationFormatted, toInt(distance(point(a),point(b)) / 1000) as distance '
+        query = query + 'order by ' + order + ' distance asc skip ' + str(startFrom) + ' limit ' + str(resultAmount);
+
+        print(query)
+        return self.graph.run(query).data()
