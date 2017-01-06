@@ -7,12 +7,18 @@
   </head>
   <body>
     <header>
-      <nav class="top-nav">
-        <div class="container">
-          <div class="nav-wrapper"><a class="page-title">Cards</a></div>
+      <nav class="top-nav deep-purple lighten-1">
+
+          <div class="nav-wrapper">
+            <a class="formosa-logo brand-logo center"><img src="../static/img/logo.png" alt=""></a>
+          </div>
+      </nav>
+      <nav class="top-nav deep-purple lighten-2">
+        <div class="match-status center">
+          <p>I'm looking for: <span class="looking-for">Women</span> who are interested in <span class="interested-in">men</span> ages <span class="age-min">20</span>-<span class="age-max">29</span> located within <span class="range-distance">25</span> kilometers of me</h5>
         </div>
       </nav>
-      <div class="container"><a href="#" data-activates="nav-mobile" class="button-collapse top-nav full hide-on-large-only"><i class="material-icons">menu</i></a></div>
+
       <!--<ul id="nav-mobile" class="side-nav fixed" style="width: 300px; transform: translateX(0%);">
         <li class="logo"><a id="logo-container" href="http://materializecss.com/" class="brand-logo">
             <object id="front-page-logo" type="image/svg+xml" data="res/materialize.svg">Your browser does not support SVG</object></a></li>
@@ -87,14 +93,71 @@
 
     </header>
     <main>
-      <div class="container">
-        
+      <div class="row container match-cards">
+        <div class="col m4">
+          <div class="card">
+            <div class="card-image">
+              <img src="https://scontent-hkg3-1.xx.fbcdn.net/v/t1.0-9/14199272_10153793602986994_6528017139146155017_n.jpg?oh=96ff396f3cbbbc3887242890b7b15266&oe=58DEE9DB">
+              <span class="card-title" style="width:100%; background: rgba(0, 0, 0, 0.5);">vicsanchez2</span>
+            </div>
+            <div class="center card-content">
+              <h5>24 · Hsinchu City</h5>
+            </div>
+            <div class="card-action center">
+              <a class="waves-effect waves-teal btn deep-purple lighten-2">Liked<i class="material-icons left">done</i></a>
+            </div>
+          </div>
+        </div>
+        <div class="col m4">
+          <div class="card">
+            <div class="card-image">
+              <img src="https://scontent-hkg3-1.xx.fbcdn.net/v/t1.0-9/14224726_10154410151630102_4417490480241454900_n.jpg?oh=c9cbeefb6d078518008762756113ca90&oe=59206B32">
+              <span class="card-title" style="width:100%; background: rgba(0, 0, 0, 0.5);">hectCam</span>
+            </div>
+            <div class="center card-content">
+              <h5>27 · Taipei</h5>
+            </div>
+            <div class="card-action center">
+              <a class="waves-effect waves-teal btn-flat no-like">Like</a>
+            </div>
+          </div>
+        </div>
+        <div class="col m4">
+          <div class="card">
+            <div class="card-image">
+              <img src="https://scontent-hkg3-1.xx.fbcdn.net/v/t1.0-9/15894241_10157898907775234_1181409786702853647_n.jpg?oh=ad5b761ae0f104b59c4ecbc42d52cea7&oe=58E28935">
+              <span class="card-title" style="width:100%; background: rgba(0, 0, 0, 0.5);">AlejandRamen</span>
+            </div>
+            <div class="center card-content">
+              <h5>29 · Taizhong</h5>
+            </div>
+            <div class="card-action center">
+              <a class="waves-effect waves-teal btn deep-purple lighten-2">Liked<i class="material-icons left">done</i></a>
+            </div>
+          </div>
+        </div>
+        <div class="col m4">
+          <div class="card">
+            <div class="card-image">
+              <img src="https://scontent-hkg3-1.xx.fbcdn.net/v/t1.0-9/13179398_10153464657216479_372899908850126625_n.jpg?oh=3148ce9e6760a5760035224ed037014f&oe=58E9E32B">
+              <span class="card-title" style="width:100%; background: rgba(0, 0, 0, 0.5);">roblesc</span>
+            </div>
+            <div class="center card-content">
+              <h5>22 · 台中</h5>
+            </div>
+            <div class="card-action center">
+              <a class="waves-effect waves-teal btn-flat no-like">Like</a>
+            </div>
+          </div>
+        </div>
+
+
       </div>
 
-      {% include "partials/chat.html"%}
     </main>
 
 
+    {% include "partials/chat.html"%}
     <!--  Scripts -->
     {% include "partials/scripts.html" %}
     <!--  End of Scripts-->

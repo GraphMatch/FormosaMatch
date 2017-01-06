@@ -49,7 +49,39 @@ color: rgba(255,255,255,.9);
     width: 80%
   }
 }
+main, header, footer {
+    padding-left: 300px;
+}
 
 .card {
     overflow: hidden;
+}
+
+.row {
+  margin-left: 15px;
+}
+
+.container {
+  width: 80%
+}
+
+.formosa-logo img {
+  height: 75px;
+}
+
+.page-title {
+  font-size: 24px;
+}
+
+.match-status span {
+  text-decoration-line: underline;
+  text-decoration-style: dotted;
+}
+
+.waves-effect {
+  z-index: 0;
+}
+
+.no-like {
+  color: #9575cd !important;
 }
