@@ -345,7 +345,8 @@ def like(username):
     else:
         return jsonify({'error': 'userNeo not found'})
 
-    return jsonify({'currentUsername': currentUsername})
+    msgStr = "User " + currentUsername + " liked " + username
+    return jsonify({'currentUsername': currentUsername, 'message': msgStr})
 
 if __name__ == '__main__':
     app.run()
