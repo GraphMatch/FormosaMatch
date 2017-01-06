@@ -15,10 +15,8 @@ user.register()
 #get Matches
 ##all filters are optional
 print(user.get_matches(distance=1000, gender = 'man', orientation='straight',sexPreference='woman',
-                       locationFormatted='taipei', status='single',language='english',ethnicity='asian',
-                       minHeight=100, maxHeight=200, bodyType='fit', cats='has_cats', childrenHave = 'doesnt_have',
-                       diet='omnivore',dogs='has_dogs', drinking='socially', drugs='never', educationValue='post_grad',
-                       monogamous='monogamous',sign=None, smoking='no',religionValue='christianity', weed = None,
+                       locationFormatted='taipei', minHeight=100, maxHeight=200, bodyType='fit',
+                       drinking='socially', educationValue='post_grad', smoking='no',
                        minAge='18',maxAge='40',resultAmount=10,startFrom=0))
 
 print(user.get_matches())
