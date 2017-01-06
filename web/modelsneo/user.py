@@ -255,6 +255,6 @@ class User(object):
         query = "MATCH (a:User {username:'" + self.username + "'}), (b:User) WHERE (a)-[:MATCH]-(b) return b "
         query = query + ' skip ' + str(startFrom) + ' limit ' + str(resultAmount);
         if int(self.version[0]) >= 3:
-            return dumps(self.graph.run(query).data())
+            return self.graph.run(query).data()
         else:
-            return dumps(self.graph.cypher.execute(query))
+            return self.graph.cypher.execute(query)

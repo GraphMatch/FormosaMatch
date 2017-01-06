@@ -346,5 +346,17 @@ def like(username):
     msgStr = "User " + currentUsername + " liked " + username
     return jsonify({'currentUsername': currentUsername, 'message': msgStr})
 
+@app.route('/my_matches', methods=['GET', 'POST'])
+def my_matches():
+    """ my_matches """
+    if(not is_authenticated(session)):
+        flash('Sorry! You need to log in order to access to this page!')
+        return redirect(url_for('index'))
+    currentUsername = session['username']
+    currentUserNeo = UserNeo(graph=graph, username=currentUsername)
+    matches = currentUserNeo.get_matches()
+    user = User.query.filter_by(username = session['username']).first()
+    return render_template('matches.html', current_user = user, matches = matches)
+
 if __name__ == '__main__':
     app.run()

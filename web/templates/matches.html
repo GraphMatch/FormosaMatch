@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    {% include "partials/head.html" %}
+    <link href="../static/css/chat.css" type="text/css" rel="stylesheet" media="screen,projection">
+    <link rel="stylesheet" href="//cdn.materialdesignicons.com/1.1.70/css/materialdesignicons.min.css">
+  </head>
+  <body>
+    <header>
+      <nav class="top-nav deep-purple lighten-1">
+          <div class="nav-wrapper">
+            <a class="formosa-logo brand-logo center"><img src="../static/img/logo.png" alt=""></a>
+          </div>
+      </nav>
+      {% include "partials/navbar.html" %}
+
+    </header>
+    <main>
+      {% if matches %}
+        <div class="row container match-cards">
+          {% for match in matches %}
+          <div class="col m4">
+            <div class="card">
+              <div class="card-image">
+                {% if current_user.profile_picture is defined and current_user.profile_picture != None %}
+                  <img src="../static/picture/{{ current_user.profile_picture }}">
+                {% else %}
+                  <img src="../static/picture/no-pic.png">
+                {% endif%}
+                <span class="card-title" style="width:100%; background: rgba(0, 0, 0, 0.5);">{{ match[0]['username'] }}</span>
+              </div>
+              <div class="center card-content">
+                <h5>{{ match[0]['age'] }} · {{ match[0]['locationFormatted'] }}</h5>
+              </div>
+              <div class="card-action center">
+                <a class="waves-effect waves-teal btn deep-purple lighten-2">Chat<i class="material-icons left">done</i></a>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      {% else %}
+        <div class="col s12 m7">
+          <div class="card horizontal">
+            <div class="card-image">
+              <img src="http://lorempixel.com/100/190/nature/6">
+            </div>
+            <div class="card-stacked">
+              <div class="card-content">
+                <p>Sorry no matches</p>
+              </div>
+              <div class="card-action">
+                <a href="#">Browse</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      {% endif %}
+    </main>
+
+    {% include "partials/chat.html"%}
+    <!--  Scripts -->
+    {% include "partials/scripts.html" %}
+    <!--  End of Scripts-->
+  </body>
+</html>
