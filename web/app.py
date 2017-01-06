@@ -146,19 +146,20 @@ def register():
             return redirect(url_for('index'))
 
         db.session.add(user)
-        status = False
+        # status = False
+        status = True
 
-        try:
-            if (UserNeo(graph=graph, email=email, username=username, latitude=g.latlng[0], longitude=g.latlng[1]).register()):
-                status = True
+        # try:
+            # if (UserNeo(graph=graph, email=email, username=username, latitude=g.latlng[0], longitude=g.latlng[1]).register()):
+                # status = True
 
-        except:
-            flash("Error on user creation")
-            formatted_lines = traceback.format_exc().splitlines()
-            for line in formatted_lines:
-                flash(line)
-            db.session.close()
-            return redirect(url_for('index'))
+        # except:
+        #     flash("Error on user creation")
+        #     formatted_lines = traceback.format_exc().splitlines()
+        #     for line in formatted_lines:
+        #         flash(line)
+        #     db.session.close()
+        #     return redirect(url_for('index'))
 
         if(status == True):
             session['username'] = username
@@ -317,6 +318,24 @@ def allowed_file(filename):
 def logout():
     logout_user(session)
     return redirect(url_for('index'))
+
+@app.route('/like/<username>')
+def like(username):
+    currentUsername = session.get('username')
+    currentUserNeo = UserNeo(graph=graph, username=currentUsername)
+    if (currentUserNeo.find()) is not None:
+        if (User.query.filter_by(username = username).first()) is not None:
+            userLikedNeo = UserNeo(graph=graph, username=username)
+            if (userLikedNeo.find()) is not None:
+                currentUserNeo.like_user(username)
+            else:
+                return jsonify({'error': 'userLikedNeo not found'})
+        else:
+            return jsonify({'error': 'userLiked not found'})
+    else:
+        return jsonify({'error': 'userNeo not found'})
+
+    return jsonify({'currentUsername': currentUsername})
 
 if __name__ == '__main__':
     app.run()

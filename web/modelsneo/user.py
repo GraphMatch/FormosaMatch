@@ -19,7 +19,7 @@ def date():
 
 class User(object):
     """ user object """
-    def __init__(self, graph, username, latitude, longitude, gender = None, age = None,orientation = None,
+    def __init__(self, graph, username, latitude=None, longitude=None, gender = None, age = None,orientation = None,
                  sexPreference = None, locationFormatted = None, height = None, bodyType = None, drinking = None,
                  educationValue = None, smoking = None,  minAge = None, maxAge = None
                  ):
@@ -175,7 +175,8 @@ class User(object):
 
     def like_user(self,username):
         query = "MATCH (n:User {username: '" +self.username+ "' }) MATCH (m:User {username: '" + username + "'}) CREATE (n)-[r:LIKES{matchId: (n.username + m.username)}]->(m)"
-        self.graph.run(query).data()
+        # self.graph.run(query).data()
+        self.graph.cypher.execute(query)
         return self
 
 
@@ -188,6 +189,3 @@ class User(object):
             #we got a match!!
             return True
         return False
-
-
-
