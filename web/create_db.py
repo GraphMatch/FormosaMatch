@@ -10,6 +10,7 @@ from modelssql.question import Question
 from modelssql.match import Match
 from modelssql.message import Message
 import datetime
+import csv
 
 
 migrate = Migrate(application, db)
@@ -38,12 +39,27 @@ def create_admin():
     email = 'admin@formosamatch.tw', username = 'admin', password='admin', confirmed = True, confirmed_on = datetime.datetime.now(), latitude = 24.8047, longitude = 120.9714, admin = True)
     db.session.add(user)
     db.session.commit()
-    # user.create_user_node()
 
 @manager.command
 def create_data():
     """Creates sample data."""
     pass
+
+@manager.command
+def create_questions():
+    """Creates the list of questions"""
+    with open('uploads/questions_1.csv', 'r', encoding='utf-8', errors='ignore') as csvfile:
+        csvreader = csv.reader(csvfile)
+        next(csvreader, None)
+        line = 0
+        for row in csvreader:
+            line += 1
+            array = row[0].split(",")
+            question = QuestionList(text = array[0])
+            db.session.add(question)
+            print("Question ", line, " added")
+        db.session.commit()
+    print("Finished")
 
 
 if __name__ == '__main__':
