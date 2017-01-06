@@ -19,7 +19,7 @@ def date():
 
 class User(object):
     """ user object """
-    def __init__(self, graph, username, latitude, longitude, gender = None, age = None,orientation = None,
+    def __init__(self, graph, username, latitude, longitude, gender = None, age = None, orientation = None,
                  sexPreference = None, locationFormatted = None, height = None, bodyType = None, drinking = None,
                  educationValue = None, smoking = None,  minAge = None, maxAge = None
                  ):
@@ -52,7 +52,6 @@ class User(object):
         user = self.find()
         if not user:
             user = Node("User",
-                        email=self.email,
                         username=self.username,
                         latitude=self.latitude,
                         longitude=self.longitude,
@@ -188,6 +187,3 @@ class User(object):
             #we go a match!!
             return True
         return False
-
-
-
