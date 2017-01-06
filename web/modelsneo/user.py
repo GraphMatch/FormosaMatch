@@ -21,7 +21,7 @@ def date():
 class User(object):
     """ user object """
 
-    def __init__(self, graph, username, latitude, longitude, gender = 'woman', age = None,orientation = None
+    def __init__(self, graph, username, latitude = None, longitude = None, gender = 'woman', age = None,orientation = None
                  , locationFormatted = 'taipei', height = 0, bodyType = None, drinking = None,
                  educationValue = None, smoking = None,  minAge = None, maxAge = None
                  ):
@@ -50,6 +50,8 @@ class User(object):
         self.smoking = smoking
         self.minAge = minAge
         self.maxAge = maxAge
+
+        user = self.find(self)
         self.version = py2neo.__version__.split('.')
 
 
@@ -60,8 +62,11 @@ class User(object):
 
     def register(self):
         """ register a new user if not exists """
+
         user = self.find()
-        if not user:
+        if  latitude is None or longitude is None:
+            print('CANT UPDATE WITH NO LAT LONG')
+        elif not user:
             user = Node("User",
                         username=self.username,
                         latitude=self.latitude,
