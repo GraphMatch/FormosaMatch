@@ -22,7 +22,7 @@ class User(object):
     """ user object """
 
     def __init__(self, graph, username, latitude, longitude, gender = 'woman', age = None,orientation = None,
-                 sexPreference = None, locationFormatted = None, height = 0, bodyType = None, drinking = None,
+                 sexPreference = None, locationFormatted = 'taipei', height = 0, bodyType = None, drinking = None,
                  educationValue = None, smoking = None,  minAge = None, maxAge = None
                  ):
         """ set values """
@@ -93,11 +93,31 @@ class User(object):
         return True
 
 
-    def get_matches(self, distance = 1000, gender = None, orientation = None, sexPreference = None,
+    def get_matches(self, distance = 25, gender = None, orientation = None, sexPreference = None,
                     locationFormatted = None, minHeight = None, maxHeight = None, bodyType = None,
                     drinking = None, educationValue = None, smoking = None, minAge = None, maxAge = None,
                     startFrom = 0, resultAmount = 10):
         """Find users close to me given the preferences."""
+        #setting default values
+        if gender is None:
+            if self.gender == 'woman':
+                gender = 'man'
+            else:
+                gender = 'woman'
+
+        if minAge is None:
+            minAge = self.age - 5
+            if minAge < 18:
+                minAge = 18
+
+        if maxAge is None:
+            maxAge = self.age + 5
+
+        if sexPreference in None:
+            sexPreference = self.gender
+
+
+
         query = "match (a:User {username: '" + self.username + "'}),(b:User {}) "
         query = query + ' WHERE 1 = 1'
         order = ''
@@ -123,7 +143,7 @@ class User(object):
 
         # locationFormatted, expected a string
         if locationFormatted is not None:
-            query = query + " AND (b.locationFormatted = '" + locationFormatted + "' or b.locationFormatted is null)"
+            query = query + " AND (b.locationFormatted = '" + locationFormatted + "')"
             order = order + 'b.locationFormatted asc,'
 
         # minHeight, expected a integer for cm
@@ -208,3 +228,12 @@ class User(object):
                 self.graph.cypher.execute(query2).data()
             return True
         return False
+
+
+def get_matches(self,startFrom = 0,resultAmount = 10):
+    query = "MATCH (a:User {username:'" + self.username + "'}), (b:User) WHERE (a)-[:MATCH]-(b) return b "
+    query = query + ' skip ' + str(startFrom) + ' limit ' + str(resultAmount);
+    if int(self.version[0]) >= 3:
+        return self.graph.run(query).data()
+    else:
+        return self.graph.cypher.execute(query).data()
