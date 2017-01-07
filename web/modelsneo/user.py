@@ -205,7 +205,7 @@ class User(object):
         if maxAge is not None:
             query = query + " AND (toFloat(b.age) <= " + str(maxAge) + " or b.age is null or toFloat(b.age) = 0)"
 
-        query = query + ' RETURN b '
+        query = query + ' RETURN b, count((a)-[:LIKES]->(b)) as likes '
         if len(order)>0:
             order = order[:-1]
             query = query + 'order by ' + order
@@ -217,7 +217,7 @@ class User(object):
         if int(version[0]) >= 3:
             return dumps(self.graph.run(query).data())
         else:
-            return dumps(self.graph.cypher.execute(query))
+            return self.graph.cypher.execute(query)
 
 
     def like_user(self,username):
