@@ -121,11 +121,11 @@
         <div class="input-field col s12">
           <div class="row">
             <div class="input-field col s6">
-              <input id="age-min" type="text" class="validate">
+              <input id="age-min" type="number" class="validate">
               <label for="age-min">Min</label>
             </div>
             <div class="input-field col s6">
-              <input id="age-max" type="text" class="validate">
+              <input id="age-max" type="number" class="validate">
               <label for="age-max">Max</label>
             </div>
           </div>
@@ -138,7 +138,7 @@
     <div id="range-distance" class="modal">
       <div class="modal-content">
         <div class="input-field col s12">
-              <input id="distance" type="text" class="validate">
+              <input id="distance" type="number" class="validate">
               <label for="distance">Distance (in Kilometers)</label>
 
         </div>
@@ -195,11 +195,55 @@
       // --------------------------------------
       // Luis
       // --------------------------------------
-      var selectedInterest = "";
-      var whoAreInterested = "";
-      var ageMax = "";
-      var distanceRadius = "";
-      // console.log(selectedInterest);
+      var lookingFor = $( ".btn.looking-for" ).text();
+      var interestedIn = $( ".btn.interested-in" ).text();
+      var ageMin = parseInt($( ".btn.age-range" ).text().split("-")[0]);
+      var ageMax = parseInt($( ".btn.age-range" ).text().split("-")[1])
+      if (ageMin < 18)
+      {
+          ageMin = 18
+      }
+      var rangeDistance = parseInt($( ".btn.range-distance" ).text());
+      var ageMin = 18;
+      var ageMax = 50;
+      var rangeDistance = 20000;
+      jsonData = JSON.stringify({'lookingFor':lookingFor, 'interestedIn':interestedIn, 'ageMax':ageMax, 'ageMin':ageMin, 'rangeDistance':rangeDistance});
+      $.ajax
+      (
+        {
+          method: 'POST',
+          url: {{ url_for('filter') }},
+          contentType: "application/json",
+          data: jsonData,
+          success: function(result)
+          {
+            console.log(result);
+            if (result.success)
+            {
+              var matchesUsernames = result.matchesUsernames;
+              var matchesPictures = result.matchesPictures;
+              matchesUsernamesLength = matchesUsernames.length;
+              matchesPicturesLength = matchesPictures.length;
+              for (var i = 0; i < matchesUsernamesLength; i++) {
+                username = matchesUsernames[i];
+                profilePic = "";
+
+                if (typeof(matchesPictures[username]) !== 'undefined')
+                {
+                  profilePic = matchesPictures[username];
+                }
+
+              }
+
+            }
+            else
+            {
+              console.log('Error in AJAX');
+            }
+
+          }
+        }
+      );
 
     });
     </script>

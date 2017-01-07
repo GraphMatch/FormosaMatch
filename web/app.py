@@ -374,13 +374,32 @@ def my_matches():
     return render_template('matches.html', current_user = user, matches = matches)
 
 
-@app.route('/filter/<filters>')
-def filter(filters):
-    currentUsername = session.get('username')
-    currentUserNeo = UserNeo(graph=graph, username=currentUsername)
-    if (currentUserNeo.find()) is not None:
-       browse_nodes = currentUserNeo.get_browse_nodes()
-    return jsonify({'success': 1})
+# @app.route('/filter/<filters>')
+# def filter(filters):
+@app.route('/filter/', methods=["POST"])
+def filter():
+    if request.method == "POST":
+        currentUsername = session.get('username')
+        currentUserNeo = UserNeo(graph=graph, username=currentUsername)
+        if (currentUserNeo.find()) is not None:
+            jsonData = request.get_json()
+            lookingFor = jsonData['lookingFor']
+            interestedIn = jsonData['interestedIn']
+            ageMax = jsonData['ageMax']
+            ageMin = jsonData['ageMin']
+            rangeDistance = jsonData['rangeDistance']
+
+            matches = currentUserNeo.get_browse_nodes(distance = rangeDistance, orientation = None, sexPreference = interestedIn, minAge = ageMin, maxAge = ageMax)
+            matchesPictures = {}
+            matchesUsernames = []
+            for node in matches:
+                matchesUsernames.append(node["username"])
+            matchesPictures = get_profile_pictures(matchesUsernames)
+            return jsonify({'success': 1, 'matchesUsernames':matchesUsernames, 'matchesPictures':matchesPictures })
+        else:
+            return jsonify({'success': 0, 'error':'Your user was not found. Check your session.'})
+
+    # return jsonify({'success': 1})
 
 def get_profile_pictures(users):
     users_dict = {}
