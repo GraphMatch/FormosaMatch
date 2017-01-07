@@ -19,7 +19,8 @@ user = UserNeo(graph=graph, username='ale', latitude=20.312, longitude=120.4232,
 #                       drinking='socially', educationValue='post_grad', smoking='no',
 #                      minAge='18',maxAge='40',resultAmount=10,startFrom=10))
 
-print(user.get_browse_nodes()[0]['username'])
+print(user.get_browse_nodes(distance=1000)[0]['username'])
+print(user.get_browse_nodes(distance=1000)[1]['username'])
 
 #get user Profile
 #print(user.find())
@@ -29,4 +30,4 @@ print(user.get_browse_nodes()[0]['username'])
 user2 = UserNeo(graph=graph, username='frank0728',latitude=2.32,longitude=43.2)
 user2.like_user('marble120')
 #user2.check_if_match('floraaaaaaa')
-print(user2.get_matches())
+#print(user2.get_matches()['age'])
