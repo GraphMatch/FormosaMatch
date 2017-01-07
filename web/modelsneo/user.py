@@ -139,7 +139,7 @@ class User(object):
         if sexPreference is None:
             sexPreference = user['gender']
 
-        select = ' RETURN b.username as username, b.age as age, b.locationFormatted as locationFormatted, count((a)-[:LIKES]->(b)) as Likes '
+        select = ' RETURN b.username as username, b.age as age, b.locationFormatted as locationFormatted, count((a)-[:LIKES]->(b)) as Likes, toInt(distance(point(a),point(b)) / 1000 ) as Distance '
 
         query = "match (a:User {username: '" + self.username + "'}),(b:User {}) "
         query = query + ' WHERE 1 = 1'
