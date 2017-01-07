@@ -280,72 +280,71 @@
       rangeDistance = rangeDistance < 1 ? 1 : rangeDistance;
       jsonData = JSON.stringify({'lookingFor':lookingFor, 'interestedIn':interestedIn, 'ageMax':ageMax, 'ageMin':ageMin, 'rangeDistance':rangeDistance});
       if(is_change){
-        // PODES PONER EL AJAX AQUI
-      }
-      $.ajax
-      (
-        {
-          method: 'POST',
-          url: {{ url_for('filter') }},
-          contentType: "application/json",
-          data: jsonData,
-          success: function(result)
+        $.ajax
+        (
           {
-            if (result.success)
+            method: 'POST',
+            url: {{ url_for('filter') }},
+            contentType: "application/json",
+            data: jsonData,
+            success: function(result)
             {
-              var matchesUsernames = result.matchesUsernames;
-              var matchesPictures = result.matchesPictures;
-              var matchesLocations = result.matchesLocations;
-              var matchesAges = result.matchesAges;
-              var matchesDistances = result.matchesDistances;
-              var matchesLikes = result.matchesLikes;
-
-              matchesUsernamesLength = matchesUsernames.length;
-              htmlMatchCards = "";
-
-              for (var i = 0; i < matchesUsernamesLength; i++)
+              if (result.success)
               {
-                username = matchesUsernames[i];
-                // Create cards for each user
+                var matchesUsernames = result.matchesUsernames;
+                var matchesPictures = result.matchesPictures;
+                var matchesLocations = result.matchesLocations;
+                var matchesAges = result.matchesAges;
+                var matchesDistances = result.matchesDistances;
+                var matchesLikes = result.matchesLikes;
 
-                htmlUser = "<div class=\"col m4\"><div class=\"card\"><div class=\"card-image\">";
-                if ((typeof(matchesPictures[username]) !== 'undefined') && (matchesPictures[username] != ""))
-                {
-                  htmlUser = htmlUser + "<img class=\"materialboxed\" data-caption=\""+username+"\" src=\""+matchesPictures[username]+"\">";
-                }
-                else
-                {
-                  htmlUser = htmlUser + "<img src=\"../static/picture/no-pic.png\">";
-                }
+                matchesUsernamesLength = matchesUsernames.length;
+                htmlMatchCards = "";
 
-                htmlUser = htmlUser + "<span class=\"card-title\" style=\"width:100%; background: rgba(0, 0, 0, 0.5);\">"+username+"</span></div>";
-                htmlUser = htmlUser + "<div class=\"center card-content\"><h5>"+ matchesAges[i]+" . "+matchesLocations[i] + "</h5>";
-                htmlUser = htmlUser + "<h5>"+matchesDistances[i]+" km away from your location</h5></div>";
-                htmlUser = htmlUser + "<div class=\"card-action center\">";
-                if (matchesLikes[i] > 0)
+                for (var i = 0; i < matchesUsernamesLength; i++)
                 {
-                  htmlUser = htmlUser + "<a class=\"waves-effect waves-teal btn deep-purple lighten-2\">Liked<i class=\"material-icons left\">done</i></a>";
-                }
-                else
-                {
-                  htmlUser = htmlUser + "<a class=\"waves-effect btn-flat no-like waves-purple\">Like</a>";
-                }
-                htmlUser = htmlUser + "</div></div></div>";
+                  username = matchesUsernames[i];
+                  // Create cards for each user
 
-                htmlMatchCards = htmlMatchCards + htmlUser;
+                  htmlUser = "<div class=\"col m4\"><div class=\"card\"><div class=\"card-image\">";
+                  if ((typeof(matchesPictures[username]) !== 'undefined') && (matchesPictures[username] != ""))
+                  {
+                    htmlUser = htmlUser + "<img class=\"materialboxed\" data-caption=\""+username+"\" src=\""+matchesPictures[username]+"\">";
+                  }
+                  else
+                  {
+                    htmlUser = htmlUser + "<img src=\"../static/picture/no-pic.png\">";
+                  }
+
+                  htmlUser = htmlUser + "<span class=\"card-title\" style=\"width:100%; background: rgba(0, 0, 0, 0.5);\">"+username+"</span></div>";
+                  htmlUser = htmlUser + "<div class=\"center card-content\"><h5>"+ matchesAges[i]+" . "+matchesLocations[i] + "</h5>";
+                  htmlUser = htmlUser + "<h5>"+matchesDistances[i]+" km away from your location</h5></div>";
+                  htmlUser = htmlUser + "<div class=\"card-action center\">";
+                  if (matchesLikes[i] > 0)
+                  {
+                    htmlUser = htmlUser + "<a class=\"waves-effect waves-teal btn deep-purple lighten-2\">Liked<i class=\"material-icons left\">done</i></a>";
+                  }
+                  else
+                  {
+                    htmlUser = htmlUser + "<a class=\"waves-effect btn-flat no-like waves-purple\">Like</a>";
+                  }
+                  htmlUser = htmlUser + "</div></div></div>";
+
+                  htmlMatchCards = htmlMatchCards + htmlUser;
+                }
+                $( ".match-cards").html(htmlMatchCards);
+                $('.materialboxed').materialbox();
+                $(".preloader-wrapper").css('display','none');
               }
-              $( ".match-cards").html(htmlMatchCards);
-              $('.materialboxed').materialbox();
-              $(".preloader-wrapper").css('display','none');
-            }
-            else
-            {
-              console.log('Error in AJAX');
-            }
+              else
+              {
+                console.log('Error in AJAX');
+              }
 
+            }
           }
-        }
-      );
+        );
+      }
 
     });
     </script>
