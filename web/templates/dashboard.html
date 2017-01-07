@@ -14,7 +14,8 @@
       </nav>
       <nav class="top-nav deep-purple lighten-2">
         <div class="match-status center">
-          <p>I'm looking for: <a class='dropdown-button btn deep-purple lighten-3 looking-for'>Women</a> who are interested in <a class='dropdown-button btn deep-purple lighten-3 interested-in' >men</a> ages <a class='dropdown-button btn deep-purple lighten-3 age-range'>20 - 29</a> located within <a class='dropdown-button btn deep-purple lighten-3 range-distance'>25</a> kilometers of me</h5>
+
+          <p>I'm looking for: <a class='dropdown-button btn deep-purple lighten-3 looking-for'>{{ looking_for }}</a> who are interested in <a class='dropdown-button btn deep-purple lighten-3 interested-in' >{{ interested_in}}</a> ages <a class='dropdown-button btn deep-purple lighten-3 age-range'>{{ age_min }} - {{ age_max }}</a> located within <a class='dropdown-button btn deep-purple lighten-3 range-distance'>25</a> kilometers of me</h5>
         </div>
       </nav>
       {% include "partials/navbar.html" %}
@@ -77,7 +78,6 @@
           </div>
         </div>
         {% endfor %}
-        {{ matches }}
 
 
       </div>

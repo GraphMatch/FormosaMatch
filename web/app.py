@@ -60,13 +60,26 @@ def dashboard():
     userNeo = UserNeo(graph=graph, username= session_username)
     matches = []
     matchesPictures = {}
-    if userNeo.find() is not None:
+    looking_for = "man"#man/woman/everyone
+    age_min = 18
+    age_max = 80
+
+    interested_in = user.gender #man/woman
+    userN = userNeo.find()
+    if userN is not None:
+        looking_for = userN['sexPreference']
         matches = userNeo.get_browse_nodes(distance =10000)
+        age_min = int(float(userN['minAge']))
+        age_max = int(float(userN['maxAge']))
+
         matchesUsernames = []
         for node in matches:
             matchesUsernames.append(node["username"])
         matchesPictures = get_profile_pictures(matchesUsernames)
-    return render_template('dashboard.html', current_user = user, browse_nodes = matches, nodes_pictures = matchesPictures)
+    return render_template('dashboard.html', current_user = user,
+     browse_nodes = matches, nodes_pictures = matchesPictures,
+     interested_in = interested_in, looking_for = looking_for, age_min = age_min,
+     age_max = age_max )
 
 
 @app.route('/register', methods=['POST'])
