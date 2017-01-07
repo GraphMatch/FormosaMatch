@@ -215,9 +215,9 @@ class User(object):
         print(query)
         version = py2neo.__version__.split('.')
         if int(version[0]) >= 3:
-            return dumps(self.graph.run(query).data())
+            return self.graph.run(query).data()
         else:
-            return dumps(self.graph.cypher.execute(query))
+            return self.graph.cypher.execute(query)
 
 
     def like_user(self,username):
