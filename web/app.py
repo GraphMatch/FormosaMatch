@@ -59,8 +59,11 @@ def dashboard():
     user = User.query.filter_by(username = session_username).first()
     userNeo = UserNeo(graph=graph, username= session_username)
     matches = []
+    matchesUsernames = []
     if userNeo.find() is not None:
-        matches = userNeo.get_browse_nodes(distance = 1000)
+        matches = userNeo.get_browse_nodes()
+        matchesUsernames = matches[:]["usernames"]
+
     return render_template('dashboard.html', current_user = user, browse_nodes = matches )
 
 
