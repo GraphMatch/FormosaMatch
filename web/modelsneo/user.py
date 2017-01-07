@@ -147,7 +147,7 @@ class User(object):
 
         #distance, expected Integer
         if distance is not None:
-            query = query + ' AND toInt(distance(point(a),point(b)) / ' + str(distance) + ') <=  ' + str(distance)
+            query = query + ' AND toInt(distance(point(a),point(b)) / 1000 ) <=  ' + str(distance)
 
 
         #expected 'woman' or 'man'
@@ -217,7 +217,8 @@ class User(object):
             order = order[:-1]
             query = query + ' order by ' + order
 
-        query = query + ' skip ' + str(startFrom) + ' limit ' + str(resultAmount);
+        query = query + ' skip ' + str(startFrom) + ' limit ' + str(resultAmount)
+        print(query)
         return self.graph.cypher.execute(query)
 
 
