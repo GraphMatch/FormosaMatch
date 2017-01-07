@@ -43,7 +43,7 @@ def index():
     """
         Try to get the country and city from the user IP address
     """
-    ip = request.remote_addr #'140.114.202.215'
+    ip = request.remote_addr
     g = geocoder.ip(ip)
     return render_template('index.html',
     city = g.city,
@@ -242,7 +242,7 @@ def profile():
         file = request.files['profile_picture']
         filename = ""
         if file and allowed_file(file.filename):
-            filename = str(uuid.uuid1()) + '.' + secure_filename(file.filename).split(".")[-1]
+            filename = str(username) + '.' + secure_filename(file.filename).split(".")[-1]
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 
         orientation = request.form['orientation']
@@ -296,7 +296,7 @@ def profile():
         user.city = city
         user.latitude = g.latlng[0]
         user.longitude = g.latlng[1]
-        user.profile_picture = filename
+        user.profile_picture = request.url_root + 'static/picture/' + filename
         user.orientation = orientation
         user.gender = gender
         birth_date = datetime.datetime.strptime(birth_date_submit, "%Y-%m-%d")
