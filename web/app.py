@@ -368,5 +368,13 @@ def my_matches():
     user = User.query.filter_by(username = session['username']).first()
     return render_template('matches.html', current_user = user, matches = matches)
 
+@app.route('/filter/<filters>')
+def filter(filters):
+    currentUsername = session.get('username')
+    currentUserNeo = UserNeo(graph=graph, username=currentUsername)
+    if (currentUserNeo.find()) is not None:
+       browse_nodes = currentUserNeo.get_browse_nodes()
+    return jsonify({'success': 1})
+
 if __name__ == '__main__':
     app.run()
