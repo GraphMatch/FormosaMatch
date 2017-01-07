@@ -1,11 +1,6 @@
 (function($){
   $(function(){
-    sideNavOptions = {
-      menuWidth: 300, // Default is 240
-      edge: 'right', // Choose the horizontal origin
-      closeOnClick: true, // Closes side-nav on <a> clicks, useful for Angular/Meteor
-      draggable: true // Choose whether you can drag to open on touch screens
-    };
+    
     $('.button-collapse').sideNav();
     $('.parallax').parallax();
     $('select').material_select();
@@ -62,6 +57,16 @@
     $(".range-distance").on("click",function() {
       $("#range-distance").modal("open");
     });
+
+    ///////////////////SCROLL FIRE//////////////////////////
+    var options = [
+    {
+      selector: '.end-match-cards', offset: 0, callback: function(el){
+      alert("HEY");
+      }
+    }];
+    Materialize.scrollFire(options);
+
 
 
   }); // end of document ready
