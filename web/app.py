@@ -59,8 +59,10 @@ def dashboard():
     user = User.query.filter_by(username = session_username).first()
     userNeo = UserNeo(graph=graph, username= session_username)
     matches = []
-    #if userNeo.find() is not None:
-    #    matches = userNeo.get_browse_nodes()
+    matchesUsernames = []
+    if userNeo.find() is not None:
+        matches = userNeo.get_browse_nodes()
+        matchesUsernames = matches[:]["usernames"]
 
     return render_template('dashboard.html', current_user = user, browse_nodes = matches )
 
@@ -375,6 +377,13 @@ def filter(filters):
     if (currentUserNeo.find()) is not None:
        browse_nodes = currentUserNeo.get_browse_nodes()
     return jsonify({'success': 1})
+    
+def get_profile_pictures(users):
+    users_dict = {}
+    for user in User.query.filter(User.username.in_(users)):
+        users_dict[user.username] = user.profile_picture
+    return users_dict
+
 
 if __name__ == '__main__':
     app.run()

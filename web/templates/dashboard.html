@@ -61,13 +61,19 @@
             </div>
             <div class="center card-content">
               <h5>{{ node['age'] }} · {{ node['locationFormatted'] }}</h5>
+              <h5>{{ node['Distance']}}km away from your location</h5>
             </div>
             <div class="card-action center">
-              <a class="waves-effect btn-flat no-like waves-purple">Like</a>
+              {% if node["Likes"] > 0 %}
+                <a class="waves-effect waves-teal btn deep-purple lighten-2">Liked<i class="material-icons left">done</i></a>
+              {% else %}
+                <a class="waves-effect btn-flat no-like waves-purple">Like</a>
+              {% endif %}
             </div>
           </div>
         </div>
         {% endfor %}
+        {{ browse_nodes }}
 
 
 
@@ -130,7 +136,7 @@
     <div id="range-distance" class="modal">
       <div class="modal-content">
         <div class="input-field col s12">
-              <input  id="distance" type="text" class="validate">
+              <input id="distance" type="text" class="validate">
               <label for="distance">Distance (in Kilometers)</label>
 
         </div>

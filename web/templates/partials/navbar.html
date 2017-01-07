@@ -4,7 +4,7 @@
         <img src="../static/img/office.jpg">
       </div>
       {% if current_user.profile_picture is defined and current_user.profile_picture != None %}
-        <a href="{{ url_for('profile') }}"><img class="circle" src="../static/picture/{{ current_user.profile_picture }}"></a>
+        <a href="{{ url_for('profile') }}"><img class="circle" src="{{ current_user.profile_picture }}"></a>
       {% else %}
         <a href="{{ url_for('profile') }}"><img class="circle" src="../static/picture/no-pic.png"></a>
       {% endif%}
