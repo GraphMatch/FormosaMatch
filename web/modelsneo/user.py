@@ -56,7 +56,6 @@ class User(object):
         self.smoking = smoking
         self.minAge = minAge
         self.maxAge = maxAge
-        self.version = py2neo.__version__.split('.')
 
 
     def find(self):
@@ -230,10 +229,7 @@ class User(object):
 
     def like_user(self,username):
         query = "MATCH (n:User {username: '" +self.username+ "' }) MATCH (m:User {username: '" + username + "'}) CREATE (n)-[r:LIKES]->(m)"
-        if int(self.version[0]) >= 3:
-            self.graph.run(query).data()
-        else:
-            self.graph.cypher.execute(query)
+        self.graph.cypher.execute(query)
         matched = self.check_if_match(username)
         return dumps([{'created': True, 'matched': matched}])
 
