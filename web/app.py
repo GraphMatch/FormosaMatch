@@ -64,10 +64,10 @@ def dashboard():
     age_min = 18
     age_max = 80
 
-    interested_in = pluralize_gender(user.gender) #man/woman
+    interested_in = user.gender #man/woman
     userN = userNeo.find()
     if userN is not None:
-        looking_for = pluralize_gender(userN['sexPreference'])
+        looking_for = (userN['sexPreference'])
         matches = userNeo.get_browse_nodes(distance =10000)
         age_min = int(float(userN['minAge']))
         age_max = int(float(userN['maxAge']))
@@ -404,10 +404,18 @@ def filter():
             matches = currentUserNeo.get_browse_nodes(distance = rangeDistance, orientation = None, sexPreference = interestedIn, minAge = ageMin, maxAge = ageMax)
             matchesPictures = {}
             matchesUsernames = []
+            matchesLocations = []
+            matchesAges = []
+            matchesDistances = []
+            matchesLikes = []
             for node in matches:
                 matchesUsernames.append(node["username"])
+                matchesLocations.append(node["locationFormatted"])
+                matchesAges.append(node["age"])
+                matchesDistances.append(node["Distance"])
+                matchesLikes.append(node["Likes"])
             matchesPictures = get_profile_pictures(matchesUsernames)
-            return jsonify({'success': 1, 'matchesUsernames':matchesUsernames, 'matchesPictures':matchesPictures })
+            return jsonify({'success': 1, 'matchesUsernames':matchesUsernames, 'matchesPictures':matchesPictures, 'matchesAges': matchesAges, 'matchesDistances': matchesDistances, 'matchesLikes': matchesLikes, 'matchesLocations': matchesLocations })
         else:
             return jsonify({'success': 0, 'error':'Your user was not found. Check your session.'})
 
@@ -418,13 +426,6 @@ def get_profile_pictures(users):
     for user in User.query.filter(User.username.in_(users)):
         users_dict[user.username] = user.profile_picture
     return users_dict
-
-def pluralize_gender(gender):
-    if gender == "man":
-        return "men"
-    elif gender == "woman":
-        return "women"
-    return gender
 
 if __name__ == '__main__':
     app.run()
