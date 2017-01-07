@@ -104,7 +104,7 @@
     <div id="interested-in" class="modal">
       <div class="modal-content">
         <div class="input-field col s12">
-          <select>
+          <select id="sexInterest">
             <option value="" disabled selected>Choose your option</option>
             <option value="men">Men</option>
             <option value="women">Women</option>
@@ -148,6 +148,7 @@
       </div>
     </div>
 
+
     {% include "partials/chat.html"%}
     <!--  Scripts -->
     {% include "partials/scripts.html" %}
@@ -186,6 +187,20 @@
           }
         }
       );
+    });
+
+
+
+    $( ".modal-close" ).click(function() {
+      // --------------------------------------
+      // Luis
+      // --------------------------------------
+      var selectedInterest = "";
+      var whoAreInterested = "";
+      var ageMax = "";
+      var distanceRadius = "";
+      // console.log(selectedInterest);
+
     });
     </script>
     <!--  End of Scripts-->
