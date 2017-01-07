@@ -142,7 +142,7 @@ class User(object):
         select = ' RETURN b.username as username, b.age as age, b.locationFormatted as locationFormatted, count((a)-[:LIKES]->(b)[0]) as Likes, toInt(distance(point(a),point(b)) / 1000 ) as Distance '
 
         query = "match (a:User {username: '" + self.username + "'}),(b:User {}) "
-        query = query + ' WHERE 1 = 1'
+        query = query + " WHERE b.username <> '" + self.username +"' "
         order = ''
 
         #distance, expected Integer
@@ -152,7 +152,7 @@ class User(object):
 
         #expected 'woman' or 'man'
         if gender is not None:
-            query = query + " AND (b.gender = '" + gender + "') "
+            query = query + " AND (b.gender = '" + gender + "' or 'everyone' = '" + gender +"') "
             order = order + 'gender asc,'
             select = select + ', b.gender as gender '
 
