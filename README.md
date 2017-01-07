@@ -4,8 +4,6 @@
 
 Final project for Advanced Databases Master's Course - NTHU 2016
 
-
-
 ## Disclaimer
 This Docker setup was done using the following links for inspiration
 
@@ -69,7 +67,6 @@ Afterwards, outside the PostgreSQL container, we can use the commands in create_
 
 	docker-compose run web /usr/local/bin/python create_db.py create_db
 	docker-compose run web /usr/local/bin/python create_db.py db init
-	docker-compose run web /usr/local/bin/python create_db.py db migrate
 
 We can add an "admin" user just to try the databse by running:
 
@@ -96,6 +93,10 @@ This should return a JSON response like:
     "result": "success"
   }
 ```
+
+To run the Neo4j and RDB initialization from the csv crawled data, run:
+
+	docker-compose run web /usr/local/bin/python create_db.py create_neo4j_and_rdb_from_csv
 
 # Info on neo4j configuration:
 Because we are running on docker on dev, when creating the graph connection on app.py, we are using the docker hostname for the neo4j container, which is "neo4j". When deploying to production, please put the correct hostname or IP.

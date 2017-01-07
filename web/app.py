@@ -59,8 +59,7 @@ def dashboard():
     user = User.query.filter_by(username = session_username).first()
     userNeo = UserNeo(graph=graph, username= session_username)
     matches = []
-    if userNeo.find() is not None:
-        flash("HELLO")
+    #if userNeo.find() is not None:
         #matches = userNeo.get_browse_nodes()
     return render_template('dashboard.html', current_user = user, browse_nodes = matches )
 
@@ -192,7 +191,7 @@ def login():
         session['username'] = user.username
         session['logged_in'] = True
         session['email'] = user.email
-        if(len(user.profile_picture) > 0):
+        if(user.profile_picture != None and len(user.profile_picture) > 0):
             session['profile_picture'] = user.profile_picture
         else:
             session['profile_picture'] = 'no-pic.png'
@@ -203,7 +202,7 @@ def login():
             session['username'] = user.username
             session['logged_in'] = True
             session['email'] = user.email
-            if(user.profile_picture is None) or (len(user.profile_picture) > 0):
+            if(user.profile_picture != None and len(user.profile_picture) > 0):
                 session['profile_picture'] = user.profile_picture
             else:
                 session['profile_picture'] = 'no-pic.png'
@@ -343,14 +342,30 @@ def like(username):
             if (userLikedNeo.find()) is not None:
                 currentUserNeo.like_user(username)
             else:
-                return jsonify({'error': 'userLikedNeo not found'})
+                return jsonify({'success':0, 'error': 'userLikedNeo not found'})
         else:
-            return jsonify({'error': 'userLiked not found'})
+            return jsonify({'success':0, 'error': 'userLiked not found'})
     else:
-        return jsonify({'error': 'userNeo not found'})
+        return jsonify({'success':0, 'error': 'userNeo not found'})
 
     msgStr = "User " + currentUsername + " liked " + username
-    return jsonify({'currentUsername': currentUsername, 'message': msgStr})
+    matched = 0
+    if (currentUserNeo.check_if_match(username)):
+        matched = 1
+
+    return jsonify({'success': 1, 'matched':matched, 'message': msgStr})
+
+@app.route('/my_matches', methods=['GET', 'POST'])
+def my_matches():
+    """ my_matches """
+    if(not is_authenticated(session)):
+        flash('Sorry! You need to log in order to access to this page!')
+        return redirect(url_for('index'))
+    currentUsername = session['username']
+    currentUserNeo = UserNeo(graph=graph, username=currentUsername)
+    matches = currentUserNeo.get_matches()
+    user = User.query.filter_by(username = session['username']).first()
+    return render_template('matches.html', current_user = user, matches = matches)
 
 if __name__ == '__main__':
     app.run()

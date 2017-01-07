@@ -8,7 +8,6 @@ from py2neo import Node, Relationship, Graph
 import py2neo
 from json import dumps
 
-
 def timestamp():
     """ create a timestamp """
     epoch = datetime.utcfromtimestamp(0)
@@ -35,7 +34,6 @@ class User(object):
         self.gender = gender
         self.age = age
         self.orientation = orientation
-        self.sexPreference = None
         if gender == 'woman' and orientation == 'straight':
             self.sexPreference = 'man'
         elif gender == 'woman' and orientation == 'gay':
@@ -48,6 +46,8 @@ class User(object):
             self.sexPreference = 'man'
         elif gender == 'man' and orientation == 'bisexual':
             self.sexPreference = 'everyone'
+
+
         self.locationFormatted = locationFormatted
         self.height = height
         self.bodyType = bodyType
@@ -68,7 +68,7 @@ class User(object):
         """ register a new user if not exists """
 
         user = self.find()
-        if self.latitude is None or self.longitude is None:
+        if  self.latitude is None or self.longitude is None:
             print('CANT UPDATE WITH NO LAT LONG')
         elif not user:
             user = Node("User",
@@ -112,8 +112,7 @@ class User(object):
 
     def get_browse_nodes(self, distance = 25, gender = None, orientation = None, sexPreference = None,
                     minHeight = None, maxHeight = None, bodyType = None, drinking = None, educationValue = None,
-                         smoking = None, minAge = None, maxAge = None,
-                    startFrom = 0, resultAmount = 20):
+                    smoking = None, minAge = None, maxAge = None,startFrom = 0, resultAmount = 20):
         """Find users close to me given the preferences."""
         #setting default values
         user = self.find()
@@ -141,7 +140,7 @@ class User(object):
         if sexPreference is None:
             sexPreference = user['gender']
 
-
+        select = ' RETURN b.username as username, b.age as age, b.locationFormatted as locationFormatted, count((a)-[:LIKES]->(b)) as Likes '
 
         query = "match (a:User {username: '" + self.username + "'}),(b:User {}) "
         query = query + ' WHERE 1 = 1'
@@ -151,73 +150,82 @@ class User(object):
         if distance is not None:
             query = query + ' AND toInt(distance(point(a),point(b)) / ' + str(distance) + ') <=  ' + str(distance)
 
+
         #expected 'woman' or 'man'
         if gender is not None:
             query = query + " AND (b.gender = '" + gender + "') "
-            order = order + 'b.gender asc,'
+            order = order + 'gender asc,'
+            select = select + ', b.gender as gender '
 
         #orientation, expected 'straight', 'bisexual' or 'gay'
         if orientation is not None:
             query = query + " AND (b.orientation = '" + orientation + "' or b.orientation is null)"
-            order = order + 'b.orientation asc,'
+            order = order + 'orientation asc,'
+            select = select + ', b.orientation as orientation '
 
         # sexPreference, expected 'woman', 'man' or 'everyone'
         if sexPreference is not None:
             query = query + " AND (b.sexPreference = '" + sexPreference + "' or b.sexPreference is null or b.sexPreference = 'everyone')"
-            order = order + 'b.sexPreference asc,'
+            order = order + 'sexPreference asc,'
+            select = select + ', b.sexPreference as sexPreference '
 
         # minHeight, expected a integer for cm
         if minHeight is not None:
-            query = query + " AND (toFloat(b.height) >= " + str(minHeight) + " or toFloat(b.height) = 0 or b.height is null)"
-            order = order + 'b.heigh desc,'
+            query = query + " AND (toFloat(b.height) >= " + str(minHeight) + " or b.height is null or toFloat(b.height) = 0)"
+            order = order + 'height desc,'
+            select = select + ', b.height as height '
 
         # maxHeight, expected a integer for cm
         if maxHeight is not None:
-            query = query + " AND (toFloat(b.height) <= " + str(maxHeight) + " or toFloat(b.height) = 0 or b.height is null)"
+            query = query + " AND (toFloat(b.height) <= " + str(maxHeight) + " or b.height is null or toFloat(b.height) = 0)"
 
         # bodyType, expected a string (may become a list in future?)
         if bodyType is not None:
             query = query + " AND (b.bodyType = '" + bodyType + "' or b.bodyType is null)"
-            order = order + 'b.bodyType asc,'
+            order = order + 'bodyType asc,'
+            select = select + ', b.bodyType as bodyType '
 
         # drinking, expected a string
         if drinking is not None:
             query = query + " AND (b.drinking = '" + drinking + "' or b.drinking is null)"
-            order = order + 'b.drinking asc,'
+            order = order + 'drinking asc,'
+            select = select + ', b.drinking as drinking '
 
        # educationValue, expected a string
         if educationValue is not None:
             query = query + " AND (b.educationValue  = '" + educationValue + "' or b.educationValue is null)"
-            order = order + 'b.educationValue asc,'
+            order = order + 'educationValue asc,'
+            select = select + ', b.educationValue as educationValue '
 
         # smoking, expected a string
         if smoking is not None:
             query = query + " AND (b.smoking = '" + smoking + "' or b.smoking is null)"
-            order = order + 'b.smoking asc,'
+            order = order + 'smoking asc,'
+            select = select + ', b.smoking as smoking '
 
         # minAge, expected a integer for age
         if minAge is not None:
             query = query + " AND (toFloat(b.age) >= " + str(minAge) + " or b.age is null or toFloat(b.age) = 0)"
-            order = order + 'b.age asc,'
+            order = order + 'age asc,'
 
 
         # maxHeight, expected a integer for cm
         if maxAge is not None:
             query = query + " AND (toFloat(b.age) <= " + str(maxAge) + " or b.age is null or toFloat(b.age) = 0)"
 
-        query = query + ' RETURN b '
+        query = query + select
         if len(order)>0:
             order = order[:-1]
-            query = query + 'order by ' + order
+            query = query + ' order by ' + order
 
         query = query + ' skip ' + str(startFrom) + ' limit ' + str(resultAmount);
-
         print(query)
         version = py2neo.__version__.split('.')
         if int(version[0]) >= 3:
             return self.graph.run(query).data()
         else:
             return self.graph.cypher.execute(query)
+
 
 
     def like_user(self,username):
@@ -233,28 +241,18 @@ class User(object):
     def check_if_match(self, username):
         #check if the like is mutual
         query = "MATCH (a:User {username:'" + username + "'}), (b:User {username:'" + self.username + "'}) WHERE (a)-[:LIKES]->(b) and (b)-[:LIKES]->(a) return a"
-        if int(self.version[0]) >= 3:
-            result = self.graph.run(query).data()
-        else:
-            result = self.graph.cypher.execute(query)
-        if result is not None and result != []:
+        result = self.graph.cypher.execute(query)
+        if result is not None and len(result) > 0:
             #we got a match!!
             query = "MATCH (n:User {username: '" + self.username + "' }) MATCH (m:User {username: '" + username + "'}) CREATE (n)-[r:MATCH{matchId: (n.username + m.username)}]->(m)"
             query2 = "MATCH (n:User {username: '" + self.username + "' }) MATCH (m:User {username: '" + username + "'}) CREATE (m)-[r:MATCH{matchId: (m.username + n.username)}]->(n)"
-            if int(self.version[0]) >= 3:
-                self.graph.run(query).data()
-                self.graph.run(query2).data()
-            else:
-                self.graph.cypher.execute(query)
-                self.graph.cypher.execute(query2)
+            self.graph.cypher.execute(query)
+            self.graph.cypher.execute(query2)
             return True
         return False
 
 
     def get_matches(self,startFrom = 0,resultAmount = 10):
-        query = "MATCH (a:User {username:'" + self.username + "'}), (b:User) WHERE (a)-[:MATCH]-(b) return b "
+        query = "MATCH (a:User {username:'" + self.username + "'}), (b:User) WHERE (a)-[:MATCH]-(b) return b.username as username, b.age as age, b.locationFormatted as locationFormatted  "
         query = query + ' skip ' + str(startFrom) + ' limit ' + str(resultAmount);
-        if int(self.version[0]) >= 3:
-            return dumps(self.graph.run(query).data())
-        else:
-            return dumps(self.graph.cypher.execute(query))
+        return self.graph.cypher.execute(query)
