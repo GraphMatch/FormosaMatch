@@ -64,10 +64,10 @@ def dashboard():
     age_min = 18
     age_max = 80
 
-    interested_in = user.gender #man/woman
+    interested_in = pluralize_gender(user.gender) #man/woman
     userN = userNeo.find()
     if userN is not None:
-        looking_for = userN['sexPreference']
+        looking_for = pluralize_gender(userN['sexPreference'])
         matches = userNeo.get_browse_nodes(distance =10000)
         age_min = int(float(userN['minAge']))
         age_max = int(float(userN['maxAge']))
@@ -400,6 +400,12 @@ def get_profile_pictures(users):
         users_dict[user.username] = user.profile_picture
     return users_dict
 
+def pluralize_gender(gender):
+    if gender == "man":
+        return "men"
+    elif gender == "woman":
+        return "women"
+    return gender
 
 if __name__ == '__main__':
     app.run()
