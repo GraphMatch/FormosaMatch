@@ -97,3 +97,7 @@ main, header, footer {
 #interested-in div.modal-content {
   padding: 24px 24px 100px 24px;
 }
+
+.preloader-wrapper {
+  margin:auto;
+}

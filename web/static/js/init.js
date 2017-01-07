@@ -1,6 +1,6 @@
 (function($){
   $(function(){
-    
+
     $('.button-collapse').sideNav();
     $('.parallax').parallax();
     $('select').material_select();
@@ -59,13 +59,7 @@
     });
 
     ///////////////////SCROLL FIRE//////////////////////////
-    var options = [
-    {
-      selector: '.end-match-cards', offset: 0, callback: function(el){
-      alert("HEY");
-      }
-    }];
-    Materialize.scrollFire(options);
+    
 
 
 

@@ -182,12 +182,85 @@
         <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Done</a>
       </div>
     </div>
+    <input type="number" class="start-from" name="" value="1" hidden>
 
 
     {% include "partials/chat.html"%}
     <!--  Scripts -->
     {% include "partials/scripts.html" %}
     <script>
+    var options = [
+    {
+      selector: '.end-match-cards', offset: 0, callback: function(el){
+        getNewNodes()
+      }
+    }];
+    Materialize.scrollFire(options);
+
+    function getNewNodes() {
+      var age = $( ".btn.age-range" ).text().split("-");
+      var ageMin = parseInt(age[0]);
+      var ageMax = parseInt(age[1]);
+      var startFrom = (parseInt($(".start-from").val())* 20)+ 1;
+      ageMin = ageMin < 18 ? 18 : ageMin;
+      ageMax = ageMax > 99 ? 99 : ageMax;
+      var lookingFor = $( ".btn.looking-for" ).text();
+      var interestedIn = $( ".btn.interested-in" ).text();
+      var rangeDistance = parseInt($( ".btn.range-distance" ).text());
+      rangeDistance = rangeDistance < 1 ? 1 : rangeDistance;
+      jsonData = JSON.stringify({'startFrom': startFrom,'lookingFor':lookingFor, 'interestedIn':interestedIn, 'ageMax':ageMax, 'ageMin':ageMin, 'rangeDistance':rangeDistance});
+      $.ajax
+      (
+        {
+          method: 'POST',
+          url: {{ url_for('filter') }},
+          contentType: "application/json",
+          data: jsonData,
+          success: function(result)
+          {
+            alert("HERE");
+            if (result.success){
+              var matchesUsernames = result.matchesUsernames;
+              var matchesPictures = result.matchesPictures;
+              var matchesLocations = result.matchesLocations;
+              var matchesAges = result.matchesAges;
+              var matchesDistances = result.matchesDistances;
+              var matchesLikes = result.matchesLikes;
+              matchesUsernamesLength = matchesUsernames.length;
+              htmlMatchCards = "";
+              for (var i = 0; i < matchesUsernamesLength; i++){
+                username = matchesUsernames[i];
+                htmlUser = "<div class=\"col m4\"><div class=\"card\"><div class=\"card-image\">";
+                if ((typeof(matchesPictures[username]) !== 'undefined') && (matchesPictures[username] != "")){
+                  htmlUser = htmlUser + "<img class=\"materialboxed\" data-caption=\""+username+"\" src=\""+matchesPictures[username]+"\">";
+                } else {
+                  htmlUser = htmlUser + "<img src=\"../static/picture/no-pic.png\">";
+                }
+                htmlUser = htmlUser + "<span class=\"card-title\" style=\"width:100%; background: rgba(0, 0, 0, 0.5);\">"+username+"</span></div>";
+                htmlUser = htmlUser + "<div class=\"center card-content\"><h5>"+ matchesAges[i]+" . "+matchesLocations[i] + "</h5>";
+                htmlUser = htmlUser + "<h5>"+matchesDistances[i]+" km away from your location</h5></div>";
+                htmlUser = htmlUser + "<div class=\"card-action center\">";
+                if (matchesLikes[i] > 0){
+                  htmlUser = htmlUser + "<a class=\"waves-effect waves-teal btn deep-purple lighten-2\">Liked<i class=\"material-icons left\">done</i></a>";
+                } else {
+                  htmlUser = htmlUser + "<a class=\"waves-effect btn-flat no-like waves-purple\">Like</a>";
+                }
+                htmlUser = htmlUser + "</div></div></div>";
+                htmlMatchCards = htmlMatchCards + htmlUser;
+                alert("HERE");
+                console.log(htmlMatchCards);
+              }
+              $( ".match-cards").append(htmlMatchCards);
+              $('.materialboxed').materialbox();
+              $(".start-from").val(parseInt($(".start-from").val())+ 1);
+            } else {
+              console.log('Error in AJAX');
+            }
+          }
+        }
+      );
+    }
+
     $(".match-cards").on("click",".no-like", function(){
       thisParent = $(this).parent();
       var usernameClicked = ($(this).parent().parent().children('.card-image').children('.card-title').text())
