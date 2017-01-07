@@ -13,6 +13,7 @@ from modelssql.message import Message
 from modelsneo.user import User as UserNeo
 import datetime
 import csv
+import os
 
 
 migrate = Migrate(application, db)
@@ -89,6 +90,22 @@ def create_questions():
     print("Finished")
 
 @manager.command
+def create_photos():
+    """Creates the list of profile pictures"""
+    with open('crawleddata/photos.csv', 'r', encoding='utf-8', errors='ignore') as csvfile:
+        csvreader = csv.reader(csvfile)
+        line = 0
+        for row in csvreader:
+            line += 1
+            check_user = User.query.filter_by(username = row[1].strip()).first()
+            if(check_user):
+                if(check_user.profile_picture is None):
+                    check_user.profile_picture = row[0]
+            print("User ", line, " photo updated")
+        db.session.commit()
+    print("Finished")
+
+@manager.command
 def create_neo4j_and_rdb_from_csv():
     """
     Creates the neo4j DB initial data and the RDB initial data from the CSV file
@@ -111,8 +128,8 @@ def create_neo4j_and_rdb_from_csv():
                 smoking = (row[9])
                 username = (row[10])
                 email = username+"@gmail.com"
-                latitude = (row[11])
-                longitude = (row[12])
+                latitude = float(row[11])
+                longitude = float(row[12])
                 minAge = (row[13])
                 maxAge = (row[14])
                 age = (row[15])
