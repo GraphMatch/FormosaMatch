@@ -44,12 +44,12 @@ def create_admin():
 
 @manager.command
 def create_match_users():
-    user = User(preference = "straight", gender = 'man', birth_date = '1991-01-03', country = 'Taiwan', city = 'Hsinchu City',
+    user = User(orientation = "straight", gender = 'man', birth_date = '1991-01-03', country = 'Taiwan', city = 'Hsinchu City',
     email = 'roblescoulter@gmail.com', username = 'roblescoulter', password='admin123', latitude = 24.8047, longitude = 120.9714)
     db.session.add(user)
     db.session.commit()
 
-    user1 = User(preference = "straight", gender = 'woman', birth_date = '1991-01-03', country = 'Taiwan', city = 'Hsinchu City',
+    user1 = User(orientation = "straight", gender = 'woman', birth_date = '1991-01-03', country = 'Taiwan', city = 'Hsinchu City',
     email = 'alemeraz@gmail.com', username = 'alemeraz', password='admin123', latitude = 24.8047, longitude = 120.9714)
     db.session.add(user1)
     db.session.commit()
