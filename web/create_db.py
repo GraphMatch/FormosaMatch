@@ -115,11 +115,11 @@ def create_neo4j_and_rdb_from_csv():
         csvreader = csv.reader(csvfile, delimiter=',', quotechar='|')
         rowNumber = 0
         for row in csvreader:
+            # if rowNumber == 300:
+                # break
             if (row[0] != 'birthDateDay'):
                 print (rowNumber)
                 rowNumber = rowNumber + 1
-                # if rowNumber == 300:
-                    # break
                 birthDateDay = (row[0])
                 birthDateMonth = (row[1])
                 birthDateYear = (row[2])

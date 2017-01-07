@@ -10,8 +10,8 @@ web:
   links:
     - neo4j:neo4j
     - postgres:postgres
- # volumes:
- #   - ./web:/usr/src/app
+  volumes:
+    - ./web:/usr/src/app
   env_file: .env
   command: /usr/local/bin/gunicorn --reload -w 2 -b :8000 app:app
 
