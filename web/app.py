@@ -367,5 +367,12 @@ def my_matches():
     user = User.query.filter_by(username = session['username']).first()
     return render_template('matches.html', current_user = user, matches = matches)
 
+
+def get_profile_pictures(users):
+    users_dict = {}
+    for user in User.query.filter(User.username.in_(users)):
+        users_dict[user.username] = user.profile_picture
+    return users_dict
+
 if __name__ == '__main__':
     app.run()
