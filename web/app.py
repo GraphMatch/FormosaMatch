@@ -403,38 +403,9 @@ def filter():
         currentUserNeo = UserNeo(graph=graph, username=currentUsername)
         if (currentUserNeo.find()) is not None:
             jsonData = request.get_json()
-            lookingFor = jsonData['lookingFor']
-            interestedIn = jsonData['interestedIn']
-            ageMax = jsonData['ageMax']
-            ageMin = jsonData['ageMin']
-            rangeDistance = jsonData['rangeDistance']
-
-            matches = currentUserNeo.get_browse_nodes(distance = rangeDistance, orientation = None, sexPreference = interestedIn, minAge = ageMin, maxAge = ageMax)
-            matchesPictures = {}
-            matchesUsernames = []
-            matchesLocations = []
-            matchesAges = []
-            matchesDistances = []
-            matchesLikes = []
-            for node in matches:
-                matchesUsernames.append(node["username"])
-                matchesLocations.append(node["locationFormatted"])
-                matchesAges.append(node["age"])
-                matchesDistances.append(node["Distance"])
-                matchesLikes.append(node["Likes"])
-            matchesPictures = get_profile_pictures(matchesUsernames)
-            return jsonify({'success': 1, 'matchesUsernames':matchesUsernames, 'matchesPictures':matchesPictures, 'matchesAges': matchesAges, 'matchesDistances': matchesDistances, 'matchesLikes': matchesLikes, 'matchesLocations': matchesLocations })
-        else:
-            return jsonify({'success': 0, 'error':'Your user was not found. Check your session.'})
-
-@app.route('/getmorematches/', methods=["POST"])
-def getmorematches():
-    if request.method == "POST":
-        currentUsername = session.get('username')
-        currentUserNeo = UserNeo(graph=graph, username=currentUsername)
-        if (currentUserNeo.find()) is not None:
-            jsonData = request.get_json()
-            startFrom = jsonData['startFrom']
+            startFrom = 0
+            if 'startFrom' in jsonData:
+                startFrom = jsonData['startFrom']
             lookingFor = jsonData['lookingFor']
             interestedIn = jsonData['interestedIn']
             ageMax = jsonData['ageMax']
@@ -455,13 +426,9 @@ def getmorematches():
                 matchesDistances.append(node["Distance"])
                 matchesLikes.append(node["Likes"])
             matchesPictures = get_profile_pictures(matchesUsernames)
-
             return jsonify({'success': 1, 'matchesUsernames':matchesUsernames, 'matchesPictures':matchesPictures, 'matchesAges': matchesAges, 'matchesDistances': matchesDistances, 'matchesLikes': matchesLikes, 'matchesLocations': matchesLocations })
         else:
             return jsonify({'success': 0, 'error':'Your user was not found. Check your session.'})
-
-    return jsonify({'success': 1})
-
 def get_profile_pictures(users):
     users_dict = {}
     for user in User.query.filter(User.username.in_(users)):
