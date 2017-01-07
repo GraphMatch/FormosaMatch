@@ -139,7 +139,7 @@ class User(object):
         if sexPreference is None:
             sexPreference = user['gender']
 
-        select = ' RETURN b.username as username, b.age as age, b.locationFormatted as locationFormatted, count((a)-[:LIKES]->(b)) as Likes '
+        select = ' RETURN b.username as username, b.age as age, b.locationFormatted as locationFormatted, count((a)-[:LIKES]->(b)) as Likes, toInt(distance(point(a),point(b)) / 1000 ) as Distance '
 
         query = "match (a:User {username: '" + self.username + "'}),(b:User {}) "
         query = query + ' WHERE 1 = 1'
@@ -147,7 +147,7 @@ class User(object):
 
         #distance, expected Integer
         if distance is not None:
-            query = query + ' AND toInt(distance(point(a),point(b)) / ' + str(distance) + ') <=  ' + str(distance)
+            query = query + ' AND toInt(distance(point(a),point(b)) / 1000 ) <=  ' + str(distance)
 
 
         #expected 'woman' or 'man'
@@ -217,13 +217,9 @@ class User(object):
             order = order[:-1]
             query = query + ' order by ' + order
 
-        query = query + ' skip ' + str(startFrom) + ' limit ' + str(resultAmount);
+        query = query + ' skip ' + str(startFrom) + ' limit ' + str(resultAmount)
         print(query)
-        version = py2neo.__version__.split('.')
-        if int(version[0]) >= 3:
-            return self.graph.run(query).data()
-        else:
-            return self.graph.cypher.execute(query)
+        return self.graph.cypher.execute(query)
 
 
 
