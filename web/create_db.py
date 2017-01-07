@@ -138,8 +138,8 @@ def create_neo4j_and_rdb_from_csv():
 
                 birth_date = datetime.datetime.strptime(birthDateFull, "%Y-%m-%d")
                 user = User(orientation, gender, birth_date, 'Taiwan', locationFormatted, email, username, 'admin123',  latitude, longitude, False)
-                # db.session.add(user)
-                # db.session.commit()
+                db.session.add(user)
+                db.session.commit()
 
                 user_neo = UserNeo(graph=graph, username=username, latitude=latitude, longitude=longitude,
                     minAge = minAge, maxAge = maxAge, gender = gender, age=user.calculate_age(),
