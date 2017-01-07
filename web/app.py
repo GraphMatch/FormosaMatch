@@ -396,9 +396,6 @@ def my_matches():
     user = User.query.filter_by(username = session['username']).first()
     return render_template('matches.html', current_user = user, matches = matches)
 
-
-# @app.route('/filter/<filters>')
-# def filter(filters):
 @app.route('/filter/', methods=["POST"])
 def filter():
     if request.method == "POST":
@@ -430,7 +427,40 @@ def filter():
         else:
             return jsonify({'success': 0, 'error':'Your user was not found. Check your session.'})
 
-    # return jsonify({'success': 1})
+@app.route('/getmorematches/', methods=["POST"])
+def getmorematches():
+    if request.method == "POST":
+        currentUsername = session.get('username')
+        currentUserNeo = UserNeo(graph=graph, username=currentUsername)
+        if (currentUserNeo.find()) is not None:
+            jsonData = request.get_json()
+            startFrom = jsonData['startFrom']
+            lookingFor = jsonData['lookingFor']
+            interestedIn = jsonData['interestedIn']
+            ageMax = jsonData['ageMax']
+            ageMin = jsonData['ageMin']
+            rangeDistance = jsonData['rangeDistance']
+
+            matches = currentUserNeo.get_browse_nodes(distance = rangeDistance, orientation = None, sexPreference = interestedIn, minAge = ageMin, maxAge = ageMax, startFrom=startFrom)
+            matchesPictures = {}
+            matchesUsernames = []
+            matchesLocations = []
+            matchesAges = []
+            matchesDistances = []
+            matchesLikes = []
+            for node in matches:
+                matchesUsernames.append(node["username"])
+                matchesLocations.append(node["locationFormatted"])
+                matchesAges.append(node["age"])
+                matchesDistances.append(node["Distance"])
+                matchesLikes.append(node["Likes"])
+            matchesPictures = get_profile_pictures(matchesUsernames)
+
+            return jsonify({'success': 1, 'matchesUsernames':matchesUsernames, 'matchesPictures':matchesPictures, 'matchesAges': matchesAges, 'matchesDistances': matchesDistances, 'matchesLikes': matchesLikes, 'matchesLocations': matchesLocations })
+        else:
+            return jsonify({'success': 0, 'error':'Your user was not found. Check your session.'})
+
+    return jsonify({'success': 1})
 
 def get_profile_pictures(users):
     users_dict = {}
