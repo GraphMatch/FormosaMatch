@@ -68,7 +68,7 @@ def dashboard():
     userN = userNeo.find()
     if userN is not None:
         looking_for = (userN['sexPreference'])
-        matches = userNeo.get_browse_nodes(distance =10000)
+        matches = userNeo.get_browse_nodes()
         if userN['minAge'] != None:
             age_min = int(float(userN['minAge']))
         else:
