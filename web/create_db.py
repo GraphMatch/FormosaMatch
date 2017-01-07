@@ -89,6 +89,22 @@ def create_questions():
     print("Finished")
 
 @manager.command
+def create_photos():
+    """Creates the list of profile pictures"""
+    with open('crawleddata/photos.csv', 'r', encoding='utf-8', errors='ignore') as csvfile:
+        csvreader = csv.reader(csvfile)
+        line = 0
+        for row in csvreader:
+            line += 1
+            check_user = User.query.filter_by(username = row[1].strip()).first()
+            if(check_user):
+                if(check_user.profile_picture == ''):
+                    check_user.profile_picture = row[0]
+            print("User ", line, " photo updated")
+        db.session.commit()
+    print("Finished")
+
+@manager.command
 def create_neo4j_and_rdb_from_csv():
     """
     Creates the neo4j DB initial data and the RDB initial data from the CSV file
@@ -131,7 +147,7 @@ def create_neo4j_and_rdb_from_csv():
                     educationValue = educationValue, smoking = smoking, height = heightCm)
 
                 user_neo.register()
-
+                
     #,,,,,,,,,,,,,,,
     # Loading CSV
     # LOAD CSV WITH HEADERS FROM "file:///crawleddata/Profiles.csv " AS row CREATE (:User { bodyType: (row.bodytype) , drinking:(row.drinking), educationValue: (row.educationValue), gender:(row.gender), height: (row.heightCm), locationFormatted: (row.locationFormatted), orientation: (row.orientation),  smoking: (row.smoking), username: (row.username), latitude: toFloat(row.lat), longitude:toFloat(row.long), minAge: toInt(row.minAge), maxAge: toInt(row.maxAge),  age: toInt(row.age), sexPreference: (row.sexPreference) })
