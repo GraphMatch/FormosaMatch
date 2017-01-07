@@ -97,8 +97,11 @@ main, header, footer {
 #interested-in div.modal-content {
   padding: 24px 24px 100px 24px;
 }
-
 #modalMatch{
   height: 60%;
   width: 30%;
+}
+
+.preloader-wrapper {
+  margin:auto;
 }
