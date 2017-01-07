@@ -186,7 +186,7 @@ def login():
         session['username'] = user.username
         session['logged_in'] = True
         session['email'] = user.email
-        if(len(user.profile_picture) > 0):
+        if(user.profile_picture != None and len(user.profile_picture) > 0):
             session['profile_picture'] = user.profile_picture
         else:
             session['profile_picture'] = 'no-pic.png'
@@ -197,7 +197,7 @@ def login():
             session['username'] = user.username
             session['logged_in'] = True
             session['email'] = user.email
-            if(user.profile_picture is None) or (len(user.profile_picture) > 0):
+            if(user.profile_picture != None and len(user.profile_picture) > 0):
                 session['profile_picture'] = user.profile_picture
             else:
                 session['profile_picture'] = 'no-pic.png'
@@ -347,7 +347,7 @@ def like(username):
     matched = 0
     if (currentUserNeo.check_if_match(username)):
         matched = 1
-        
+
     return jsonify({'success': 1, 'matched':matched, 'message': msgStr})
 
 @app.route('/my_matches', methods=['GET', 'POST'])
