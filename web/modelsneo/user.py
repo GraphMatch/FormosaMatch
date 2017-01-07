@@ -213,9 +213,9 @@ class User(object):
             query = query + " AND (toFloat(b.age) <= " + str(maxAge) + " or b.age is null or toFloat(b.age) = 0)"
 
         query = query + select
-        if len(order)>0:
-            order = order[:-1]
-            query = query + ' order by ' + order
+
+        order = order + ' Distance asc '
+        query = query + ' order by ' + order
 
         query = query + ' skip ' + str(startFrom) + ' limit ' + str(resultAmount)
         print(query)

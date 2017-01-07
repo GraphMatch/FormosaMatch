@@ -14,7 +14,7 @@ user = UserNeo(graph=graph, username='ale', latitude=20.312, longitude=120.4232,
 #user.register()
 #get Matches
 ##all filters are optional
-print(user.get_browse_nodes(distance=1000, gender = 'everyone', orientation='bisexual',sexPreference='woman',
+print(user.get_browse_nodes(distance=600, gender = 'everyone', orientation='bisexual',sexPreference='woman',
                       minHeight=100, maxHeight=200, bodyType='fit',
                        drinking='socially', educationValue='post_grad', smoking='no',
                       minAge='18',maxAge='40',resultAmount=10,startFrom=10))
