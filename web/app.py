@@ -62,15 +62,23 @@ def dashboard():
     matchesPictures = {}
     looking_for = "man"#man/woman/everyone
     age_min = 18
-    age_max = 80
+    age_max = 29
 
     interested_in = pluralize_gender(user.gender) #man/woman
     userN = userNeo.find()
     if userN is not None:
         looking_for = pluralize_gender(userN['sexPreference'])
         matches = userNeo.get_browse_nodes(distance =10000)
-        age_min = int(float(userN['minAge']))
-        age_max = int(float(userN['maxAge']))
+        if userN['minAge'] != None:
+            age_min = int(float(userN['minAge']))
+        else:
+            age_min = userN["age"] - 5
+            if age_min < 18:
+                age_min = 18
+        if userN['maxAge'] != None:
+            age_max = int(float(userN['maxAge']))
+        else:
+            age_max = userN['age'] + 5
 
         matchesUsernames = []
         for node in matches:
