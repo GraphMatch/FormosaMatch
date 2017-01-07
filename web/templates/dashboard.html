@@ -22,7 +22,24 @@
 
     </header>
     <main>
-      <div class="row container match-cards">
+      <!-- <div class="row container match-cards"> -->
+      <div class="row container">
+        <div class="preloader-wrapper big active" style="display:none">
+             <div class="spinner-layer spinner-blue">
+               <div class="circle-clipper left">
+                 <div class="circle">
+                 </div>
+               </div>
+               <div class="gap-patch">
+                 <div class="circle">
+                 </div>
+               </div><div class="circle-clipper right">
+                 <div class="circle">
+                 </div>
+               </div>
+             </div>
+        </div>
+        <div class="match-cards">
         <!--<div class="col m4">
           <div class="card">
             <div class="card-image">
@@ -80,6 +97,7 @@
         {% endfor %}
 
 
+      </div>
       </div>
 
     </main>
@@ -192,6 +210,8 @@
 
 
     $( ".modal-close" ).click(function() {
+      $( ".match-cards").html("");
+      $(".preloader-wrapper").css('display','block');
       // --------------------------------------
       // Luis
       // --------------------------------------
@@ -227,10 +247,6 @@
               var matchesLikes = result.matchesLikes;
 
               matchesUsernamesLength = matchesUsernames.length;
-              // $( ".match-cards").html("");
-              $( ".match-cards").html(" <div class=\"preloader-wrapper big active\"><div class=\"spinner-layer spinner-blue-only\"><div class=\"circle-clipper left\"><div class=\"circle\"></div></div><div class=\"gap-patch\"><div class=\"circle\"></div></div><div class=\"circle-clipper right\"><div class=\"circle\"></div></div></div></div>");
-
-
               htmlMatchCards = "";
 
               for (var i = 0; i < matchesUsernamesLength; i++)
@@ -266,6 +282,7 @@
               }
               $( ".match-cards").html(htmlMatchCards);
               $('.materialboxed').materialbox();
+              $(".preloader-wrapper").css('display','none');
             }
             else
             {
