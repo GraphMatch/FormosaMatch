@@ -36,12 +36,17 @@ class User(object):
         self.orientation = orientation
         if gender == 'woman' and orientation == 'straight':
             self.sexPreference = 'man'
-        if gender == 'woman' and orientation == 'gay':
+        elif gender == 'woman' and orientation == 'gay':
             self.sexPreference = 'woman'
-        if gender == 'man' and orientation == 'straight':
+        elif gender == 'woman' and orientation == 'bisexual':
+            self.sexPreference = 'everyone'
+        elif gender == 'man' and orientation == 'straight':
             self.sexPreference = 'woman'
-        if gender == 'man' and orientation == 'gay':
+        elif gender == 'man' and orientation == 'gay':
             self.sexPreference = 'man'
+        elif gender == 'man' and orientation == 'bisexual':
+            self.sexPreference = 'everyone'
+
 
         self.locationFormatted = locationFormatted
         self.height = height
@@ -63,7 +68,7 @@ class User(object):
         """ register a new user if not exists """
 
         user = self.find()
-        if  latitude is None or longitude is None:
+        if  self.latitude is None or self.longitude is None:
             print('CANT UPDATE WITH NO LAT LONG')
         elif not user:
             user = Node("User",
@@ -106,9 +111,8 @@ class User(object):
 
 
     def get_browse_nodes(self, distance = 25, gender = None, orientation = None, sexPreference = None,
-                    locationFormatted = None, minHeight = None, maxHeight = None, bodyType = None,
-                    drinking = None, educationValue = None, smoking = None, minAge = None, maxAge = None,
-                    startFrom = 0, resultAmount = 20):
+                    minHeight = None, maxHeight = None, bodyType = None, drinking = None, educationValue = None,
+                    smoking = None, minAge = None, maxAge = None,startFrom = 0, resultAmount = 20):
         """Find users close to me given the preferences."""
         #setting default values
         user = self.find()
@@ -165,12 +169,6 @@ class User(object):
             order = order + 'sexPreference asc,'
             select = select + ', b.sexPreference as sexPreference '
 
-        # locationFormatted, expected a string
-        if locationFormatted is not None:
-            query = query + " AND (b.locationFormatted = '" + locationFormatted + "')"
-            order = order + 'locationFormatted asc,'
-            select = select + ', b.locationFormatted as locationFormated '
-
         # minHeight, expected a integer for cm
         if minHeight is not None:
             query = query + " AND (toFloat(b.height) >= " + str(minHeight) + " or b.height is null or toFloat(b.height) = 0)"
@@ -221,12 +219,7 @@ class User(object):
             query = query + ' order by ' + order
 
         query = query + ' skip ' + str(startFrom) + ' limit ' + str(resultAmount);
-
-        version = py2neo.__version__.split('.')
-        if int(version[0]) >= 3:
-            return self.graph.run(query).data()
-        else:
-            return self.graph.cypher.execute(query)
+        return self.graph.cypher.execute(query)
 
 
     def like_user(self,username):
@@ -247,12 +240,8 @@ class User(object):
             #we got a match!!
             query = "MATCH (n:User {username: '" + self.username + "' }) MATCH (m:User {username: '" + username + "'}) CREATE (n)-[r:MATCH{matchId: (n.username + m.username)}]->(m)"
             query2 = "MATCH (n:User {username: '" + self.username + "' }) MATCH (m:User {username: '" + username + "'}) CREATE (m)-[r:MATCH{matchId: (m.username + n.username)}]->(n)"
-            if int(self.version[0]) >= 3:
-                self.graph.run(query).data()
-                self.graph.run(query2).data()
-            else:
-                self.graph.cypher.execute(query)
-                self.graph.cypher.execute(query2)
+            self.graph.cypher.execute(query)
+            self.graph.cypher.execute(query2)
             return True
         return False
 
@@ -260,7 +249,4 @@ class User(object):
     def get_matches(self,startFrom = 0,resultAmount = 10):
         query = "MATCH (a:User {username:'" + self.username + "'}), (b:User) WHERE (a)-[:MATCH]-(b) return b.username as username, b.age as age, b.locationFormatted as locationFormatted  "
         query = query + ' skip ' + str(startFrom) + ' limit ' + str(resultAmount);
-        if int(self.version[0]) >= 3:
-            return self.graph.run(query).data()
-        else:
-            return self.graph.cypher.execute(query)
+        return self.graph.cypher.execute(query)
