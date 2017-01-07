@@ -377,7 +377,7 @@ def filter(filters):
     if (currentUserNeo.find()) is not None:
        browse_nodes = currentUserNeo.get_browse_nodes()
     return jsonify({'success': 1})
-    
+
 def get_profile_pictures(users):
     users_dict = {}
     for user in User.query.filter(User.username.in_(users)):
