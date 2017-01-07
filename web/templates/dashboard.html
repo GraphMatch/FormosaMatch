@@ -51,16 +51,16 @@
             </div>
           </div>
         </div>
-        
+
         {% for node in browse_nodes %}
         <div class="col m4">
           <div class="card">
             <div class="card-image">
               <img src="https://scontent-hkg3-1.xx.fbcdn.net/v/t1.0-9/13179398_10153464657216479_372899908850126625_n.jpg?oh=3148ce9e6760a5760035224ed037014f&oe=58E9E32B">
-              <span class="card-title" style="width:100%; background: rgba(0, 0, 0, 0.5);">{{ node['b']['username'] }}</span>
+              <span class="card-title" style="width:100%; background: rgba(0, 0, 0, 0.5);">{{ node['username'] }}</span>
             </div>
             <div class="center card-content">
-              <h5>{{ node['b']['age'] }} · {{ node['b']['locationFormatted'] }}</h5>
+              <h5>{{ node['age'] }} · {{ node['locationFormatted'] }}</h5>
             </div>
             <div class="card-action center">
               <a class="waves-effect btn-flat no-like waves-purple">Like</a>
@@ -113,7 +113,7 @@
         <div class="input-field col s12">
           <div class="row">
             <div class="input-field col s6">
-              <input placeholder="Placeholder" id="age-min" type="text" class="validate">
+              <input id="age-min" type="text" class="validate">
               <label for="age-min">Min</label>
             </div>
             <div class="input-field col s6">
@@ -130,7 +130,7 @@
     <div id="range-distance" class="modal">
       <div class="modal-content">
         <div class="input-field col s12">
-              <input placeholder="Placeholder" id="distance" type="text" class="validate">
+              <input  id="distance" type="text" class="validate">
               <label for="distance">Distance (in Kilometers)</label>
 
         </div>

@@ -85,3 +85,11 @@ main, header, footer {
 .no-like {
   color: #9575cd !important;
 }
+
+#looking-for div.modal-content{
+  padding: 24px 24px 100px 24px;
+}
+
+#interested-in div.modal-content {
+  padding: 24px 24px 100px 24px;
+}
