@@ -128,8 +128,8 @@ def create_neo4j_and_rdb_from_csv():
                 smoking = (row[9])
                 username = (row[10])
                 email = username+"@gmail.com"
-                latitude = (row[11])
-                longitude = (row[12])
+                latitude = float(row[11])
+                longitude = float(row[12])
                 minAge = (row[13])
                 maxAge = (row[14])
                 age = (row[15])
@@ -148,7 +148,7 @@ def create_neo4j_and_rdb_from_csv():
                     educationValue = educationValue, smoking = smoking, height = heightCm)
 
                 user_neo.register()
-                
+
     #,,,,,,,,,,,,,,,
     # Loading CSV
     # LOAD CSV WITH HEADERS FROM "file:///crawleddata/Profiles.csv " AS row CREATE (:User { bodyType: (row.bodytype) , drinking:(row.drinking), educationValue: (row.educationValue), gender:(row.gender), height: (row.heightCm), locationFormatted: (row.locationFormatted), orientation: (row.orientation),  smoking: (row.smoking), username: (row.username), latitude: toFloat(row.lat), longitude:toFloat(row.long), minAge: toInt(row.minAge), maxAge: toInt(row.maxAge),  age: toInt(row.age), sexPreference: (row.sexPreference) })
