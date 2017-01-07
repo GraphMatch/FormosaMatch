@@ -153,10 +153,10 @@
     <!--  Scripts -->
     {% include "partials/scripts.html" %}
     <script>
-    $( ".no-like" ).click(function() {
+    $(".match-cards").on("click",".no-like", function(){
       thisParent = $(this).parent();
       var usernameClicked = ($(this).parent().parent().children('.card-image').children('.card-title').text())
-
+      console.log("clicked");
       $.ajax
       (
         {
@@ -217,7 +217,6 @@
           data: jsonData,
           success: function(result)
           {
-            console.log(result);
             if (result.success)
             {
               var matchesUsernames = result.matchesUsernames;
@@ -228,7 +227,9 @@
               var matchesLikes = result.matchesLikes;
 
               matchesUsernamesLength = matchesUsernames.length;
-              $( ".match-cards").html("");
+              // $( ".match-cards").html("");
+              $( ".match-cards").html(" <div class=\"preloader-wrapper big active\"><div class=\"spinner-layer spinner-blue-only\"><div class=\"circle-clipper left\"><div class=\"circle\"></div></div><div class=\"gap-patch\"><div class=\"circle\"></div></div><div class=\"circle-clipper right\"><div class=\"circle\"></div></div></div></div>");
+
 
               htmlMatchCards = "";
 
@@ -264,7 +265,7 @@
                 htmlMatchCards = htmlMatchCards + htmlUser;
               }
               $( ".match-cards").html(htmlMatchCards);
-
+              $('.materialboxed').materialbox();
             }
             else
             {
