@@ -59,14 +59,15 @@ def dashboard():
     user = User.query.filter_by(username = session_username).first()
     userNeo = UserNeo(graph=graph, username= session_username)
     matches = []
+    matchesPictures = {}
+    matchesUsernames = []
     if userNeo.find() is not None:
         matches = userNeo.get_browse_nodes()
         matchesUsernames = []
         for node in matches:
             matchesUsernames.append(node["username"])
-        
-
-    return render_template('dashboard.html', current_user = user, browse_nodes = matches, test = test)
+        matchesPictures = get_profile_pictures(matchesUsernames)
+    return render_template('dashboard.html', current_user = user, browse_nodes = matches, nodes_pictures = matchesPictures, matchesUsernames = matchesUsernames)
 
 
 @app.route('/register', methods=['POST'])
@@ -371,6 +372,12 @@ def my_matches():
     matches = currentUserNeo.get_matches()
     user = User.query.filter_by(username = session['username']).first()
     return render_template('matches.html', current_user = user, matches = matches)
+
+def get_profile_pictures(users):
+    users_dict = {}
+    for user in User.query.filter(User.username.in_(users)):
+        users_dict[user.username] = user.profile_picture
+    return users_dict
 
 if __name__ == '__main__':
     app.run()
