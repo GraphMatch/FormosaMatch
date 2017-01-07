@@ -168,7 +168,8 @@ def register():
 
         user.latitude = g.latlng[0]
         user.longitude = g.latlng[1]
-
+        nopic = 'no-pic.png'
+        user.profile_picture = request.url_root + 'static/picture/' + nopic
         if(error != False):
             return redirect(url_for('index'))
 
@@ -308,6 +309,8 @@ def profile():
         user.city = city
         user.latitude = g.latlng[0]
         user.longitude = g.latlng[1]
+        if( user.profile_picture == None):
+            filename = 'no-pic.png'
         user.profile_picture = request.url_root + 'static/picture/' + filename
         user.orientation = orientation
         user.gender = gender
