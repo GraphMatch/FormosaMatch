@@ -69,7 +69,7 @@
             </div>
           </div>
         </div>-->
-        {% if browse_nodes%}
+        {% if browse_nodes %}
         {% for node in browse_nodes %}
         <div class="col m4">
           <div class="card">
@@ -95,15 +95,13 @@
           </div>
         </div>
         {% endfor %}
-        <div class="row">
-          <div class="col s12">
+          <div class="col s12 end-match-cards">
             <div class="card-panel deep-purple lighten-2">
               <h2 class="white-text">That’s everyone we could find!</h2>
               <h3 class="white-text">If you set a lot of filters, you might not get any results.
                 Try broadening your search settings.</h3>
             </div>
           </div>
-        </div>
         {% else %}
         <div class="row">
           <div class="col s12">
