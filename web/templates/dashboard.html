@@ -24,6 +24,10 @@
     <main>
       <!-- <div class="row container match-cards"> -->
       <div class="row container">
+
+              <!-- Modal Trigger -->
+           <a class="waves-effect waves-light btn" href="#modalMatch">Modal</a>
+
         <div class="preloader-wrapper big active" style="display:none">
              <div class="spinner-layer spinner-blue">
                <div class="circle-clipper left">
@@ -184,6 +188,20 @@
     </div>
 
 
+
+   <!-- Modal Structure -->
+   <div id="modalMatch" class="modal modal-fixed-footer center">
+     <div class="modal-content">
+       <h4>厲害！You got a match!</h4>
+       <img src="../static/picture/no-pic.png">
+       <p>username . 10 km from you</p>
+
+     </div>
+     <div class="modal-footer">
+       <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Cool!</a>
+     </div>
+   </div>
+
     {% include "partials/chat.html"%}
     <!--  Scripts -->
     {% include "partials/scripts.html" %}
@@ -226,7 +244,7 @@
 
 
 
-    $( ".modal-close" ).click(function() {
+    $("#looking-for").on("click",".modal-close", function(){
       $( ".match-cards").html("");
       $(".preloader-wrapper").css('display','block');
       // --------------------------------------
@@ -278,6 +296,7 @@
       rangeDistance = rangeDistance < 1 ? 1 : rangeDistance;
       jsonData = JSON.stringify({'lookingFor':lookingFor, 'interestedIn':interestedIn, 'ageMax':ageMax, 'ageMin':ageMin, 'rangeDistance':rangeDistance});
       if(is_change){
+        console.log('changed')
         $.ajax
         (
           {
@@ -287,6 +306,7 @@
             data: jsonData,
             success: function(result)
             {
+              console.log(result);
               if (result.success)
               {
                 var matchesUsernames = result.matchesUsernames;
