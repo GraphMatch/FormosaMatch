@@ -222,6 +222,7 @@ class User(object):
         return self.graph.cypher.execute(query)
 
 
+
     def like_user(self,username):
         query = "MATCH (n:User {username: '" +self.username+ "' }) MATCH (m:User {username: '" + username + "'}) CREATE (n)-[r:LIKES]->(m)"
         self.graph.cypher.execute(query)

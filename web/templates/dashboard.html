@@ -26,7 +26,7 @@
           <div class="card">
             <div class="card-image">
               <img src="https://scontent-hkg3-1.xx.fbcdn.net/v/t1.0-9/14199272_10153793602986994_6528017139146155017_n.jpg?oh=96ff396f3cbbbc3887242890b7b15266&oe=58DEE9DB">
-              <span class="card-title" style="width:100%; background: rgba(0, 0, 0, 0.5);">vicsanchez2</span>
+              <span class="card-title" style="width:100%; background: rgba(0, 0, 0, 0.5);">xiaosan_chez</span>
             </div>
             <div class="center card-content">
               <h5>24 · Hsinchu City</h5>
@@ -39,36 +39,9 @@
         <div class="col m4">
           <div class="card">
             <div class="card-image">
-              <img src="https://scontent-hkg3-1.xx.fbcdn.net/v/t1.0-9/14224726_10154410151630102_4417490480241454900_n.jpg?oh=c9cbeefb6d078518008762756113ca90&oe=59206B32">
-              <span class="card-title" style="width:100%; background: rgba(0, 0, 0, 0.5);">bellechen91108</span>
-            </div>
-            <div class="center card-content">
-              <h5>27 · Taipei</h5>
-            </div>
-            <div class="card-action center">
-              <a class="waves-effect btn-flat no-like waves-purple">Like</a>
-            </div>
-          </div>
-        </div>
-        <div class="col m4">
-          <div class="card">
-            <div class="card-image">
-              <img src="https://scontent-hkg3-1.xx.fbcdn.net/v/t1.0-9/15894241_10157898907775234_1181409786702853647_n.jpg?oh=ad5b761ae0f104b59c4ecbc42d52cea7&oe=58E28935">
-              <span class="card-title" style="width:100%; background: rgba(0, 0, 0, 0.5);">AlejandRamen</span>
-            </div>
-            <div class="center card-content">
-              <h5>29 · Taizhong</h5>
-            </div>
-            <div class="card-action center">
-              <a class="waves-effect waves-teal btn deep-purple lighten-2">Liked<i class="material-icons left">done</i></a>
-            </div>
-          </div>
-        </div>
-        <div class="col m4">
-          <div class="card">
-            <div class="card-image">
               <img src="https://scontent-hkg3-1.xx.fbcdn.net/v/t1.0-9/13179398_10153464657216479_372899908850126625_n.jpg?oh=3148ce9e6760a5760035224ed037014f&oe=58E9E32B">
-              <span class="card-title" style="width:100%; background: rgba(0, 0, 0, 0.5);">roblesc</span>
+              <span class="card-title" style="width:100%; background: rgba(0, 0, 0, 0.5);">xiaolin</span>
+
             </div>
             <div class="center card-content">
               <h5>22 · 台中</h5>
@@ -78,6 +51,25 @@
             </div>
           </div>
         </div>
+
+        {% for node in browse_nodes %}
+        <div class="col m4">
+          <div class="card">
+            <div class="card-image">
+              <img src="https://scontent-hkg3-1.xx.fbcdn.net/v/t1.0-9/13179398_10153464657216479_372899908850126625_n.jpg?oh=3148ce9e6760a5760035224ed037014f&oe=58E9E32B">
+              <span class="card-title" style="width:100%; background: rgba(0, 0, 0, 0.5);">{{ node['username'] }}</span>
+            </div>
+            <div class="center card-content">
+              <h5>{{ node['age'] }} · {{ node['locationFormatted'] }}</h5>
+            </div>
+            <div class="card-action center">
+              <a class="waves-effect btn-flat no-like waves-purple">Like</a>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+
+
 
 
       </div>
@@ -92,6 +84,7 @@
             <option value="" disabled selected>Choose your option</option>
             <option value="man">Man</option>
             <option value="woman">Woman</option>
+            <option value="everyone">Everyone</option>
           </select>
         </div>
       </div>
@@ -120,7 +113,7 @@
         <div class="input-field col s12">
           <div class="row">
             <div class="input-field col s6">
-              <input placeholder="Placeholder" id="age-min" type="text" class="validate">
+              <input id="age-min" type="text" class="validate">
               <label for="age-min">Min</label>
             </div>
             <div class="input-field col s6">
@@ -137,7 +130,7 @@
     <div id="range-distance" class="modal">
       <div class="modal-content">
         <div class="input-field col s12">
-              <input placeholder="Placeholder" id="distance" type="text" class="validate">
+              <input  id="distance" type="text" class="validate">
               <label for="distance">Distance (in Kilometers)</label>
 
         </div>
