@@ -13,6 +13,7 @@ from modelssql.message import Message
 from modelsneo.user import User as UserNeo
 import datetime
 import csv
+import os
 
 
 migrate = Migrate(application, db)
@@ -44,12 +45,12 @@ def create_admin():
 
 @manager.command
 def create_match_users():
-    user = User(orientation = "straight", gender = 'man', birth_date = '1991-01-03', country = 'Taiwan', city = 'Hsinchu City',
+    user = User(preference = "straight", gender = 'man', birth_date = '1991-01-03', country = 'Taiwan', city = 'Hsinchu City',
     email = 'roblescoulter@gmail.com', username = 'roblescoulter', password='admin123', latitude = 24.8047, longitude = 120.9714)
     db.session.add(user)
     db.session.commit()
 
-    user1 = User(orientation = "straight", gender = 'woman', birth_date = '1991-01-03', country = 'Taiwan', city = 'Hsinchu City',
+    user1 = User(preference = "straight", gender = 'woman', birth_date = '1991-01-03', country = 'Taiwan', city = 'Hsinchu City',
     email = 'alemeraz@gmail.com', username = 'alemeraz', password='admin123', latitude = 24.8047, longitude = 120.9714)
     db.session.add(user1)
     db.session.commit()
@@ -98,7 +99,7 @@ def create_photos():
             line += 1
             check_user = User.query.filter_by(username = row[1].strip()).first()
             if(check_user):
-                if(check_user.profile_picture == ''):
+                if(check_user.profile_picture is None):
                     check_user.profile_picture = row[0]
             print("User ", line, " photo updated")
         db.session.commit()
