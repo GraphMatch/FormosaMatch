@@ -46,8 +46,6 @@ class User(object):
             self.sexPreference = 'man'
         elif gender == 'man' and orientation == 'bisexual':
             self.sexPreference = 'everyone'
-
-
         self.locationFormatted = locationFormatted
         self.height = height
         self.bodyType = bodyType
