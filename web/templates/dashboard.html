@@ -22,7 +22,24 @@
 
     </header>
     <main>
-      <div class="row container match-cards">
+      <!-- <div class="row container match-cards"> -->
+      <div class="row container">
+        <div class="preloader-wrapper big active" style="display:none">
+             <div class="spinner-layer spinner-blue">
+               <div class="circle-clipper left">
+                 <div class="circle">
+                 </div>
+               </div>
+               <div class="gap-patch">
+                 <div class="circle">
+                 </div>
+               </div><div class="circle-clipper right">
+                 <div class="circle">
+                 </div>
+               </div>
+             </div>
+        </div>
+        <div class="match-cards">
         <!--<div class="col m4">
           <div class="card">
             <div class="card-image">
@@ -100,6 +117,7 @@
 
 
       </div>
+      </div>
 
     </main>
 
@@ -172,10 +190,10 @@
     <!--  Scripts -->
     {% include "partials/scripts.html" %}
     <script>
-    $( ".no-like" ).click(function() {
+    $(".match-cards").on("click",".no-like", function(){
       thisParent = $(this).parent();
       var usernameClicked = ($(this).parent().parent().children('.card-image').children('.card-title').text())
-
+      console.log("clicked");
       $.ajax
       (
         {
@@ -211,6 +229,8 @@
 
 
     $( ".modal-close" ).click(function() {
+      $( ".match-cards").html("");
+      $(".preloader-wrapper").css('display','block');
       // --------------------------------------
       var is_change = false;
       var age = $( ".btn.age-range" ).text().split("-");
@@ -271,24 +291,52 @@
           data: jsonData,
           success: function(result)
           {
-            console.log(result);
             if (result.success)
             {
               var matchesUsernames = result.matchesUsernames;
               var matchesPictures = result.matchesPictures;
-              matchesUsernamesLength = matchesUsernames.length;
-              matchesPicturesLength = matchesPictures.length;
-              for (var i = 0; i < matchesUsernamesLength; i++) {
-                username = matchesUsernames[i];
-                profilePic = "";
+              var matchesLocations = result.matchesLocations;
+              var matchesAges = result.matchesAges;
+              var matchesDistances = result.matchesDistances;
+              var matchesLikes = result.matchesLikes;
 
-                if (typeof(matchesPictures[username]) !== 'undefined')
+              matchesUsernamesLength = matchesUsernames.length;
+              htmlMatchCards = "";
+
+              for (var i = 0; i < matchesUsernamesLength; i++)
+              {
+                username = matchesUsernames[i];
+                // Create cards for each user
+
+                htmlUser = "<div class=\"col m4\"><div class=\"card\"><div class=\"card-image\">";
+                if ((typeof(matchesPictures[username]) !== 'undefined') && (matchesPictures[username] != ""))
                 {
-                  profilePic = matchesPictures[username];
+                  htmlUser = htmlUser + "<img class=\"materialboxed\" data-caption=\""+username+"\" src=\""+matchesPictures[username]+"\">";
+                }
+                else
+                {
+                  htmlUser = htmlUser + "<img src=\"../static/picture/no-pic.png\">";
                 }
 
-              }
+                htmlUser = htmlUser + "<span class=\"card-title\" style=\"width:100%; background: rgba(0, 0, 0, 0.5);\">"+username+"</span></div>";
+                htmlUser = htmlUser + "<div class=\"center card-content\"><h5>"+ matchesAges[i]+" . "+matchesLocations[i] + "</h5>";
+                htmlUser = htmlUser + "<h5>"+matchesDistances[i]+" km away from your location</h5></div>";
+                htmlUser = htmlUser + "<div class=\"card-action center\">";
+                if (matchesLikes[i] > 0)
+                {
+                  htmlUser = htmlUser + "<a class=\"waves-effect waves-teal btn deep-purple lighten-2\">Liked<i class=\"material-icons left\">done</i></a>";
+                }
+                else
+                {
+                  htmlUser = htmlUser + "<a class=\"waves-effect btn-flat no-like waves-purple\">Like</a>";
+                }
+                htmlUser = htmlUser + "</div></div></div>";
 
+                htmlMatchCards = htmlMatchCards + htmlUser;
+              }
+              $( ".match-cards").html(htmlMatchCards);
+              $('.materialboxed').materialbox();
+              $(".preloader-wrapper").css('display','none');
             }
             else
             {

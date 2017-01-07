@@ -105,10 +105,13 @@
                 <label for="educationValue">Your education level</label>
               </div>
             </div>
+			I'm interested in this age range
             <div class="row">
-              <div class="input-field col s3 m6 push-m3" id="age_range">
+				<div class="input-field col s3 m6 push-m3">
+					<div id="age_range">
 
-              </div>
+					</div>
+				</div>	
             </div>
             <div class="row">
               <div class="input-field col s3 m6 push-m3">
@@ -171,7 +174,11 @@
     var slider = document.getElementById('age_range');
       noUiSlider.create(slider, {
        start: [ start_min , start_max ],
+	   tooltips: true,
        connect: true,
+	   format: wNumb({
+			decimals: 0
+		}),
        step: 1,
        range: {
          'min': 18,

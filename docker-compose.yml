@@ -28,7 +28,6 @@ nginx:
     - web:web
 
 neo4j:
-  # image: tpires/neo4j
   image: neo4j:latest
   environment:
       - NEO4J_AUTH=neo4j/admin123
