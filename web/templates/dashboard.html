@@ -56,7 +56,11 @@
         <div class="col m4">
           <div class="card">
             <div class="card-image">
-              <img src="https://scontent-hkg3-1.xx.fbcdn.net/v/t1.0-9/13179398_10153464657216479_372899908850126625_n.jpg?oh=3148ce9e6760a5760035224ed037014f&oe=58E9E32B">
+              {% if nodes_pictures[node['username']] %}
+              <img class="materialboxed circular" data-caption="{{ node['username'] }}" src="{{nodes_pictures[node['username']]}}">
+              {% else %}
+              <img src="../static/picture/no-pic.png">
+              {% endif %}
               <span class="card-title" style="width:100%; background: rgba(0, 0, 0, 0.5);">{{ node['username'] }}</span>
             </div>
             <div class="center card-content">
@@ -73,9 +77,7 @@
           </div>
         </div>
         {% endfor %}
-        {{ browse_nodes }}
-
-
+        {{ matchesUsernames }}
 
 
       </div>
