@@ -43,7 +43,7 @@ def index():
     """
         Try to get the country and city from the user IP address
     """
-    ip = request.remote_addr #'140.114.202.215'
+    ip = request.remote_addr
     g = geocoder.ip(ip)
     return render_template('index.html',
     city = g.city,
@@ -60,14 +60,26 @@ def dashboard():
     userNeo = UserNeo(graph=graph, username= session_username)
     matches = []
     matchesPictures = {}
-    matchesUsernames = []
-    if userNeo.find() is not None:
-        matches = userNeo.get_browse_nodes()
+    looking_for = "man"#man/woman/everyone
+    age_min = 18
+    age_max = 80
+
+    interested_in = pluralize_gender(user.gender) #man/woman
+    userN = userNeo.find()
+    if userN is not None:
+        looking_for = pluralize_gender(userN['sexPreference'])
+        matches = userNeo.get_browse_nodes(distance =10000)
+        age_min = int(float(userN['minAge']))
+        age_max = int(float(userN['maxAge']))
+
         matchesUsernames = []
         for node in matches:
             matchesUsernames.append(node["username"])
         matchesPictures = get_profile_pictures(matchesUsernames)
-    return render_template('dashboard.html', current_user = user, browse_nodes = matches, nodes_pictures = matchesPictures, matchesUsernames = matchesUsernames)
+    return render_template('dashboard.html', current_user = user,
+     browse_nodes = matches, nodes_pictures = matchesPictures,
+     interested_in = interested_in, looking_for = looking_for, age_min = age_min,
+     age_max = age_max )
 
 
 @app.route('/register', methods=['POST'])
@@ -242,7 +254,7 @@ def profile():
         file = request.files['profile_picture']
         filename = ""
         if file and allowed_file(file.filename):
-            filename = str(uuid.uuid1()) + '.' + secure_filename(file.filename).split(".")[-1]
+            filename = str(username) + '.' + secure_filename(file.filename).split(".")[-1]
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 
         orientation = request.form['orientation']
@@ -296,7 +308,7 @@ def profile():
         user.city = city
         user.latitude = g.latlng[0]
         user.longitude = g.latlng[1]
-        user.profile_picture = filename
+        user.profile_picture = request.url_root + 'static/picture/' + filename
         user.orientation = orientation
         user.gender = gender
         birth_date = datetime.datetime.strptime(birth_date_submit, "%Y-%m-%d")
@@ -407,6 +419,12 @@ def get_profile_pictures(users):
         users_dict[user.username] = user.profile_picture
     return users_dict
 
+def pluralize_gender(gender):
+    if gender == "man":
+        return "men"
+    elif gender == "woman":
+        return "women"
+    return gender
 
 if __name__ == '__main__':
     app.run()
