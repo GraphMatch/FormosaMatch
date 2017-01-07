@@ -8,6 +8,10 @@ padding: 0 15px;
 .brand-logo{
   height: 64px;
 }
+
+.brand-logo-index {
+  height: 300px;
+}
 .icon-block .material-icons {
 font-size: inherit;
 }

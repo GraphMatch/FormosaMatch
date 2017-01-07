@@ -60,14 +60,13 @@ def dashboard():
     userNeo = UserNeo(graph=graph, username= session_username)
     matches = []
     matchesPictures = {}
-    matchesUsernames = []
     if userNeo.find() is not None:
-        matches = userNeo.get_browse_nodes()
+        matches = userNeo.get_browse_nodes(distance =10000)
         matchesUsernames = []
         for node in matches:
             matchesUsernames.append(node["username"])
         matchesPictures = get_profile_pictures(matchesUsernames)
-    return render_template('dashboard.html', current_user = user, browse_nodes = matches, nodes_pictures = matchesPictures, matchesUsernames = matchesUsernames)
+    return render_template('dashboard.html', current_user = user, browse_nodes = matches, nodes_pictures = matchesPictures)
 
 
 @app.route('/register', methods=['POST'])
