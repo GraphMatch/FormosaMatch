@@ -3,14 +3,27 @@
       <div class="background">
         <img src="../static/img/office.jpg">
       </div>
-      <a href="{{ url_for('profile') }}"><img class="circle" src="{{ current_user.profile_picture }}"></a>
+      {% if current_user.profile_picture %}
+        <a href="{{ url_for('profile') }}"><img class="circle" src="{{ current_user.profile_picture }}"></a>
+      {% else %}
+        <a href="{{ url_for('profile') }}"><img src="../static/picture/no-pic.png"></a>
+      {% endif %}
       <a href="{{ url_for('profile') }}"><span class="white-text name">{{ current_user.username }}</span></a>
       <a href="{{ url_for('profile') }}"><span class="white-text email">{{ current_user.email }}</span></a>
     </div></li>
-    <li><a href="{{ url_for('my_matches') }}"><i class="material-icons">supervisor_account</i>Matches<span class="new badge">4</span></a></li>
+    <li><a href="{{ url_for('my_matches') }}"><i class="material-icons">supervisor_account</i>Matches
+      {% if newMatches > 0%}
+      <span id="newMatches" class="new badge">{{newMatches}}</span>
+      {% endif %}
+    </a>
+    </li>
     <li><a href="{{ url_for('dashboard')}}"><i class="material-icons">person_pin</i>Browse</a></li>
     <li><div class="divider"></div></li>
     <li><a class="subheader">Settings</a></li>
-    <li><a class="waves-effect" href="{{ url_for('profile') }}"><i class="material-icons">perm_identity</i>My Profile</a></li>
+    <li><a class="waves-effect" href="{{ url_for('profile') }}"><i class="material-icons">perm_identity</i>My Profile
+    {% if emptyFieldsCount > 0%}
+      <span id="newFields" class="new badge">{{emptyFieldsCount}}</span>
+    {% endif %}
+    </a></li>
     <li><a class="waves-effect" href="{{ url_for('logout') }}"><i class="material-icons">power_settings_new</i>Log out</a></li>
 </ul>

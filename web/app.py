@@ -18,6 +18,7 @@ import uuid
 import os
 from flask_googlemaps import GoogleMaps
 from flask_googlemaps import Map, icons
+import random
 
 app = Flask(__name__)
 app.config.from_object(BaseConfig)
@@ -37,7 +38,10 @@ GoogleMaps(app)
 
 from modelssql.user import User
 from modelsneo.user import User as UserNeo
-from modelssql.question_list import QuestionList
+from modelssql.match import Match
+from modelssql.message import Message
+from sqlalchemy.sql import text
+from modelssql.question import Question
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -68,6 +72,13 @@ def dashboard():
     looking_for = "man"#man/woman/everyone
     age_min = 18
     age_max = 29
+
+
+    newMatchesA = (Match.query.filter_by(user_a_id = user.id, new=True).all());
+    newMatchesB = (Match.query.filter_by(user_b_id = user.id, new=True).all());
+    newMatchesLen = len(newMatchesA) + len(newMatchesB)
+
+    emptyFieldsCount = getEmptyFieldsCount(session_username)
     interested_in = user.gender #man/woman
     userN = userNeo.find()
     if userN is not None:
@@ -91,7 +102,7 @@ def dashboard():
     return render_template('dashboard.html', current_user = user,
      browse_nodes = matches, nodes_pictures = matchesPictures,
      interested_in = interested_in, looking_for = looking_for, age_min = age_min,
-     age_max = age_max )
+     age_max = age_max, newMatches=newMatchesLen ,emptyFieldsCount=emptyFieldsCount)
 
 
 @app.route('/register', methods=['POST'])
@@ -263,6 +274,13 @@ def profile():
         return redirect(url_for('index'))
     username = session.get('username')
     user = User.query.filter_by(username = username).first()
+    newMatchesA = (Match.query.filter_by(user_a_id = user.id, new=True).all());
+    newMatchesB = (Match.query.filter_by(user_b_id = user.id, new=True).all());
+
+    newMatchesLen = len(newMatchesA) + len(newMatchesB)
+
+    emptyFieldsCount = getEmptyFieldsCount(username)
+
     if request.method == 'POST':
         file = request.files['profile_picture']
         filename = ""
@@ -353,7 +371,8 @@ def profile():
         current_user = user,
         age_range_min = age_range[0],
         age_range_max = age_range[1],
-        usernode = user_neo
+        usernode = user_neo,
+        newMatches=newMatchesLen,emptyFieldsCount=emptyFieldsCount
         )
 
 def allowed_file(filename):
@@ -369,8 +388,10 @@ def logout():
 def like(username):
     currentUsername = session.get('username')
     currentUserNeo = UserNeo(graph=graph, username=currentUsername)
+    currenUser = User.query.filter_by(username = currentUsername).first()
+    userLiked = User.query.filter_by(username = username).first()
     if (currentUserNeo.find()) is not None:
-        if (User.query.filter_by(username = username).first()) is not None:
+        if(userLiked is not None):
             userLikedNeo = UserNeo(graph=graph, username=username)
             if (userLikedNeo.find()) is not None:
                 currentUserNeo.like_user(username)
@@ -384,6 +405,10 @@ def like(username):
     msgStr = "User " + currentUsername + " liked " + username
     matched = 0
     if (currentUserNeo.check_if_match(username)):
+        match = Match(True, currenUser.id, userLiked.id)
+        db.session.add(match)
+        db.session.commit()
+        db.session.close()
         matched = 1
 
     return jsonify({'success': 1, 'matched':matched, 'message': msgStr})
@@ -395,7 +420,19 @@ def my_matches():
         flash('Sorry! You need to log in order to access to this page!')
         return redirect(url_for('index'))
     currentUsername = session['username']
+    user = User.query.filter_by(username = currentUsername).first()
     currentUserNeo = UserNeo(graph=graph, username=currentUsername)
+    newMatchesA = (Match.query.filter_by(user_a_id = user.id, new=True).all());
+    newMatchesB = (Match.query.filter_by(user_b_id = user.id, new=True).all());
+
+    newMatchesLen = len(newMatchesA) + len(newMatchesB)
+    emptyFieldsCount = getEmptyFieldsCount(currentUsername)
+
+    for match in newMatchesA:
+        match.new=False;
+    for match in newMatchesB:
+        match.new=False;
+    db.session.commit()
 
     matches = []
     matchesLocations = []
@@ -418,7 +455,7 @@ def my_matches():
 
     user = User.query.filter_by(username = session['username']).first()
 
-    return render_template('matches.html', current_user = user, matchesPictures = matchesPictures, matchesUsernames=matchesUsernames, matchesLocations=matchesLocations,matchesAges=matchesAges,matchesDistances=matchesDistances)
+    return render_template('matches.html', current_user = user, matchesPictures = matchesPictures, matchesUsernames=matchesUsernames, matchesLocations=matchesLocations,matchesAges=matchesAges,matchesDistances=matchesDistances, newMatches=newMatchesLen, emptyFieldsCount=emptyFieldsCount)
 
 @app.route('/filter/', methods=["POST"])
 def filter():
@@ -489,11 +526,48 @@ def fullmap():
     )
     return render_template('fullmap.html', fullmap=fullmap, users_dict = users_dict)
 
+@app.route('/getnewmessagesfrom/<username>')
+def get_new_messages_from(username):
+    session_username = session.get('username')
+    receiver_user = User.query.filter_by(username = username).first()
+    session_user = User.query.filter_by(username = session_username).first()
+    match = Match.query.from_statement(text("SELECT * FROM match where (user_a_id=:ida AND user_b_id=:idb) OR (user_a_id=:idb AND user_b_id=:ida) ")).params(ida = session_user.id, idb = receiver_user.id).first()
+    messages = Message.query.filter_by(match_id = match.id, receiver_id = session_user.id, delivered = False).all()
+    if(len(messages) == 0):
+        return jsonify({'success': 0, 'user': username})
+    return jsonify({'success': 1, 'user': username, 'messages': messages})
+
+@app.route('/get20q')
+def get20q():
+    questions = Question.query.all()
+    randomQuestion = random.choice(questions)
+    return jsonify({'success': 1, 'question': randomQuestion.text })
+
 def get_profile_pictures(users):
     users_dict = {}
     for user in User.query.filter(User.username.in_(users)):
         users_dict[user.username] = user.profile_picture
     return users_dict
+
+def getEmptyFieldsCount(username):
+    user_neo = UserNeo(graph, username = username).find()
+    emptyFieldsCount = 0
+    if user_neo['minAge'] is None:
+        emptyFieldsCount = emptyFieldsCount + 1
+    if user_neo['maxAge'] is None:
+        emptyFieldsCount = emptyFieldsCount + 1
+    if user_neo['smoking'] is None:
+        emptyFieldsCount = emptyFieldsCount + 1
+    if user_neo['educationValue'] is None:
+        emptyFieldsCount = emptyFieldsCount + 1
+    if user_neo['drinking'] is None:
+        emptyFieldsCount = emptyFieldsCount + 1
+    if user_neo['bodyType'] is None:
+        emptyFieldsCount = emptyFieldsCount + 1
+    if user_neo['height'] is None or user_neo['height'] == 0:
+        emptyFieldsCount = emptyFieldsCount + 1
+
+    return emptyFieldsCount
 
 if __name__ == '__main__':
     app.run()

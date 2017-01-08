@@ -12,14 +12,16 @@ class Match(db.Model):
     user_a_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     user_b_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     timestamp = db.Column(db.DateTime, nullable=False)
+    new = db.Column(db.Boolean, nullable=False)
     ## True is enabled, False is disabled
     status = db.Column(db.Boolean, nullable=False)
     user_a = db.relationship("User", foreign_keys=[user_a_id])
     user_b = db.relationship("User", foreign_keys=[user_b_id])
     messages = db.relationship("Message", back_populates="match")
 
-    def __init__(self, status, user_a_id, user_b_id):
+    def __init__(self, status, user_a_id, user_b_id, new = True):
         self.status = status
         self.timestamp = datetime.datetime.now()
         self.user_a_id = user_a_id
         self.user_b_id = user_b_id
+        self.new = True

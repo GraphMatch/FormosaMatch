@@ -56,6 +56,30 @@
     {% include "partials/chat.html"%}
     <!--  Scripts -->
     {% include "partials/scripts.html" %}
+    <script>
+          {% if newMatches > 0 %}
+            var options = {};
+            $( "#newMatches" ).effect( 'fade', options, 1500, callbackHideNewMatches  );
+            function  callbackHideNewMatches () {
+            $( "#newMatches" ).css( 'display', 'none');
+            {% if emptyFieldsCount > 0%}
+          $( "#newFields" ).effect( 'shake', options, 1500, callbackEmptyFields  );
+          {% endif %}
+           };
+          {% endif %}
+
+          {% if emptyFieldsCount > 0%}
+            var options = {};
+            {% if newMatches == 0 %}
+              $( "#newFields" ).effect( 'shake', options, 1500, callbackEmptyFields  );
+            {% endif %}
+          function callbackEmptyFields() {
+          setTimeout(function() {
+              $( "#newFields" ).removeAttr( "style" ).hide().fadeIn();
+          }, 1000 );
+        };
+          {% endif %}
+    </script>
     <!--  End of Scripts-->
   </body>
 </html>
