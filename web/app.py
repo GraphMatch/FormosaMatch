@@ -68,7 +68,6 @@ def dashboard():
     looking_for = "man"#man/woman/everyone
     age_min = 18
     age_max = 29
-
     interested_in = user.gender #man/woman
     userN = userNeo.find()
     if userN is not None:

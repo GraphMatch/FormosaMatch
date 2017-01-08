@@ -247,9 +247,7 @@ $(".modal-filter").on("click",".modal-close", function(){
 });
 
 $(".chips-container").on("click",".delete-tag",function() {
-  if($(".chips-container .chip").length == 1){
-    $(".filter-nav").css("height","64px");
-  }
+  console.log($(".chips-container"));
 });
 
 $(".advanced-search").on("click",function(){
@@ -262,6 +260,8 @@ $(".advanced-search").on("click",function(){
       has_advanced_filter = true;
     } else {
       $(".chips-container div.min-height-tag").data("value",height_min);
+
+        alert("VALUE: " + $(".chips-container div.min-height-tag").data("value") + " IS IT THE SAME AS " + height_min);
     }
   }
   var height_max = $("#modalAdvancedFilter .row select.filter-for-height-max").val();
@@ -314,5 +314,6 @@ $(".advanced-search").on("click",function(){
     $(".chips-container").append($(append_values));
   }
 
-
+  //
+  //$(".chips-container").append("<div class='chip'>Height<i class='delete-tag close material-icons'>close</i></div>");
 });
