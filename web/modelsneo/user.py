@@ -229,6 +229,10 @@ class User(object):
         query = "MATCH (n:User {username: '" +self.username+ "' }) MATCH (m:User {username: '" + username + "'}) CREATE (n)-[r:LIKES]->(m)"
         self.graph.cypher.execute(query)
         matched = self.check_if_match(username)
+        if matched is not None:
+            matched = True
+        else:
+            matched = False
         return dumps([{'created': True, 'matched': matched}])
 
 
@@ -242,8 +246,8 @@ class User(object):
             query2 = "MATCH (n:User {username: '" + self.username + "' }) MATCH (m:User {username: '" + username + "'}) CREATE (m)-[r:MATCH{matchId: (m.username + n.username)}]->(n)"
             self.graph.cypher.execute(query)
             self.graph.cypher.execute(query2)
-            return True
-        return False
+            return self.username+username
+        return None
 
 
     def get_matches(self,startFrom = 0,resultAmount = 10):
