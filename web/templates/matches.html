@@ -33,7 +33,11 @@
               </div>
               <div class="center card-content">
                 <h5>{{ matchesAges[loop.index-1] }} · {{ matchesLocations[loop.index-1] }}</h5>
-                <h5>{{ matchesDistances[loop.index-1] }} km away from your location</h5>
+                  {% if matchesDistances[loop.index-1]  > 0 %}
+                      <h5>{{ matchesDistances[loop.index-1] }} km away from your location</h5>
+                  {% else %}
+                      <h5>Nearby</h5>
+                  {% endif %}
               </div>
               <div class="card-action center">
                 <a class="waves-effect waves-teal btn deep-purple lighten-2">Chat<i class="material-icons left">chat_bubble_outline</i></a>
