@@ -448,9 +448,11 @@ def fullmap():
     users = User.query.all()
     users_dict = []
     for user in users:
-        users_dict.append( { 'icon': icons.dots.yellow, 'title': user.username,
-        'lat': float(user.latitude),
-        'lng': float(user.longitude) })
+        lat = float(user.latitude)
+        lng = float(user.longitude)
+        users_dict.append( { 'icon': icons.dots.yellow, 'title': user.username + ' ' + str(lat) + ' ; ' + str(lng) ,
+        'lat': lat,
+        'lng': lng })
     cpt = len(users_dict)
     fullmap = Map(
         identifier="fullmap",
@@ -463,9 +465,10 @@ def fullmap():
             "position:absolute;"
             "z-index:200;"
         ),
-        lat=37.4419,
-        lng=-122.1419,
+        lat=23.6393252,
+        lng=119.967072,
         markers = users_dict,
+        zoom="8"
     )
     return render_template('fullmap.html', fullmap=fullmap, users_dict = users_dict)
 
