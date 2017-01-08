@@ -1,4 +1,4 @@
-<div class="chat-main" data-question="{{ url_for('get20q') }}" data-sendmessage="{{ url_for('sendmessageto') }}" >
+<div class="chat-main" data-question="{{ url_for('get20q') }}" data-sendmessage="{{ url_for('sendmessageto') }}" data-newmessages="{{ url_for('get_new_messages_from', username='') }}" >
   <style id="dynamic-styles"></style>
   <div id="hangout" class="collapsed hide-on-med-and-down">
    <div id="head" class="style-bg deep-purple lighten-1"> <i class="mdi mdi-arrow-left"></i>
@@ -25,7 +25,7 @@
         {% endfor %}
      </ul>
      </div>
-     <div class="list-chat">
+     <div class="list-chat" data-username="alemeraz1234" >
        <ul class="chat">
          <li>
          <img src="../static/picture/no-pic.png">

@@ -518,20 +518,18 @@ def filter():
 
 @app.route('/sendmessageto', methods=["POST"])
 def sendmessageto():
-    username = 'ijnul'
     """ Send message """
+    session_username = session.get('username')
+    session_user = User.query.filter_by(username = session_username).first()
+    jsonData = request.get_json()
+    username = jsonData['username']
     receiver_user = User.query.filter_by(username = username).first()
     if(receiver_user is None):
         return jsonify({'success': -1, 'message': 'The user ' + username + ' does not exist'})
-    session_username = session.get('username')
-    session_user = User.query.filter_by(username = session_username).first()
     match = Match.query.from_statement(text("SELECT * FROM match where status=:status AND ((user_a_id=:ida AND user_b_id=:idb) OR (user_a_id=:idb AND user_b_id=:ida)) ")).params(ida = session_user.id, idb = receiver_user.id, status = True).first()
     if(match is None):
         return jsonify({'success': -1, 'message': 'The match with the user ' + username + ' does not exist'})
-
-    session_user = User.query.filter_by(username = session_username).first()
-    jsonData = request.get_json()
-    msg = jsonData['message'] #Get from the request
+    msg = jsonData['message']
     message = Message(text = msg, match_id = match.id, sender_id = session_user.id, receiver_id = receiver_user.id)
     db.session.add(message)
     db.session.commit()
@@ -577,10 +575,17 @@ def get_new_messages_from(username):
     match = Match.query.from_statement(text("SELECT * FROM match where status=:status AND ((user_a_id=:ida AND user_b_id=:idb) OR (user_a_id=:idb AND user_b_id=:ida)) ")).params(ida = session_user.id, idb = receiver_user.id, status = True).first()
     if(match is None):
         return jsonify({'success': -1, 'message': 'The match with the user ' + username + ' does not exist'})
-    messages = Message.query.filter_by(match_id = match.id, receiver_id = session_user.id, delivered = False).all()
+    messages = Message.query.filter_by(match_id = match.id, delivered = True).all()
+    for message in messages:
+        message.delivered = True
+    db.session.commit()
     if(len(messages) == 0):
-        return jsonify({'success': 0, 'message': 'No new message'})
-    return jsonify({'success': 1, 'user': username, 'messages': [m.serialize() for m in messages]})
+        return jsonify({'success': 0, 'message': 'No new messages'})
+    messagesArray = []
+    for m in messages:
+        mObj = {'senderUsername': m.sender.username, 'text': m.text, 'timestamp':m.timestamp}
+        messagesArray.append(mObj)
+    return jsonify({'success': 1, 'user': username, 'messages': messagesArray})
 
 @app.route('/getmessagesfrom/<username>')
 def get_messages_from(username):
@@ -592,10 +597,17 @@ def get_messages_from(username):
     match = Match.query.from_statement(text("SELECT * FROM match where status=:status AND ((user_a_id=:ida AND user_b_id=:idb) OR (user_a_id=:idb AND user_b_id=:ida)) ")).params(ida = session_user.id, idb = receiver_user.id, status = True).first()
     if(match is None):
         return jsonify({'success': -1, 'message': 'The match with the user ' + username + ' does not exist'})
-    messages = Message.query.filter_by(match_id = match.id, receiver_id = session_user.id).all()
+    messages = Message.query.filter_by(match_id = match.id).all()
+    for message in messages:
+        message.delivered = True
+    db.session.commit()
     if(len(messages) == 0):
         return jsonify({'success': 0, 'message': 'No messages'})
-    return jsonify({'success': 1, 'user': username, 'messages': [m.serialize() for m in messages]})
+    messagesArray = []
+    for m in messages:
+        mObj = {'senderUsername': m.sender.username, 'text': m.text, 'timestamp':m.timestamp}
+        messagesArray.append(mObj)
+    return jsonify({'success': 1, 'user': username, 'messages': messagesArray})
 
 @app.route('/get20q')
 def get20q():

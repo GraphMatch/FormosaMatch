@@ -9,6 +9,7 @@
     setRoute(GLOBALSTATE.route);
     var url_for_question = $(".chat-main").data("question");
     var url_for_send_message = $(".chat-main").data("sendmessage");
+    var url_for_newmessages = $(".chat-main").data("newmessages");
 
     $('#head .mdi-chevron-down').on('click', function() {
         if ($('#hangout').hasClass('collapsed')) {
@@ -165,7 +166,33 @@
             }
         });
     });
-    $('.mdi-radiobox-marked').on('click', function(){
+
+    window.setInterval(function(){
+      //remove here
+      currentOpenedChatUsername = $('.list-chat').data('username');
+      /// call your function here
+      console.log('Update messages');
+      $.ajax
+      (
+        {
+          url: url_for_newmessages+currentOpenedChatUsername,
+          success: function(result)
+          {
+            if (result.success)
+            {
+              console.log(result.messages)
+            }
+            else
+            {
+              console.log('Error on request');
+            }
+          }
+        }
+      );
+
+    }, 5000);
+
+    $('.mdi-help').on('click', function(){
       $('.chat-input').val('');
       $.ajax
       (
@@ -185,8 +212,6 @@
           }
         }
       );
-
-      // get20q
     });
 }); // end of document ready
 })(jQuery); // end of jQuery name space
