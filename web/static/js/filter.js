@@ -77,6 +77,10 @@ function getNewNodes() {
   );
 }
 
+$(".advanced-filter").on("click",function () {
+  $('#modalAdvancedFilter').modal("open");
+});
+
 $(".match-cards").on("click",".no-like", function(){
   thisParent = $(this).parent();
   var $card_node = $(this).closest(".card");
@@ -105,12 +109,9 @@ $(".match-cards").on("click",".no-like", function(){
             $($modal_node).find("img").attr("src",pic);
             $('#modalMatch').modal('open');
           }
-        }
-        else
-        {
+        }else{
           console.log(result.error);
         }
-
       }
     }
   );
@@ -242,5 +243,76 @@ $(".modal-filter").on("click",".modal-close", function(){
       }
     );
   }
+
+});
+
+$(".chips-container").on("click",".delete-tag",function() {
+  if($(".chips-container .chip").length == 1){
+    $(".filter-nav").css("height","64px");
+  }
+});
+
+$(".advanced-search").on("click",function(){
+  var has_advanced_filter = false;
+  var append_values = "";
+  var height_min = $("#modalAdvancedFilter .row select.filter-for-height-min").val();
+  if (height_min) {
+    if($(".chips-container div.min-height-tag").length < 1){
+      append_values = append_values + "<div data-value='"+height_min+"' class='chip min-height-tag'>Min Height<i class='delete-tag close material-icons'>close</i></div>";
+      has_advanced_filter = true;
+    } else {
+      $(".chips-container div.min-height-tag").data("value",height_min);
+    }
+  }
+  var height_max = $("#modalAdvancedFilter .row select.filter-for-height-max").val();
+  if (height_max) {
+    if($(".chips-container div.max-height-tag").length < 1){
+      append_values = append_values + "<div data-value='"+height_max+"' class='chip max-height-tag'>Max Height<i class='delete-tag close material-icons'>close</i></div>";
+      has_advanced_filter = true;
+    } else {
+      $(".chips-container div.max-height-tag").data("value",height_max);
+    }
+  }
+  var body_type = $("#modalAdvancedFilter .row select.filter-for-body-type").val();
+  if (body_type) {
+    if($(".chips-container div.body-type-tag").length < 1){
+      append_values = append_values + "<div data-value='"+body_type+"' class='chip body-type-tag'>Body Type<i class='delete-tag close material-icons'>close</i></div>";
+      has_advanced_filter = true;
+    } else {
+      $(".chips-container div.body-type-tag").data("value",body_type);
+    }
+  }
+  var smoking = $("#modalAdvancedFilter .row select.filter-for-smoking").val();
+  if (smoking) {
+    if($(".chips-container div.smoking-tag").length < 1){
+      append_values = append_values + "<div data-value='"+smoking+"' class='chip smoking-tag'>Smoking<i class='delete-tag close material-icons'>close</i></div>";
+      has_advanced_filter = true;
+    } else {
+      $(".chips-container div.smoking-tag").data("value",smoking);
+    }
+  }
+  var drinking = $("#modalAdvancedFilter .row select.filter-for-drinking").val();
+  if (drinking) {
+    if($(".chips-container div.drinking-tag").length < 1){
+      append_values = append_values + "<div data-value='"+drinking+"' class='chip drinking-tag'>Drinking<i class='delete-tag close material-icons'>close</i></div>";
+      has_advanced_filter = true;
+    } else {
+      $(".chips-container div.drinking-tag").data("value", drinking);
+    }
+  }
+  var education = $("#modalAdvancedFilter .row select.filter-for-education").val();
+  if (education) {
+    if($(".chips-container div.education-tag").length < 1){
+      append_values = append_values + "<div data-value='"+education+"' class='chip education-tag'>Education Level<i class='delete-tag close material-icons'>close</i></div>";
+      has_advanced_filter = true;
+    } else {
+      $(".chips-container div.education-tag").data("value",education);
+    }
+  }
+  if (has_advanced_filter) {
+    $(".filter-nav").css("height","128px");
+    $(".chips-container").append($(append_values));
+  }
+
 
 });
