@@ -16,21 +16,24 @@
 
     </header>
     <main>
-      {% if matches %}
+      {% set length = matchesUsernames|length %}
+      {% if length > 0 %}
         <div class="row container match-cards">
-          {% for match in matches %}
+          {% for _ in range(0, matchesUsernames|length) %}
           <div class="col m4">
             <div class="card">
               <div class="card-image">
-                {% if current_user.profile_picture is defined and current_user.profile_picture != None %}
-                  <img src="../static/picture/{{ current_user.profile_picture }}">
+
+                {% if matchesPictures[matchesUsernames[loop.index-1]] %}
+                  <img class="materialboxed" data-caption="{{ matchesUsernames[loop.index-1] }}" src="{{ matchesPictures[matchesUsernames[loop.index-1]] }}">
                 {% else %}
                   <img src="../static/picture/no-pic.png">
                 {% endif%}
-                <span class="card-title" style="width:100%; background: rgba(0, 0, 0, 0.5);">{{ match[0]['username'] }}</span>
+                <span class="card-title" style="width:100%; background: rgba(0, 0, 0, 0.5);">{{ matchesUsernames[loop.index-1] }}</span>
               </div>
               <div class="center card-content">
-                <h5>{{ match[0]['age'] }} · {{ match[0]['locationFormatted'] }}</h5>
+                <h5>{{ matchesAges[loop.index-1] }} · {{ matchesLocations[loop.index-1] }}</h5>
+                <h5>{{ matchesDistances[loop.index-1] }} km away from your location</h5>
               </div>
               <div class="card-action center">
                 <a class="waves-effect waves-teal btn deep-purple lighten-2">Chat<i class="material-icons left">chat_bubble_outline</i></a>
