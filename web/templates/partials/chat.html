@@ -26,43 +26,70 @@
      </ul>
      </div>
      <div class="list-chat">
-       <ul class="chat">
+       {% for match in mymatches %}
+       <ul class="chat" data-username="{{ match['username'] }}">
          <li>
-         <img src="../static/picture/no-pic.png">
-           <div class="message">o hai!</div>
+           {% if current_user.profile_picture %}
+             <img src="{{ current_user.profile_picture }}">
+           {% else %}
+             <img src="../static/picture/no-pic.png">
+           {% endif %}
+           <div class="message">Hi!</div>
          </li>
          <li>
-         <img src="http://lorempixel.com/100/100/people/1/">
-           <div class="message"></div>
+           {% if matchesPictures[match['username']] %}
+             <img src="{{ matchesPictures[match['username']] }}">
+           {% else %}
+             <img src="../static/picture/no-pic.png" >
+           {% endif %}
+           <div class="message">Hello!</div>
          </li>
          <li>
-         <img src="../static/picture/no-pic.png">
-           <div class="message current">why?</div>
+           {% if current_user.profile_picture %}
+             <img src="{{ current_user.profile_picture }}">
+           {% else %}
+             <img src="../static/picture/no-pic.png">
+           {% endif %}
+           <div class="message current">Hey! How are you?</div>
          </li>
          <li>
-         <img src="http://lorempixel.com/100/100/people/1/">
-           <div class="message">what?</div>
+           {% if matchesPictures[match['username']] %}
+             <img src="{{ matchesPictures[match['username']] }}">
+           {% else %}
+             <img src="../static/picture/no-pic.png" >
+           {% endif %}
+           <div class="message">I'm good! Wanna play RandomQ?</div>
          </li>
          <li>
-         <img src="../static/picture/no-pic.png">
-           <div class="message current">why?</div>
+           {% if current_user.profile_picture %}
+             <img src="{{ current_user.profile_picture }}">
+           {% else %}
+             <img src="../static/picture/no-pic.png">
+           {% endif %}
+           <div class="message current">Sure! I'll send the first one</div>
          </li>
          <li>
-         <img src="http://lorempixel.com/100/100/people/1/">
-           <div class="message">what?</div>
+           {% if matchesPictures[match['username']] %}
+             <img src="{{ matchesPictures[match['username']] }}">
+           {% else %}
+             <img src="../static/picture/no-pic.png" >
+           {% endif %}
+           <div class="message">Ok!</div>
          </li>
          <li>
-         <img src="../static/picture/no-pic.png">
-           <div class="message current">why?</div>
-         </li>
-         <li>
-         <img src="http://lorempixel.com/100/100/people/1/">
-           <div class="message">what?</div>
+           {% if current_user.profile_picture %}
+             <img src="{{ current_user.profile_picture }}">
+           {% else %}
+             <img src="../static/picture/no-pic.png">
+           {% endif %}
+           <div class="message current">How fast do hotcakes sell?</div>
          </li>
        </ul>
+       {% endfor %}
        <div class="meta-bar chat"><input class="nostyle chat-input" type="text" placeholder="Message..." /><a  data-tooltip="Give me a question!" data-delay="50" data-position="top"><i class="mdi mdi-help mdi-24px"></i></a> <i class="mdi mdi-send mdi-24px"></i></div>
      </div>
      </div>
+
 
   </div>
 </div>

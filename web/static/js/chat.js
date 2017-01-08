@@ -23,6 +23,7 @@
 
     $('.list-text > ul > li').on('click', function() {
         var username = $(this).data("username");
+        $(".list-chat").data("username",username)
         $.ajax
         (
           {
@@ -95,7 +96,7 @@
     $('.mdi-send').on('click', function() {
         var $message = $('.chat-input').val();
         var $chatmessage = '<p>' + $('.chat-input').val() + '</p>';
-        $('ul.chat > li > .current').append($chatmessage);
+        $('ul.chat > li > .current').last().append($chatmessage);
         $('.chat-input').val('');
         jsonData = JSON.stringify({'message': $message});
         $.ajax
