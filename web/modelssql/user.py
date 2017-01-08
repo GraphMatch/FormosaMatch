@@ -3,7 +3,6 @@
 import datetime
 from app import db, bcrypt, graph
 from datetime import date
-from modelssql.question import Question
 from modelssql.match import Match
 
 class User(db.Model):
@@ -24,7 +23,6 @@ class User(db.Model):
     city = db.Column(db.String(50), nullable=False)
     latitude = db.Column(db.DECIMAL(10,7), nullable=True)
     longitude = db.Column(db.DECIMAL(10,7), nullable=True)
-    questions = db.relationship("Question", back_populates="user")
     firstTime = db.Column(db.Boolean, nullable=False, default=False)
     #matches_a = db.relationship("Match", back_populates="user_b")
     #matches_b = db.relationship("Match", back_populates="user_a")
