@@ -45,14 +45,27 @@ def create_admin():
 @manager.command
 def create_match_users():
     user = User(orientation = "straight", gender = 'man', birth_date = '1991-01-03', country = 'Taiwan', city = 'Hsinchu City',
-    email = 'roblescoulter12@gmail.com', username = 'roblescoulter12', password='admin123', latitude = 24.8047, longitude = 120.9714)
+    email = 'roblescoulter1234@gmail.com', username = 'roblescoulter1234', password='admin123', latitude = 24.8047, longitude = 120.9714)
     db.session.add(user)
     db.session.commit()
 
+    user_neo = UserNeo(graph=graph, username='roblescoulter1234', gender = 'man', age=25, latitude = 24.8047, longitude = 120.9714,
+        orientation = 'straight', locationFormatted = 'Taipei')
+
+    user_neo.register()
+
     user1 = User(orientation = "straight", gender = 'woman', birth_date = '1991-01-03', country = 'Taiwan', city = 'Hsinchu City',
-    email = 'alemeraz12@gmail.com', username = 'alemeraz12', password='admin123', latitude = 24.8047, longitude = 120.9714)
+    email = 'alemeraz1234@gmail.com', username = 'alemeraz1234', password='admin123', latitude = 24.8047, longitude = 120.9714)
     db.session.add(user1)
     db.session.commit()
+
+    user_neo1 = UserNeo(graph=graph, username='alemeraz1234', gender = 'woman', age=25, latitude = 24.8047, longitude = 120.9714,
+        orientation = 'straight', locationFormatted = 'Taipei')
+
+    user_neo1.register()
+
+    user_neo.like_user('alemeraz1234')
+    user_neo1.like_user('roblescoulter1234')
 
     match = Match(True, user.id, user1.id, True)
     db.session.add(match)
