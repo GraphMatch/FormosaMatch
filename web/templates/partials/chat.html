@@ -1,4 +1,4 @@
-<div class="chat-main" data-question="{{ url_for('get20q') }}" data-sendmessage="{{ url_for('sendmessageto') }}" >
+<div class="chat-main" data-question="{{ url_for('get20q') }}" data-sendmessage="{{ url_for('sendmessageto') }}" data-newmessages="{{ url_for('get_new_messages_from', username='') }}" >
   <style id="dynamic-styles"></style>
   <div id="hangout" class="collapsed hide-on-med-and-down">
    <div id="head" class="style-bg deep-purple lighten-1"> <i class="mdi mdi-arrow-left"></i>
@@ -28,6 +28,7 @@
      <div class="list-chat">
        {% for match in mymatches %}
        <ul class="chat" data-username="{{ match['username'] }}">
+
          <li>
            {% if current_user.profile_picture %}
              <img src="{{ current_user.profile_picture }}">
