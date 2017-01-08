@@ -21,8 +21,18 @@
     });
 
     $('.list-text > ul > li').on('click', function() {
-        $('ul.chat > li').eq(1).html('<img src="' + $(this).find('img').prop('src') + '"><div class="message"><p>' + $(this).find('.txt').text() + '</p></div>');
-
+        var username = $(this).data("username");
+        $.ajax
+        (
+          {
+            method: 'GET',
+            url: '/getmessagesfrom/'+username,
+            contentType: "application/json",
+            success: function(result){
+              console.log(result);
+            }
+          }
+        );
         // timeout just for eyecandy...
         setTimeout(function() {
             $('.shown').removeClass('shown');

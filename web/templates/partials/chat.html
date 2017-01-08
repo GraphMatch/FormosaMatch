@@ -8,7 +8,7 @@
      <div class="list-text">
      <ul class="list mat-ripple">
        {% for match in mymatches %}
-          <li data-username="{{ match['username'] }}">
+          <li data-username="{{ match['username'] }}" class="open-chat">
           {% if matchesPictures[match['username']] %}
             <img src="{{ matchesPictures[match['username']] }}">
           {% else %}
@@ -16,7 +16,7 @@
           {% endif %}
            <div class="content-container">
              <span class="name">{{ match['username'] }}</span>
-             <span class="txt">I get the other  a bit </span>
+             <span class="txt">Hello!</span>
            </div>
            <span class="time">
              14:00
