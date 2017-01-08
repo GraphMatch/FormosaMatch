@@ -17,6 +17,7 @@
         } else {
             $(this).removeClass('mdi-chevron-down').addClass('mdi-chevron-up');
             $('#hangout').addClass('collapsed');
+            $('.mdi-arrow-left').click();
         }
     });
 
@@ -48,24 +49,7 @@
         setRoute('.list-text');
     });
 
-    //dirtiest, ugliest, hackiest ripple effect solution ever... but they work xD
-    /*$('.floater').on('click', function(event) {
-        var $ripple = $('<div class="ripple tiny bright"></div>');
-        var x = event.offsetX;
-        var y = event.offsetY;
-        var $me = $(this);
 
-        $ripple.css({
-            top: y,
-            left: x
-        });
-        $(this).append($ripple);
-
-        setTimeout(function() {
-            $me.find('.ripple').remove();
-        }, 530)
-
-    });*/
 
     // Have to Delegate ripple due to dom manipulation (add)
     $('ul.mat-ripple').on('click', 'li', function(event) {
