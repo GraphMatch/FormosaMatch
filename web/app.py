@@ -564,6 +564,21 @@ def get_new_messages_from(username):
         return jsonify({'success': 0, 'message': 'No new message'})
     return jsonify({'success': 1, 'user': username, 'messages': [m.serialize() for m in messages]})
 
+@app.route('/getmessagesfrom/<username>')
+def get_messages_from(username):
+    receiver_user = User.query.filter_by(username = username).first()
+    if(receiver_user is None):
+        return jsonify({'success': -1, 'message': 'The user ' + username + ' does not exist'})
+    session_username = session.get('username')
+    session_user = User.query.filter_by(username = session_username).first()
+    match = Match.query.from_statement(text("SELECT * FROM match where status=:status AND ((user_a_id=:ida AND user_b_id=:idb) OR (user_a_id=:idb AND user_b_id=:ida)) ")).params(ida = session_user.id, idb = receiver_user.id, status = True).first()
+    if(match is None):
+        return jsonify({'success': -1, 'message': 'The match with the user ' + username + ' does not exist'})
+    messages = Message.query.filter_by(match_id = match.id, receiver_id = session_user.id).all()
+    if(len(messages) == 0):
+        return jsonify({'success': 0, 'message': 'No messages'})
+    return jsonify({'success': 1, 'user': username, 'messages': [m.serialize() for m in messages]})
+
 @app.route('/get20q')
 def get20q():
     questions = Question.query.all()
