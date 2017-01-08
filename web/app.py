@@ -16,11 +16,14 @@ from datetime import date
 from werkzeug import secure_filename
 import uuid
 import os
+from flask_googlemaps import GoogleMaps
+from flask_googlemaps import Map, icons
 
 app = Flask(__name__)
 app.config.from_object(BaseConfig)
 app.config['DEBUG'] = True
 app.config['MAIL_DEBUG'] = True
+app.config['GOOGLEMAPS_KEY'] = "AIzaSyAhlmJxd2tyBQGsAdekX8DyQLzGEc09OPA"
 
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
 
@@ -30,9 +33,11 @@ graph = Graph('http://neo4j:admin123@neo4j:7474/db/data/')
 bcrypt = Bcrypt(app)
 db = SQLAlchemy(app)
 mail = Mail(app)
+GoogleMaps(app)
 
 from modelssql.user import User
 from modelsneo.user import User as UserNeo
+from modelssql.question_list import QuestionList
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -68,7 +73,7 @@ def dashboard():
     userN = userNeo.find()
     if userN is not None:
         looking_for = (userN['sexPreference'])
-        matches = userNeo.get_browse_nodes(distance=100)
+        matches = userNeo.get_browse_nodes()
         if userN['minAge'] != None:
             age_min = int(float(userN['minAge']))
         else:
@@ -439,7 +444,6 @@ def filter():
             matchesAges = []
             matchesDistances = []
             matchesLikes = []
-
             for node in matches:
                 matchesUsernames.append(node["username"])
                 matchesLocations.append(node["locationFormatted"])
@@ -450,6 +454,41 @@ def filter():
             return jsonify({'success': 1, 'matchesUsernames':matchesUsernames, 'matchesPictures':matchesPictures, 'matchesAges': matchesAges, 'matchesDistances': matchesDistances, 'matchesLikes': matchesLikes, 'matchesLocations': matchesLocations })
         else:
             return jsonify({'success': 0, 'error':'Your user was not found. Check your session.'})
+
+@app.route('/sendmessage/', methods=['GET', 'POST'])
+def sendmessage():
+    """ my_matches """
+    jsonData = request.get_json()
+    return jsonify({'success': 1, 'message': jsonData['message'] })
+
+@app.route('/fullmap')
+def fullmap():
+    users = User.query.all()
+    users_dict = []
+    for user in users:
+        lat = float(user.latitude)
+        lng = float(user.longitude)
+        users_dict.append( { 'icon': icons.dots.yellow, 'title': user.username + ' ' + str(lat) + ' ; ' + str(lng) ,
+        'lat': lat,
+        'lng': lng })
+    cpt = len(users_dict)
+    fullmap = Map(
+        identifier="fullmap",
+        varname="fullmap",
+        style=(
+            "height:100%;"
+            "width:100%;"
+            "top:0;"
+            "left:0;"
+            "position:absolute;"
+            "z-index:200;"
+        ),
+        lat=23.6393252,
+        lng=119.967072,
+        markers = users_dict,
+        zoom="8"
+    )
+    return render_template('fullmap.html', fullmap=fullmap, users_dict = users_dict)
 
 def get_profile_pictures(users):
     users_dict = {}

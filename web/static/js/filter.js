@@ -130,13 +130,13 @@ $(".modal-filter").on("click",".modal-close", function(){
   if(modal.hasClass("looking-for-modal")){
     $node = $(modal).find("ul.select-dropdown li.active");
     if($node.size() > 0 ){
-      $( ".btn.looking-for" ).text($($node).text());
+      $( ".btn.looking-for" ).text($($node).text().toLowerCase());
       is_change = true;
     }
   } else if (modal.hasClass("interested-in-modal")) {
     $node = $(modal).find("ul.select-dropdown li.active");
     if($node.size() > 0){
-      $(".btn.interested-in").text($($node).text());
+      $(".btn.interested-in").text($($node).text().toLowerCase());
       is_change = true;
     }
   } else if (modal.hasClass("age-range-modal")) {
@@ -160,7 +160,13 @@ $(".modal-filter").on("click",".modal-close", function(){
       $node.val("");
     }
   }
+
+
+  ageMax = ageMax < ageMin ? ageMin + 1 : ageMax;
+  ageMin = ageMin > ageMax ? ageMin - 1 : ageMin;
   ageMin = ageMin < 18 ? 18 : ageMin;
+  ageMax = ageMax < 18 ? 19 : ageMax;
+  ageMin = ageMin > 99 ? 98 : ageMin;
   ageMax = ageMax > 99 ? 99 : ageMax;
   age = ageMin + " - " + ageMax;
   $(".btn.age-range").text(age);

@@ -143,6 +143,44 @@ class User(object):
         query = query + " WHERE b.username <> '" + self.username +"' "
         order = ''
 
+        # bodyType, expected a string (may become a list in future?)
+        if bodyType is not None:
+            query = query + " AND (b.bodyType = '" + bodyType + "' or b.bodyType is null)"
+            order = order + 'bodyType asc,'
+            select = select + ', b.bodyType as bodyType '
+
+
+            # minHeight, expected a integer for cm
+        if minHeight is not None:
+            query = query + " AND (toFloat(b.height) >= " + str(
+                minHeight) + " or b.height is null or toFloat(b.height) = 0)"
+            order = order + 'height desc,'
+            select = select + ', b.height as height '
+
+            # maxHeight, expected a integer for cm
+        if maxHeight is not None:
+            query = query + " AND (toFloat(b.height) <= " + str(
+                maxHeight) + " or b.height is null or toFloat(b.height) = 0)"
+
+            # drinking, expected a string
+        if drinking is not None:
+            query = query + " AND (b.drinking = '" + drinking + "' or b.drinking is null)"
+            order = order + 'drinking asc,'
+            select = select + ', b.drinking as drinking '
+
+            # educationValue, expected a string
+        if educationValue is not None:
+            query = query + " AND (b.educationValue  = '" + educationValue + "' or b.educationValue is null)"
+            order = order + 'educationValue asc,'
+            select = select + ', b.educationValue as educationValue '
+
+            # smoking, expected a string
+        if smoking is not None:
+            query = query + " AND (b.smoking = '" + smoking + "' or b.smoking is null)"
+            order = order + 'smoking asc,'
+            select = select + ', b.smoking as smoking '
+
+        order = order + ' Distance asc, '
         #distance, expected Integer
         if distance is not None:
             query = query + ' AND toInt(distance(point(a),point(b)) / 1000 ) <=  ' + str(distance)
@@ -166,40 +204,6 @@ class User(object):
             order = order + 'sexPreference asc,'
             select = select + ', b.sexPreference as sexPreference '
 
-        # minHeight, expected a integer for cm
-        if minHeight is not None:
-            query = query + " AND (toFloat(b.height) >= " + str(minHeight) + " or b.height is null or toFloat(b.height) = 0)"
-            order = order + 'height desc,'
-            select = select + ', b.height as height '
-
-        # maxHeight, expected a integer for cm
-        if maxHeight is not None:
-            query = query + " AND (toFloat(b.height) <= " + str(maxHeight) + " or b.height is null or toFloat(b.height) = 0)"
-
-        # bodyType, expected a string (may become a list in future?)
-        if bodyType is not None:
-            query = query + " AND (b.bodyType = '" + bodyType + "' or b.bodyType is null)"
-            order = order + 'bodyType asc,'
-            select = select + ', b.bodyType as bodyType '
-
-        # drinking, expected a string
-        if drinking is not None:
-            query = query + " AND (b.drinking = '" + drinking + "' or b.drinking is null)"
-            order = order + 'drinking asc,'
-            select = select + ', b.drinking as drinking '
-
-       # educationValue, expected a string
-        if educationValue is not None:
-            query = query + " AND (b.educationValue  = '" + educationValue + "' or b.educationValue is null)"
-            order = order + 'educationValue asc,'
-            select = select + ', b.educationValue as educationValue '
-
-        # smoking, expected a string
-        if smoking is not None:
-            query = query + " AND (b.smoking = '" + smoking + "' or b.smoking is null)"
-            order = order + 'smoking asc,'
-            select = select + ', b.smoking as smoking '
-
         # minAge, expected a integer for age
         if minAge is not None:
             query = query + " AND (toFloat(b.age) >= " + str(minAge) + " or b.age is null or toFloat(b.age) = 0)"
@@ -212,7 +216,7 @@ class User(object):
 
         query = query + select
 
-        order = order + ' Distance asc '
+        order = order[:-1]
         query = query + ' order by ' + order
 
         query = query + ' skip ' + str(startFrom) + ' limit ' + str(resultAmount)
