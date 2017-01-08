@@ -432,7 +432,7 @@ def filter():
             ageMin = jsonData['ageMin']
             rangeDistance = jsonData['rangeDistance']
 
-            matches = currentUserNeo.get_browse_nodes(distance = rangeDistance, orientation = None, sexPreference = interestedIn, minAge = ageMin, maxAge = ageMax, startFrom=startFrom)
+            matches = currentUserNeo.get_browse_nodes(distance = rangeDistance, gender=lookingFor, orientation = None, sexPreference = interestedIn, minAge = ageMin, maxAge = ageMax, startFrom=startFrom)
             matchesPictures = {}
             matchesUsernames = []
             matchesLocations = []
@@ -450,7 +450,7 @@ def filter():
             return jsonify({'success': 1, 'matchesUsernames':matchesUsernames, 'matchesPictures':matchesPictures, 'matchesAges': matchesAges, 'matchesDistances': matchesDistances, 'matchesLikes': matchesLikes, 'matchesLocations': matchesLocations })
         else:
             return jsonify({'success': 0, 'error':'Your user was not found. Check your session.'})
-            
+
 def get_profile_pictures(users):
     users_dict = {}
     for user in User.query.filter(User.username.in_(users)):
