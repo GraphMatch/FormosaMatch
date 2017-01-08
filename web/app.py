@@ -78,6 +78,8 @@ def dashboard():
 
     newMatchesLen = len(newMatchesA) + len(newMatchesB)
 
+    emptyFieldsCount = getEmptyFieldsCount(session_username)
+
     interested_in = user.gender #man/woman
     userN = userNeo.find()
     if userN is not None:
@@ -101,7 +103,7 @@ def dashboard():
     return render_template('dashboard.html', current_user = user,
      browse_nodes = matches, nodes_pictures = matchesPictures,
      interested_in = interested_in, looking_for = looking_for, age_min = age_min,
-     age_max = age_max, newMatches=newMatchesLen )
+     age_max = age_max, newMatches=newMatchesLen ,emptyFieldsCount=emptyFieldsCount)
 
 
 @app.route('/register', methods=['POST'])
@@ -278,6 +280,8 @@ def profile():
 
     newMatchesLen = len(newMatchesA) + len(newMatchesB)
 
+    emptyFieldsCount = getEmptyFieldsCount(username)
+
     if request.method == 'POST':
         file = request.files['profile_picture']
         filename = ""
@@ -369,7 +373,7 @@ def profile():
         age_range_min = age_range[0],
         age_range_max = age_range[1],
         usernode = user_neo,
-        newMatches=newMatchesLen
+        newMatches=newMatchesLen,emptyFieldsCount=emptyFieldsCount
         )
 
 def allowed_file(filename):
@@ -423,13 +427,14 @@ def my_matches():
     newMatchesB = (Match.query.filter_by(user_b_id = user.id, new=True).all());
 
     newMatchesLen = len(newMatchesA) + len(newMatchesB)
+    emptyFieldsCount = getEmptyFieldsCount(currentUsername)
 
     for match in newMatchesA:
         match.new=False;
     for match in newMatchesB:
         match.new=False;
     db.session.commit()
-    
+
     matches = []
     matchesLocations = []
     matchesAges = []
@@ -451,7 +456,7 @@ def my_matches():
 
     user = User.query.filter_by(username = session['username']).first()
 
-    return render_template('matches.html', current_user = user, matchesPictures = matchesPictures, matchesUsernames=matchesUsernames, matchesLocations=matchesLocations,matchesAges=matchesAges,matchesDistances=matchesDistances, newMatches=newMatchesLen)
+    return render_template('matches.html', current_user = user, matchesPictures = matchesPictures, matchesUsernames=matchesUsernames, matchesLocations=matchesLocations,matchesAges=matchesAges,matchesDistances=matchesDistances, newMatches=newMatchesLen, emptyFieldsCount=emptyFieldsCount)
 
 @app.route('/filter/', methods=["POST"])
 def filter():
@@ -544,6 +549,26 @@ def get_profile_pictures(users):
     for user in User.query.filter(User.username.in_(users)):
         users_dict[user.username] = user.profile_picture
     return users_dict
+
+def getEmptyFieldsCount(username):
+    user_neo = UserNeo(graph, username = username).find()
+    emptyFieldsCount = 0
+    if user_neo['minAge'] is None:
+        emptyFieldsCount = emptyFieldsCount + 1
+    if user_neo['maxAge'] is None:
+        emptyFieldsCount = emptyFieldsCount + 1
+    if user_neo['smoking'] is None:
+        emptyFieldsCount = emptyFieldsCount + 1
+    if user_neo['educationValue'] is None:
+        emptyFieldsCount = emptyFieldsCount + 1
+    if user_neo['drinking'] is None:
+        emptyFieldsCount = emptyFieldsCount + 1
+    if user_neo['bodyType'] is None:
+        emptyFieldsCount = emptyFieldsCount + 1
+    if user_neo['height'] is None or user_neo['height'] == 0:
+        emptyFieldsCount = emptyFieldsCount + 1
+
+    return emptyFieldsCount
 
 if __name__ == '__main__':
     app.run()

@@ -176,11 +176,33 @@
     <script>
     {% if newMatches > 0 %}
       var options = {};
-      $( "#newMatches" ).effect( 'shake', options, 1500, callback  );
+      $( "#newMatches" ).effect( 'shake', options, 1500, callbackNewMatches  );
 
-    function callback() {
+    function callbackNewMatches() {
     setTimeout(function() {
+      {% if emptyFieldsCount == 0 %}
       $( "#newMatches" ).removeAttr( "style" ).hide().fadeIn();
+      {% endif %}
+        {% if emptyFieldsCount > 0%}
+      $( "#newFields" ).effect( 'shake', options, 1500, callbackEmptyFields  );
+      {% endif %}
+    }, 1000 );
+  };
+    {% endif %}
+
+    {% if emptyFieldsCount > 0%}
+      var options = {};
+      {% if newMatches == 0 %}
+        $( "#newFields" ).effect( 'shake', options, 1500, callbackEmptyFields  );
+      {% endif %}
+    function callbackEmptyFields() {
+    setTimeout(function() {
+      {% if newMatches == 0 %}
+        $( "#newFields" ).removeAttr( "style" ).hide().fadeIn();
+      {% endif %}
+      {% if newMatches > 0 %}
+        $( "#newMatches" ).effect( 'shake', options, 1500, callbackNewMatches  );
+      {% endif %}
     }, 1000 );
   };
     {% endif %}

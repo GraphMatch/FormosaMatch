@@ -20,6 +20,10 @@
     <li><a href="{{ url_for('dashboard')}}"><i class="material-icons">person_pin</i>Browse</a></li>
     <li><div class="divider"></div></li>
     <li><a class="subheader">Settings</a></li>
-    <li><a class="waves-effect" href="{{ url_for('profile') }}"><i class="material-icons">perm_identity</i>My Profile</a></li>
+    <li><a class="waves-effect" href="{{ url_for('profile') }}"><i class="material-icons">perm_identity</i>My Profile
+    {% if emptyFieldsCount > 0%}
+      <span id="newFields" class="new badge">{{emptyFieldsCount}}</span>
+    {% endif %}
+    </a></li>
     <li><a class="waves-effect" href="{{ url_for('logout') }}"><i class="material-icons">power_settings_new</i>Log out</a></li>
 </ul>
