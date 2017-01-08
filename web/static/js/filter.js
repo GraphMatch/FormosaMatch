@@ -237,7 +237,15 @@ function sendFilterAjax(node, hasUpdatedTags)
 
               htmlUser = htmlUser + "<span class=\"card-title\" style=\"width:100%; background: rgba(0, 0, 0, 0.5);\">"+username+"</span></div>";
               htmlUser = htmlUser + "<div class=\"center card-content\"><h5>"+ matchesAges[i]+" . "+matchesLocations[i] + "</h5>";
-              htmlUser = htmlUser + "<h5>"+matchesDistances[i]+" km away from your location</h5></div>";
+              if (matchesDistances[i] == 0)
+              {
+                htmlUser = htmlUser + "<h5>Nearby</h5></div>";
+              }
+              else
+              {
+                htmlUser = htmlUser + "<h5>"+matchesDistances[i]+" km away from your location</h5></div>";
+              }
+
               htmlUser = htmlUser + "<div class=\"card-action center\">";
               if (matchesLikes[i] > 0)
               {
