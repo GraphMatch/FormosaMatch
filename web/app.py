@@ -38,14 +38,10 @@ GoogleMaps(app)
 
 from modelssql.user import User
 from modelsneo.user import User as UserNeo
-<<<<<<< HEAD
-from modelssql.question_list import QuestionList
 from modelssql.match import Match
 from modelssql.message import Message
 from sqlalchemy.sql import text
-=======
 from modelssql.question import Question
->>>>>>> 322e8b8f2014b4dfc54b219422b23789065f78b6
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -504,8 +500,8 @@ def fullmap():
     )
     return render_template('fullmap.html', fullmap=fullmap, users_dict = users_dict)
 
-@app.route('/getmymessages/<username>')
-def get_my_messages(username):
+@app.route('/getnewmessagesfrom/<username>')
+def get_new_messages_from(username):
     session_username = session.get('username')
     receiver_user = User.query.filter_by(username = username).first()
     session_user = User.query.filter_by(username = session_username).first()
