@@ -111,7 +111,7 @@
 					<div id="age_range">
 
 					</div>
-				</div>	
+				</div>
             </div>
             <div class="row">
               <div class="input-field col s3 m6 push-m3">
@@ -192,6 +192,19 @@
           $("#age_range_min").val(values[handle]);
       	}
       });
+
+      {% if newMatches > 0 %}
+        var options = {};
+        $( "#newMatches" ).effect( 'shake', options, 1500, callback  );
+
+      function callback() {
+      setTimeout(function() {
+        $( "#newMatches" ).removeAttr( "style" ).hide().fadeIn();
+      }, 1000 );
+    };
+      {% endif %}
+
+
     </script>
     <!--  End of Scripts-->
   </body>

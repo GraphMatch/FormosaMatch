@@ -56,6 +56,15 @@
     {% include "partials/chat.html"%}
     <!--  Scripts -->
     {% include "partials/scripts.html" %}
+    <script>
+          {% if newMatches > 0 %}
+            var options = {};
+            $( "#newMatches" ).effect( 'fade', options, 1500, callbackHideNewMatches  );
+            function  callbackHideNewMatches () {
+            $( "#newMatches" ).css( 'display', 'none');
+           };
+          {% endif %}
+    </script>
     <!--  End of Scripts-->
   </body>
 </html>

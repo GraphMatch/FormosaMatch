@@ -13,7 +13,7 @@
     </div></li>
     <li><a href="{{ url_for('my_matches') }}"><i class="material-icons">supervisor_account</i>Matches
       {% if newMatches > 0%}
-      <span class="new badge">{{newMatches}}</span>
+      <span id="newMatches" class="new badge">{{newMatches}}</span>
       {% endif %}
     </a>
     </li>
