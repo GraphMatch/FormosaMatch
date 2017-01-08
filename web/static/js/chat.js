@@ -7,6 +7,7 @@
     };
     // Set first Route
     setRoute(GLOBALSTATE.route);
+    var url_for_question = $(".chat-main").data("question");
 
 
     $('#head .mdi-chevron-down').on('click', function() {
@@ -138,6 +139,29 @@
                 $(this).hide();
             }
         });
+    });
+    $('.mdi-radiobox-marked').on('click', function(){
+      $('.chat-input').val('');
+      $.ajax
+      (
+        {
+          // method: 'POST',
+          url: url_for_question,
+          success: function(result)
+          {
+            if (result.success)
+            {
+              $('.chat-input').val(result.question);
+            }
+            else
+            {
+              console.log('Error on request');
+            }
+          }
+        }
+      );
+
+      // get20q
     });
 }); // end of document ready
 })(jQuery); // end of jQuery name space

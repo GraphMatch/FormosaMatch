@@ -4,7 +4,6 @@ from flask.ext.script import Manager
 from flask.ext.migrate import Migrate, MigrateCommand
 from app import app as application
 from app import db, graph
-from modelssql.question_list import QuestionList
 from modelssql.user import User
 from modelssql.match import Match
 from modelssql.question import Question
@@ -76,17 +75,17 @@ def create_data():
 @manager.command
 def create_questions():
     """Creates the list of questions"""
-    with open('uploads/questions_1.csv', 'r', encoding='utf-8', errors='ignore') as csvfile:
-        csvreader = csv.reader(csvfile)
-        next(csvreader, None)
-        line = 0
-        for row in csvreader:
-            line += 1
-            array = row[0].split(",")
-            question = QuestionList(text = array[0])
+    with open("crawleddata/questions.txt", "r") as questionsfile:
+        lineNumber = 0
+        for line in questionsfile:
+            question = Question(text = line)
+
             db.session.add(question)
-            print("Question ", line, " added")
-        db.session.commit()
+            db.session.commit()
+
+            # if lineNumber == 50:
+                # break
+            lineNumber = lineNumber + 1
     print("Finished")
 
 @manager.command

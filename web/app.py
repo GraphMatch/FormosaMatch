@@ -18,6 +18,7 @@ import uuid
 import os
 from flask_googlemaps import GoogleMaps
 from flask_googlemaps import Map, icons
+import random
 
 app = Flask(__name__)
 app.config.from_object(BaseConfig)
@@ -37,7 +38,7 @@ GoogleMaps(app)
 
 from modelssql.user import User
 from modelsneo.user import User as UserNeo
-from modelssql.question_list import QuestionList
+from modelssql.question import Question
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -489,6 +490,12 @@ def fullmap():
         zoom="8"
     )
     return render_template('fullmap.html', fullmap=fullmap, users_dict = users_dict)
+
+@app.route('/get20q')
+def get20q():
+    questions = Question.query.all()
+    randomQuestion = random.choice(questions)
+    return jsonify({'success': 1, 'question': randomQuestion.text })
 
 def get_profile_pictures(users):
     users_dict = {}
