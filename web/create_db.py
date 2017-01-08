@@ -45,23 +45,23 @@ def create_admin():
 @manager.command
 def create_match_users():
     user = User(orientation = "straight", gender = 'man', birth_date = '1991-01-03', country = 'Taiwan', city = 'Hsinchu City',
-    email = 'roblescoulter@gmail.com', username = 'roblescoulter', password='admin123', latitude = 24.8047, longitude = 120.9714)
+    email = 'roblescoulter12@gmail.com', username = 'roblescoulter12', password='admin123', latitude = 24.8047, longitude = 120.9714)
     db.session.add(user)
     db.session.commit()
 
     user1 = User(orientation = "straight", gender = 'woman', birth_date = '1991-01-03', country = 'Taiwan', city = 'Hsinchu City',
-    email = 'alemeraz@gmail.com', username = 'alemeraz', password='admin123', latitude = 24.8047, longitude = 120.9714)
+    email = 'alemeraz12@gmail.com', username = 'alemeraz12', password='admin123', latitude = 24.8047, longitude = 120.9714)
     db.session.add(user1)
     db.session.commit()
 
-    match = Match(True, user.id, user1.id)
+    match = Match(True, user.id, user1.id, True)
     db.session.add(match)
     db.session.commit()
 
-    message1 = Message("Hello you!", match.id, user.id)
+    message1 = Message("Hello you!", match.id, user.id, user1.id)
     db.session.add(message1)
 
-    message2 = Message("Nihao! How are you Luis?", match.id, user1.id)
+    message2 = Message("Nihao! How are you Luis?", match.id, user1.id, user.id)
     db.session.add(message1)
 
     db.session.commit()
