@@ -73,7 +73,6 @@ def dashboard():
     age_min = 18
     age_max = 29
 
-
     newMatchesA = (Match.query.filter_by(user_a_id = user.id, new=True).all());
     newMatchesB = (Match.query.filter_by(user_b_id = user.id, new=True).all());
     newMatchesLen = len(newMatchesA) + len(newMatchesB)
