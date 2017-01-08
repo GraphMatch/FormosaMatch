@@ -38,6 +38,9 @@ GoogleMaps(app)
 
 from modelssql.user import User
 from modelsneo.user import User as UserNeo
+from modelssql.match import Match
+from modelssql.message import Message
+from sqlalchemy.sql import text
 from modelssql.question import Question
 
 
@@ -371,8 +374,10 @@ def logout():
 def like(username):
     currentUsername = session.get('username')
     currentUserNeo = UserNeo(graph=graph, username=currentUsername)
+    currenUser = User.query.filter_by(username = currentUsername).first()
+    userLiked = User.query.filter_by(username = username).first()
     if (currentUserNeo.find()) is not None:
-        if (User.query.filter_by(username = username).first()) is not None:
+        if(userLiked is not None):
             userLikedNeo = UserNeo(graph=graph, username=username)
             if (userLikedNeo.find()) is not None:
                 currentUserNeo.like_user(username)
@@ -386,6 +391,10 @@ def like(username):
     msgStr = "User " + currentUsername + " liked " + username
     matched = 0
     if (currentUserNeo.check_if_match(username)):
+        match = Match(True, currenUser.id, userLiked.id)
+        db.session.add(match)
+        db.session.commit()
+        db.session.close()
         matched = 1
 
     return jsonify({'success': 1, 'matched':matched, 'message': msgStr})
@@ -496,6 +505,17 @@ def fullmap():
         zoom="8"
     )
     return render_template('fullmap.html', fullmap=fullmap, users_dict = users_dict)
+
+@app.route('/getnewmessagesfrom/<username>')
+def get_new_messages_from(username):
+    session_username = session.get('username')
+    receiver_user = User.query.filter_by(username = username).first()
+    session_user = User.query.filter_by(username = session_username).first()
+    match = Match.query.from_statement(text("SELECT * FROM match where (user_a_id=:ida AND user_b_id=:idb) OR (user_a_id=:idb AND user_b_id=:ida) ")).params(ida = session_user.id, idb = receiver_user.id).first()
+    messages = Message.query.filter_by(match_id = match.id, receiver_id = session_user.id, delivered = False).all()
+    if(len(messages) == 0):
+        return jsonify({'success': 0, 'user': username})
+    return jsonify({'success': 1, 'user': username, 'messages': messages})
 
 @app.route('/get20q')
 def get20q():

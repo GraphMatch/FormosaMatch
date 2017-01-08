@@ -246,8 +246,8 @@ class User(object):
             query2 = "MATCH (n:User {username: '" + self.username + "' }) MATCH (m:User {username: '" + username + "'}) CREATE (m)-[r:MATCH{matchId: (m.username + n.username)}]->(n)"
             self.graph.cypher.execute(query)
             self.graph.cypher.execute(query2)
-            return self.username+username
-        return None
+            return True
+        return False
 
 
     def get_matches(self,startFrom = 0,resultAmount = 10):
