@@ -399,6 +399,12 @@ def my_matches():
     currentUsername = session['username']
     currentUserNeo = UserNeo(graph=graph, username=currentUsername)
 
+    # newMatchesA = (Match.query.filter_by(user_a_id = user.id, new=True).all());
+    # newMatchesB = (Match.query.filter_by(user_b_id = user.id, new=True).all());
+
+    newMatches = (Match.query.filter_by(new = True).all())
+    newMatchesLen = len(newMatches)
+
     matches = []
     matchesLocations = []
     matchesAges = []
@@ -420,7 +426,7 @@ def my_matches():
 
     user = User.query.filter_by(username = session['username']).first()
 
-    return render_template('matches.html', current_user = user, matchesPictures = matchesPictures, matchesUsernames=matchesUsernames, matchesLocations=matchesLocations,matchesAges=matchesAges,matchesDistances=matchesDistances)
+    return render_template('matches.html', current_user = user, matchesPictures = matchesPictures, matchesUsernames=matchesUsernames, matchesLocations=matchesLocations,matchesAges=matchesAges,matchesDistances=matchesDistances, newMatches=newMatchesLen)
 
 @app.route('/filter/', methods=["POST"])
 def filter():
