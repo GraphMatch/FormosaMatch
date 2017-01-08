@@ -15,8 +15,14 @@
       <nav class="top-nav deep-purple lighten-2 filter-nav">
         <div class="match-status center">
 
-          <p>I'm looking for: <a class='dropdown-button btn deep-purple lighten-3 looking-for'>{{ looking_for }}</a> who are interested in <a class='dropdown-button btn deep-purple lighten-3 interested-in' >{{ interested_in}}</a> ages <a class='dropdown-button btn deep-purple lighten-3 age-range'>{{ age_min }} - {{ age_max }}</a> located within <a class='dropdown-button btn deep-purple lighten-3 range-distance'>25</a> kilometers of me. <a class="btn deep-purple lighten-3 advanced-filter"><i style="line-height:38px;" class="large material-icons">settings_input_composite</i></a></p>
+          <p>I'm looking for: <a class='dropdown-button btn deep-purple lighten-3 looking-for'>{{ looking_for }}</a> who are interested in
+            <a class='dropdown-button btn deep-purple lighten-3 interested-in' >{{ interested_in}}</a> ages <a class='dropdown-button btn deep-purple lighten-3 age-range'>{{ age_min }} - {{ age_max }}</a> located within
+                 <a class='dropdown-button btn deep-purple lighten-3 range-distance'>25
+                 </a> kilometers of me. <a class="btn deep-purple lighten-3 advanced-filter">
+                   <i style="line-height:38px;" class="large material-icons">settings_input_composite</i></a></p>
+          <div class="chips-container">
 
+          </div>
         </div>
       </nav>
       {% include "partials/navbar.html" %}
@@ -109,69 +115,58 @@
       </div>
     </div>
     <!-- Modal Structure -->
-    <div id="interested-in" class="modal interested-in-modal modal-filter">
-      <div class="modal-content">
-        <div class="input-field col s12">
-          <select id="sexInterest">
-            <option value="" disabled selected>Choose your option</option>
-            <option value="men">Man</option>
-            <option value="women">Woman</option>
-            <option value="everyone">Everyone</option>
-          </select>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Done</a>
-      </div>
-    </div>
-    <div id="age-range" class="modal age-range-modal modal-filter">
-      <div class="modal-content">
-        <div class="input-field col s12">
-          <div class="row">
-            <div class="input-field col s6">
-              <input id="age-min" type="number" class="validate">
-              <label for="age-min">Min</label>
-            </div>
-            <div class="input-field col s6">
-              <input id="age-max" type="number" class="validate">
-              <label for="age-max">Max</label>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Done</a>
-      </div>
-    </div>
-    <div id="range-distance" class="modal range-distance-modal modal-filter">
-      <div class="modal-content">
-        <div class="input-field col s12">
-              <input id="distance" type="number" class="validate">
-              <label for="distance">Distance (in Kilometers)</label>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Done</a>
-      </div>
-    </div>
+    {% include "partials/filter_modal.html" %}
     <input type="number" class="start-from" name="" value="1" hidden>
 
 
 
-   <!-- Modal Structure -->
-   <div id="modalMatch" class="modal is_matched center">
-     <div class="modal-content">
-       <h4>厲害！You matched with <span class="matched-username"></span>!</h4>
-       <img src="../static/picture/no-pic.png">
-       <p><span class="matched-distance"></span> km from you</p>
-       <a class="waves-effect waves-teal btn deep-purple lighten-2">Start Chating!<i class="material-icons left">chat_bubble_outline</i></a>
-     </div>
-   </div>
-
-
+   <!-- Modal Structure For Match-->
+   {% include "partials/matched_modal.html" %}
+   <!-- END Modal Structure For Match-->
+   <!-- Modal Structure For Advanced Filter-->
+   {% include "partials/advanced_filter.html" %}
+   <!-- End Modal Structure For Advanced Filter-->
+   <!-- Chat Structure -->
     {% include "partials/chat.html"%}
+    <!--  End Chat Structure -->
     <!--  Scripts -->
     {% include "partials/scripts.html" %}
+
+    <script>
+    {% if newMatches > 0 %}
+      var options = {};
+      $( "#newMatches" ).effect( 'shake', options, 1500, callbackNewMatches  );
+
+    function callbackNewMatches() {
+    setTimeout(function() {
+      {% if emptyFieldsCount == 0 %}
+      $( "#newMatches" ).removeAttr( "style" ).hide().fadeIn();
+      {% endif %}
+        {% if emptyFieldsCount > 0%}
+      $( "#newFields" ).effect( 'shake', options, 1500, callbackEmptyFields  );
+      {% endif %}
+    }, 1000 );
+  };
+    {% endif %}
+
+    {% if emptyFieldsCount > 0%}
+      var options = {};
+      {% if newMatches == 0 %}
+        $( "#newFields" ).effect( 'shake', options, 1500, callbackEmptyFields  );
+      {% endif %}
+    function callbackEmptyFields() {
+    setTimeout(function() {
+      {% if newMatches == 0 %}
+        $( "#newFields" ).removeAttr( "style" ).hide().fadeIn();
+      {% endif %}
+      {% if newMatches > 0 %}
+        $( "#newMatches" ).effect( 'shake', options, 1500, callbackNewMatches  );
+      {% endif %}
+    }, 1000 );
+  };
+    {% endif %}
+    </script>
+
     <!--  End of Scripts-->
   </body>
 </html>

@@ -64,7 +64,7 @@
                   <option value="jacked" {% if usernode['bodyType'] == "jacked" %} selected {% endif %} >Jacked</option>
                   <option value="average_build" {% if usernode['bodyType'] == "average_build" %} selected {% endif %} >Average build</option>
                   <option value="fit" {% if usernode['bodyType'] == "fit" %} selected {% endif %} >Fit</option>
-                  <option value="rather_not_say" {% if usernode['bodyType'] == "rather_not_say" %} selected {% endif %} >Rather_not_say</option>
+                  <option value="rather_not_say" {% if usernode['bodyType'] == "rather_not_say" %} selected {% endif %} >Rather not say</option>
                   <option value="a_little_extra" {% if usernode['bodyType'] == "a_little_extra" %} selected {% endif %} >A little extra</option>
                   <option value="overweight" {% if usernode['bodyType'] == "overweight" %} selected {% endif %} >Overweight</option>
                   <option value="full_figured" {% if usernode['bodyType'] == "full_figured" %} selected {% endif %} >Full figured</option>
@@ -111,7 +111,7 @@
 					<div id="age_range">
 
 					</div>
-				</div>	
+				</div>
             </div>
             <div class="row">
               <div class="input-field col s3 m6 push-m3">
@@ -192,6 +192,42 @@
           $("#age_range_min").val(values[handle]);
       	}
       });
+
+      {% if newMatches > 0 %}
+        var options = {};
+        $( "#newMatches" ).effect( 'shake', options, 1500, callbackNewMatches  );
+
+      function callbackNewMatches() {
+      setTimeout(function() {
+        {% if emptyFieldsCount == 0 %}
+        $( "#newMatches" ).removeAttr( "style" ).hide().fadeIn();
+        {% endif %}
+          {% if emptyFieldsCount > 0%}
+        $( "#newFields" ).effect( 'shake', options, 1500, callbackEmptyFields  );
+        {% endif %}
+      }, 1000 );
+    };
+      {% endif %}
+
+      {% if emptyFieldsCount > 0%}
+        var options = {};
+        {% if newMatches == 0 %}
+          $( "#newFields" ).effect( 'shake', options, 1500, callbackEmptyFields  );
+        {% endif %}
+      function callbackEmptyFields() {
+      setTimeout(function() {
+        {% if newMatches == 0 %}
+          $( "#newFields" ).removeAttr( "style" ).hide().fadeIn();
+        {% endif %}
+        {% if newMatches > 0 %}
+          $( "#newMatches" ).effect( 'shake', options, 1500, callbackNewMatches  );
+        {% endif %}
+      }, 1000 );
+    };
+      {% endif %}
+
+
+
     </script>
     <!--  End of Scripts-->
   </body>
