@@ -397,9 +397,29 @@ def my_matches():
         return redirect(url_for('index'))
     currentUsername = session['username']
     currentUserNeo = UserNeo(graph=graph, username=currentUsername)
-    matches = currentUserNeo.get_matches()
+
+    matches = []
+    matchesLocations = []
+    matchesAges = []
+    matchesDistances = []
+    matchesUsernames = []
+    matchesPictures = {}
+    matchesArray = []
+    userN = currentUserNeo.find()
+    if userN is not None:
+        matches = currentUserNeo.get_matches()
+        for node in matches:
+            if node["username"] is not None:
+                matchesArray.append(node)
+            matchesUsernames.append(node["username"])
+            matchesLocations.append(node["locationFormatted"])
+            matchesAges.append(node["age"])
+            matchesDistances.append(node["Distance"])
+        matchesPictures = get_profile_pictures(matchesUsernames)
+
     user = User.query.filter_by(username = session['username']).first()
-    return render_template('matches.html', current_user = user, matches = matches)
+
+    return render_template('matches.html', current_user = user, matchesPictures = matchesPictures, matchesUsernames=matchesUsernames, matchesLocations=matchesLocations,matchesAges=matchesAges,matchesDistances=matchesDistances)
 
 @app.route('/filter/', methods=["POST"])
 def filter():
