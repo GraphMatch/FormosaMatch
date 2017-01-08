@@ -73,7 +73,7 @@ def dashboard():
     userN = userNeo.find()
     if userN is not None:
         looking_for = (userN['sexPreference'])
-        matches = userNeo.get_browse_nodes(distance=100)
+        matches = userNeo.get_browse_nodes()
         if userN['minAge'] != None:
             age_min = int(float(userN['minAge']))
         else:
@@ -437,7 +437,7 @@ def filter():
             ageMin = jsonData['ageMin']
             rangeDistance = jsonData['rangeDistance']
 
-            matches = currentUserNeo.get_browse_nodes(distance = rangeDistance, orientation = None, sexPreference = interestedIn, minAge = ageMin, maxAge = ageMax, startFrom=startFrom)
+            matches = currentUserNeo.get_browse_nodes(distance = rangeDistance, gender=lookingFor, orientation = None, sexPreference = interestedIn, minAge = ageMin, maxAge = ageMax, startFrom=startFrom)
             matchesPictures = {}
             matchesUsernames = []
             matchesLocations = []
@@ -454,8 +454,6 @@ def filter():
             return jsonify({'success': 1, 'matchesUsernames':matchesUsernames, 'matchesPictures':matchesPictures, 'matchesAges': matchesAges, 'matchesDistances': matchesDistances, 'matchesLikes': matchesLikes, 'matchesLocations': matchesLocations })
         else:
             return jsonify({'success': 0, 'error':'Your user was not found. Check your session.'})
-
-    # return jsonify({'success': 1})
 
 @app.route('/sendmessage/', methods=['GET', 'POST'])
 def sendmessage():
@@ -491,7 +489,6 @@ def fullmap():
         zoom="8"
     )
     return render_template('fullmap.html', fullmap=fullmap, users_dict = users_dict)
-
 
 def get_profile_pictures(users):
     users_dict = {}
