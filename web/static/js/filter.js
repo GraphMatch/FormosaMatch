@@ -1,8 +1,8 @@
 var options = [
 {
-  selector: '.end-match-cards', offset: 0, callback: function(el){
+  // selector: '.end-match-cards', offset: 0, callback: function(el){
+  selector: '#endMatchCard', offset: 0, callback: function(el){
     getNewNodes()
-    Materialize.scrollFire(options);
   }
 }];
 Materialize.scrollFire(options);
@@ -29,7 +29,10 @@ function getNewNodes() {
       data: jsonData,
       success: function(result)
       {
-        if (result.success){
+        if (result.success)
+        {
+          if (result.matchesUsernames.length > 0)
+          {
           var matchesUsernames = result.matchesUsernames;
           var matchesPictures = result.matchesPictures;
           var matchesLocations = result.matchesLocations;
@@ -38,7 +41,6 @@ function getNewNodes() {
           var matchesLikes = result.matchesLikes;
           matchesUsernamesLength = matchesUsernames.length;
           htmlMatchCards = "";
-          alert("HERE");
           for (var i = 0; i < matchesUsernamesLength; i++){
             username = matchesUsernames[i];
             htmlUser = "<div class=\"col m4\"><div class=\"card\"><div class=\"card-image\">";
@@ -58,14 +60,15 @@ function getNewNodes() {
             }
             htmlUser = htmlUser + "</div></div></div>";
             htmlMatchCards = htmlMatchCards + htmlUser;
-
-            console.log(htmlMatchCards);
           }
           // $( ".match-cards").append(htmlMatchCards);
+          optionsScript = "<script>var options = [{selector: '#endMatchCard', offset: 0, callback: function(el){getNewNodes()}}];</script>"
+          htmlMatchCards = htmlMatchCards + optionsScript
           $( ".end-match-cards").before(htmlMatchCards);
+          Materialize.scrollFire(options);
           $('.materialboxed').materialbox();
           $(".start-from").val(parseInt($(".start-from").val())+ 1);
-
+        }
         } else {
           console.log('Error in AJAX');
         }
@@ -127,13 +130,13 @@ $(".modal-filter").on("click",".modal-close", function(){
   if(modal.hasClass("looking-for-modal")){
     $node = $(modal).find("ul.select-dropdown li.active");
     if($node.size() > 0 ){
-      $( ".btn.looking-for" ).text($($node).text());
+      $( ".btn.looking-for" ).text($($node).text().toLowerCase());
       is_change = true;
     }
   } else if (modal.hasClass("interested-in-modal")) {
     $node = $(modal).find("ul.select-dropdown li.active");
     if($node.size() > 0){
-      $(".btn.interested-in").text($($node).text());
+      $(".btn.interested-in").text($($node).text().toLowerCase());
       is_change = true;
     }
   } else if (modal.hasClass("age-range-modal")) {
@@ -157,7 +160,13 @@ $(".modal-filter").on("click",".modal-close", function(){
       $node.val("");
     }
   }
+
+
+  ageMax = ageMax < ageMin ? ageMin + 1 : ageMax;
+  ageMin = ageMin > ageMax ? ageMin - 1 : ageMin;
   ageMin = ageMin < 18 ? 18 : ageMin;
+  ageMax = ageMax < 18 ? 19 : ageMax;
+  ageMin = ageMin > 99 ? 98 : ageMin;
   ageMax = ageMax > 99 ? 99 : ageMax;
   age = ageMin + " - " + ageMax;
   $(".btn.age-range").text(age);
