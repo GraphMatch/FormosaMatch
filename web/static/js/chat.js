@@ -8,7 +8,7 @@
     // Set first Route
     setRoute(GLOBALSTATE.route);
     var url_for_question = $(".chat-main").data("question");
-
+    var url_for_send_message = $(".chat-main").data("sendmessage");
 
     $('#head .mdi-chevron-down').on('click', function() {
         if ($('#hangout').hasClass('collapsed')) {
@@ -99,8 +99,33 @@
 
 
     $('.mdi-send').on('click', function() {
+        var $message = $('.chat-input').val();
         var $chatmessage = '<p>' + $('.chat-input').val() + '</p>';
         $('ul.chat > li > .current').append($chatmessage);
+        $('.chat-input').val('');
+        jsonData = JSON.stringify({'message': $message});
+        $.ajax
+        (
+          {
+            method: 'POST',
+            contentType: "application/json",
+            url: url_for_send_message,
+            data: jsonData,
+            success: function(result)
+            {
+              if (result.success)
+              {
+                //$('.chat-input').val(result.question);
+                console.log(result.success);
+              }
+              else
+              {
+                console.log('Error on request');
+              }
+            }
+          }
+        );
+
         $('.chat-input').val('');
     });
 

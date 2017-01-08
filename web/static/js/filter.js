@@ -117,17 +117,14 @@ $(".match-cards").on("click",".no-like", function(){
   );
 });
 
-
-
-$(".modal-filter").on("click",".modal-close", function(){
-  $( ".match-cards").html("");
-  $(".preloader-wrapper").css('display','block');
+function sendFilterAjax(node, hasUpdatedTags)
+{
   // --------------------------------------
   var is_change = false;
   var age = $( ".btn.age-range" ).text().split("-");
   var ageMin = parseInt(age[0]);
   var ageMax = parseInt(age[1]);
-  var modal = $(this).closest(".modal");
+  var modal = $(node).closest(".modal");
   if(modal.hasClass("looking-for-modal")){
     $node = $(modal).find("ul.select-dropdown li.active");
     if($node.size() > 0 ){
@@ -175,8 +172,31 @@ $(".modal-filter").on("click",".modal-close", function(){
   var interestedIn = $( ".btn.interested-in" ).text();
   var rangeDistance = parseInt($( ".btn.range-distance" ).text());
   rangeDistance = rangeDistance < 1 ? 1 : rangeDistance;
-  jsonData = JSON.stringify({'lookingFor':lookingFor, 'interestedIn':interestedIn, 'ageMax':ageMax, 'ageMin':ageMin, 'rangeDistance':rangeDistance});
-  if(is_change){
+
+  dataDict = {'lookingFor':lookingFor, 'interestedIn':interestedIn, 'ageMax':ageMax, 'ageMin':ageMin, 'rangeDistance':rangeDistance};
+
+  if ($(".chips-container .min-height-tag").data("value") != null){
+    dataDict['minHeight'] = $(".chips-container .min-height-tag").data("value");
+  }
+  if ($(".chips-container .max-height-tag").data("value") != null){
+    dataDict['maxHeight'] = $(".chips-container .max-height-tag").data("value");
+  }
+  if ($(".chips-container .drinking-tag").data("value") != null){
+    dataDict['drinking'] = $(".chips-container .drinking-tag").data("value");
+  }
+  if ($(".chips-container .smoking-tag").data("value") != null){
+    dataDict['smoking'] = $(".chips-container .smoking-tag").data("value");
+  }
+  if ($(".chips-container .body-type-tag").data("value") != null){
+    dataDict['bodyType'] = $(".chips-container .body-type-tag").data("value");
+  }
+  if ($(".chips-container .education-tag").data("value") != null){
+    dataDict['education'] = $(".chips-container .education-tag").data("value");
+  }
+  jsonData = JSON.stringify(dataDict);
+  if(is_change || hasUpdatedTags){
+    $( ".match-cards").html("");
+    $(".preloader-wrapper").css('display','block');
     var url_for_filter = $("main").data("filter");
     $.ajax
     (
@@ -244,7 +264,18 @@ $(".modal-filter").on("click",".modal-close", function(){
     );
   }
 
+}
+
+$(".modal-filter").on("click",".modal-close", function()
+{
+  sendFilterAjax(this, false);
+
 });
+$(".advanced-filter-modal").on("click", function()
+{
+  sendFilterAjax(this, true);
+});
+
 
 $(".chips-container").on("click",".delete-tag",function() {
   if($(".chips-container .chip").length == 1){
