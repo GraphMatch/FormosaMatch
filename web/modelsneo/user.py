@@ -243,6 +243,6 @@ class User(object):
 
 
     def get_matches(self,startFrom = 0,resultAmount = 10):
-        query = "MATCH (a:User {username:'" + self.username + "'}), (b:User) WHERE (a)-[:MATCH]-(b) return b.username as username, b.age as age, b.locationFormatted as locationFormatted  "
+        query = "MATCH (a:User {username:'" + self.username + "'}), (b:User) WHERE (a)-[:MATCH]-(b) return b.username as username, b.age as age, b.locationFormatted as locationFormatted, toInt(distance(point(a),point(b)) / 1000 ) as Distance   "
         query = query + ' skip ' + str(startFrom) + ' limit ' + str(resultAmount);
         return self.graph.cypher.execute(query)
