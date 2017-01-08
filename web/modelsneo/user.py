@@ -180,7 +180,7 @@ class User(object):
             order = order + 'smoking asc,'
             select = select + ', b.smoking as smoking '
 
-        order = order + ' Distance asc '
+        order = order + ' Distance asc, '
         #distance, expected Integer
         if distance is not None:
             query = query + ' AND toInt(distance(point(a),point(b)) / 1000 ) <=  ' + str(distance)
@@ -216,7 +216,7 @@ class User(object):
 
         query = query + select
 
-        order = order + ' Distance asc '
+        order = order[:-1]
         query = query + ' order by ' + order
 
         query = query + ' skip ' + str(startFrom) + ' limit ' + str(resultAmount)
