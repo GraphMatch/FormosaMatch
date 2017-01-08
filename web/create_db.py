@@ -44,24 +44,37 @@ def create_admin():
 
 @manager.command
 def create_match_users():
-    user = User(preference = "straight", gender = 'man', birth_date = '1991-01-03', country = 'Taiwan', city = 'Hsinchu City',
-    email = 'roblescoulter@gmail.com', username = 'roblescoulter', password='admin123', latitude = 24.8047, longitude = 120.9714)
+    user = User(orientation = "straight", gender = 'man', birth_date = '1991-01-03', country = 'Taiwan', city = 'Hsinchu City',
+    email = 'roblescoulter1234@gmail.com', username = 'roblescoulter1234', password='admin123', latitude = 24.8047, longitude = 120.9714)
     db.session.add(user)
     db.session.commit()
 
-    user1 = User(preference = "straight", gender = 'woman', birth_date = '1991-01-03', country = 'Taiwan', city = 'Hsinchu City',
-    email = 'alemeraz@gmail.com', username = 'alemeraz', password='admin123', latitude = 24.8047, longitude = 120.9714)
+    user_neo = UserNeo(graph=graph, username='roblescoulter1234', gender = 'man', age=25, latitude = 24.8047, longitude = 120.9714,
+        orientation = 'straight', locationFormatted = 'Taipei')
+
+    user_neo.register()
+
+    user1 = User(orientation = "straight", gender = 'woman', birth_date = '1991-01-03', country = 'Taiwan', city = 'Hsinchu City',
+    email = 'alemeraz1234@gmail.com', username = 'alemeraz1234', password='admin123', latitude = 24.8047, longitude = 120.9714)
     db.session.add(user1)
     db.session.commit()
 
-    match = Match(True, user.id, user1.id)
+    user_neo1 = UserNeo(graph=graph, username='alemeraz1234', gender = 'woman', age=25, latitude = 24.8047, longitude = 120.9714,
+        orientation = 'straight', locationFormatted = 'Taipei')
+
+    user_neo1.register()
+
+    user_neo.like_user('alemeraz1234')
+    user_neo1.like_user('roblescoulter1234')
+
+    match = Match(True, user.id, user1.id, True)
     db.session.add(match)
     db.session.commit()
 
-    message1 = Message("Hello you!", match.id, user.id)
+    message1 = Message("Hello you!", match.id, user.id, user1.id)
     db.session.add(message1)
 
-    message2 = Message("Nihao! How are you Luis?", match.id, user1.id)
+    message2 = Message("Nihao! How are you Luis?", match.id, user1.id, user.id)
     db.session.add(message1)
 
     db.session.commit()

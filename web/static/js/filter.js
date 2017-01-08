@@ -117,17 +117,14 @@ $(".match-cards").on("click",".no-like", function(){
   );
 });
 
-
-
-$(".modal-filter").on("click",".modal-close", function(){
-  $( ".match-cards").html("");
-  $(".preloader-wrapper").css('display','block');
+function sendFilterAjax(node, hasUpdatedTags)
+{
   // --------------------------------------
   var is_change = false;
   var age = $( ".btn.age-range" ).text().split("-");
   var ageMin = parseInt(age[0]);
   var ageMax = parseInt(age[1]);
-  var modal = $(this).closest(".modal");
+  var modal = $(node).closest(".modal");
   if(modal.hasClass("looking-for-modal")){
     $node = $(modal).find("ul.select-dropdown li.active");
     if($node.size() > 0 ){
@@ -175,8 +172,31 @@ $(".modal-filter").on("click",".modal-close", function(){
   var interestedIn = $( ".btn.interested-in" ).text();
   var rangeDistance = parseInt($( ".btn.range-distance" ).text());
   rangeDistance = rangeDistance < 1 ? 1 : rangeDistance;
-  jsonData = JSON.stringify({'lookingFor':lookingFor, 'interestedIn':interestedIn, 'ageMax':ageMax, 'ageMin':ageMin, 'rangeDistance':rangeDistance});
-  if(is_change){
+
+  dataDict = {'lookingFor':lookingFor, 'interestedIn':interestedIn, 'ageMax':ageMax, 'ageMin':ageMin, 'rangeDistance':rangeDistance};
+
+  if ($(".chips-container .min-height-tag").data("value") != null){
+    dataDict['minHeight'] = $(".chips-container .min-height-tag").data("value");
+  }
+  if ($(".chips-container .max-height-tag").data("value") != null){
+    dataDict['maxHeight'] = $(".chips-container .max-height-tag").data("value");
+  }
+  if ($(".chips-container .drinking-tag").data("value") != null){
+    dataDict['drinking'] = $(".chips-container .drinking-tag").data("value");
+  }
+  if ($(".chips-container .smoking-tag").data("value") != null){
+    dataDict['smoking'] = $(".chips-container .smoking-tag").data("value");
+  }
+  if ($(".chips-container .body-type-tag").data("value") != null){
+    dataDict['bodyType'] = $(".chips-container .body-type-tag").data("value");
+  }
+  if ($(".chips-container .education-tag").data("value") != null){
+    dataDict['education'] = $(".chips-container .education-tag").data("value");
+  }
+  jsonData = JSON.stringify(dataDict);
+  if(is_change || hasUpdatedTags){
+    $( ".match-cards").html("");
+    $(".preloader-wrapper").css('display','block');
     var url_for_filter = $("main").data("filter");
     $.ajax
     (
@@ -217,7 +237,15 @@ $(".modal-filter").on("click",".modal-close", function(){
 
               htmlUser = htmlUser + "<span class=\"card-title\" style=\"width:100%; background: rgba(0, 0, 0, 0.5);\">"+username+"</span></div>";
               htmlUser = htmlUser + "<div class=\"center card-content\"><h5>"+ matchesAges[i]+" . "+matchesLocations[i] + "</h5>";
-              htmlUser = htmlUser + "<h5>"+matchesDistances[i]+" km away from your location</h5></div>";
+              if (matchesDistances[i] == 0)
+              {
+                htmlUser = htmlUser + "<h5>Nearby</h5></div>";
+              }
+              else
+              {
+                htmlUser = htmlUser + "<h5>"+matchesDistances[i]+" km away from your location</h5></div>";
+              }
+
               htmlUser = htmlUser + "<div class=\"card-action center\">";
               if (matchesLikes[i] > 0)
               {
@@ -244,11 +272,52 @@ $(".modal-filter").on("click",".modal-close", function(){
     );
   }
 
+}
+
+$(".modal-filter").on("click",".modal-close", function()
+{
+  sendFilterAjax(this, false);
+
 });
+$(".advanced-filter-modal").on("click", function()
+{
+  sendFilterAjax(this, true);
+});
+
 
 $(".chips-container").on("click",".delete-tag",function() {
   if($(".chips-container .chip").length == 1){
     $(".filter-nav").css("height","64px");
+  }
+  if($(this).hasClass(".min-height-tag")){
+    $filterNode = $("#modalAdvancedFilter .row select.filter-for-height-min")
+    $($filterNode).find("option.selected").removeClass("selected");
+    $($filterNode).find("option[value='']").addClass("selected")
+  }
+  if($(this).hasClass(".max-height-tag")){
+    $filterNode = $("#modalAdvancedFilter .row select.filter-for-height-max")
+    $($filterNode).find("option.selected").removeClass("selected");
+    $($filterNode).find("option[value='']").addClass("selected")
+  }
+  if($(this).hasClass(".body-type-tag")){
+    $filterNode = $("#modalAdvancedFilter .row select.filter-for-body-type")
+    $($filterNode).find("option.selected").removeClass("selected");
+    $($filterNode).find("option[value='']").addClass("selected")
+  }
+  if($(this).hasClass(".drinking-tag")){
+    $filterNode = $("#modalAdvancedFilter .row select.filter-for-drinking")
+    $($filterNode).find("option.selected").removeClass("selected");
+    $($filterNode).find("option[value='']").addClass("selected")
+  }
+  if($(this).hasClass(".smoking-tag")){
+    $filterNode = $("#modalAdvancedFilter .row select.filter-for-smoking")
+    $($filterNode).find("option.selected").removeClass("selected");
+    $($filterNode).find("option[value='']").addClass("selected")
+  }
+  if($(this).hasClass(".education-tag")){
+    $filterNode = $("#modalAdvancedFilter .row select.filter-for-education")
+    $($filterNode).find("option.selected").removeClass("selected");
+    $($filterNode).find("option[value='']").addClass("selected")
   }
 });
 

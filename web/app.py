@@ -73,7 +73,6 @@ def dashboard():
     age_min = 18
     age_max = 29
 
-
     newMatchesA = (Match.query.filter_by(user_a_id = user.id, new=True).all());
     newMatchesB = (Match.query.filter_by(user_b_id = user.id, new=True).all());
     newMatchesLen = len(newMatchesA) + len(newMatchesB)
@@ -474,13 +473,32 @@ def filter():
             startFrom = 0
             if 'startFrom' in jsonData:
                 startFrom = jsonData['startFrom']
+            minHeight = None
+            if 'minHeight' in jsonData:
+                minHeight = jsonData['minHeight']
+            maxHeight = None
+            if 'maxHeight' in jsonData:
+                maxHeight = jsonData['maxHeight']
+            bodyType = None
+            if 'bodyType' in jsonData:
+                bodyType = jsonData['bodyType']
+            drinking = None
+            if 'drinking' in jsonData:
+                drinking = jsonData['drinking']
+            educationValue = None
+            if 'education' in jsonData:
+                educationValue = jsonData['education']
+            smoking = None
+            if 'smoking' in jsonData:
+                smoking = jsonData['smoking']
+
             lookingFor = jsonData['lookingFor']
             interestedIn = jsonData['interestedIn']
             ageMax = jsonData['ageMax']
             ageMin = jsonData['ageMin']
             rangeDistance = jsonData['rangeDistance']
 
-            matches = currentUserNeo.get_browse_nodes(distance = rangeDistance, gender=lookingFor, orientation = None, sexPreference = interestedIn, minAge = ageMin, maxAge = ageMax, startFrom=startFrom)
+            matches = currentUserNeo.get_browse_nodes(distance = rangeDistance, gender=lookingFor, orientation = None, sexPreference = interestedIn, minAge = ageMin, maxAge = ageMax, startFrom=startFrom,  minHeight=minHeight, maxHeight=maxHeight, bodyType=bodyType, drinking=drinking, educationValue=educationValue, smoking=smoking)
             matchesPictures = {}
             matchesUsernames = []
             matchesLocations = []
