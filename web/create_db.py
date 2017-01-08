@@ -75,7 +75,7 @@ def create_match_users():
     db.session.add(message1)
 
     message2 = Message("Nihao! How are you Luis?", match.id, user1.id, user.id)
-    db.session.add(message1)
+    db.session.add(message2)
 
     db.session.commit()
 
