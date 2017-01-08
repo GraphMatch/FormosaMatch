@@ -281,6 +281,36 @@ $(".chips-container").on("click",".delete-tag",function() {
   if($(".chips-container .chip").length == 1){
     $(".filter-nav").css("height","64px");
   }
+  if($(this).hasClass(".min-height-tag")){
+    $filterNode = $("#modalAdvancedFilter .row select.filter-for-height-min")
+    $($filterNode).find("option.selected").removeClass("selected");
+    $($filterNode).find("option[value='']").addClass("selected")
+  }
+  if($(this).hasClass(".max-height-tag")){
+    $filterNode = $("#modalAdvancedFilter .row select.filter-for-height-max")
+    $($filterNode).find("option.selected").removeClass("selected");
+    $($filterNode).find("option[value='']").addClass("selected")
+  }
+  if($(this).hasClass(".body-type-tag")){
+    $filterNode = $("#modalAdvancedFilter .row select.filter-for-body-type")
+    $($filterNode).find("option.selected").removeClass("selected");
+    $($filterNode).find("option[value='']").addClass("selected")
+  }
+  if($(this).hasClass(".drinking-tag")){
+    $filterNode = $("#modalAdvancedFilter .row select.filter-for-drinking")
+    $($filterNode).find("option.selected").removeClass("selected");
+    $($filterNode).find("option[value='']").addClass("selected")
+  }
+  if($(this).hasClass(".smoking-tag")){
+    $filterNode = $("#modalAdvancedFilter .row select.filter-for-smoking")
+    $($filterNode).find("option.selected").removeClass("selected");
+    $($filterNode).find("option[value='']").addClass("selected")
+  }
+  if($(this).hasClass(".education-tag")){
+    $filterNode = $("#modalAdvancedFilter .row select.filter-for-education")
+    $($filterNode).find("option.selected").removeClass("selected");
+    $($filterNode).find("option[value='']").addClass("selected")
+  }
 });
 
 $(".advanced-search").on("click",function(){
