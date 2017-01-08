@@ -61,10 +61,6 @@ main, header, footer {
     overflow: hidden;
 }
 
-.row {
-  margin-left: 15px;
-}
-
 .container {
   width: 80%
 }
