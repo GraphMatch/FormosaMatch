@@ -33,28 +33,20 @@
                 <h5>{{ match[0]['age'] }} · {{ match[0]['locationFormatted'] }}</h5>
               </div>
               <div class="card-action center">
-                <a class="waves-effect waves-teal btn deep-purple lighten-2">Chat<i class="material-icons left">done</i></a>
+                <a class="waves-effect waves-teal btn deep-purple lighten-2">Chat<i class="material-icons left">chat_bubble_outline</i></a>
               </div>
             </div>
           </div>
           {% endfor %}
         </div>
       {% else %}
-        <div class="col s12 m7">
-          <div class="card horizontal">
-            <div class="card-image">
-              <img src="http://lorempixel.com/100/190/nature/6">
-            </div>
-            <div class="card-stacked">
-              <div class="card-content">
-                <p>Sorry no matches</p>
-              </div>
-              <div class="card-action">
-                <a href="#">Browse</a>
-              </div>
-            </div>
+      <div class="row">
+        <div class="col s12">
+          <div class="card-panel deep-purple lighten-2">
+            <h3 class="white-text">You have no matches yet! Keep looking 加油！  </h3>
           </div>
         </div>
+      </div>
       {% endif %}
     </main>
 

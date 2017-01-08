@@ -22,37 +22,29 @@
 
     </header>
     <main>
-      <div class="row container match-cards">
-        <!--<div class="col m4">
-          <div class="card">
-            <div class="card-image">
-              <img src="https://scontent-hkg3-1.xx.fbcdn.net/v/t1.0-9/14199272_10153793602986994_6528017139146155017_n.jpg?oh=96ff396f3cbbbc3887242890b7b15266&oe=58DEE9DB">
-              <span class="card-title" style="width:100%; background: rgba(0, 0, 0, 0.5);">xiaosan_chez</span>
-            </div>
-            <div class="center card-content">
-              <h5>24 · Hsinchu City</h5>
-            </div>
-            <div class="card-action center">
-              <a class="waves-effect waves-teal btn deep-purple lighten-2">Liked<i class="material-icons left">done</i></a>
-            </div>
-          </div>
+      <!-- <div class="row container match-cards"> -->
+      <div class="row container">
+
+              <!-- Modal Trigger -->
+           <a class="waves-effect waves-light btn" href="#modalMatch">Modal</a>
+
+        <div class="preloader-wrapper big active" style="display:none">
+             <div class="spinner-layer spinner-blue">
+               <div class="circle-clipper left">
+                 <div class="circle">
+                 </div>
+               </div>
+               <div class="gap-patch">
+                 <div class="circle">
+                 </div>
+               </div><div class="circle-clipper right">
+                 <div class="circle">
+                 </div>
+               </div>
+             </div>
         </div>
-        <div class="col m4">
-          <div class="card">
-            <div class="card-image">
-              <img src="https://scontent-hkg3-1.xx.fbcdn.net/v/t1.0-9/13179398_10153464657216479_372899908850126625_n.jpg?oh=3148ce9e6760a5760035224ed037014f&oe=58E9E32B">
-              <span class="card-title" style="width:100%; background: rgba(0, 0, 0, 0.5);">xiaolin</span>
-
-            </div>
-            <div class="center card-content">
-              <h5>22 · 台中</h5>
-            </div>
-            <div class="card-action center">
-              <a class="waves-effect btn-flat no-like waves-purple">Like</a>
-            </div>
-          </div>
-        </div>-->
-
+        <div class="match-cards">
+        {% if browse_nodes %}
         {% for node in browse_nodes %}
         <div class="col m4">
           <div class="card">
@@ -66,7 +58,7 @@
             </div>
             <div class="center card-content">
               <h5>{{ node['age'] }} · {{ node['locationFormatted'] }}</h5>
-              <h5>{{ node['Distance']}}km away from your location</h5>
+              <h5><span class="card-distance">{{ node['Distance']}}</span> km away from your location</h5>
             </div>
             <div class="card-action center">
               {% if node["Likes"] > 0 %}
@@ -78,14 +70,32 @@
           </div>
         </div>
         {% endfor %}
+          <div class="col s12 end-match-cards">
+            <div class="card-panel deep-purple lighten-2">
+              <h2 class="white-text">That's everyone we could find!</h2>
+              <h3 class="white-text">If you set a lot of filters, you might not get any results.
+                Try broadening your search settings.</h3>
+            </div>
+          </div>
+        {% else %}
+        <div class="row">
+          <div class="col s12">
+            <div class="card-panel deep-purple lighten-2">
+              <h3 class="white-text">If you set a lot of filters, you might not get any results.
+                Try broadening your search settings.</h3>
+            </div>
+          </div>
+        </div>
+        {% endif%}
 
 
+      </div>
       </div>
 
     </main>
 
     <!-- Modal Structure -->
-    <div id="looking-for" class="modal">
+    <div id="looking-for" class="modal looking-for-modal modal-filter">
       <div class="modal-content">
         <div class="input-field col s12">
           <select>
@@ -101,7 +111,7 @@
       </div>
     </div>
     <!-- Modal Structure -->
-    <div id="interested-in" class="modal">
+    <div id="interested-in" class="modal interested-in-modal modal-filter">
       <div class="modal-content">
         <div class="input-field col s12">
           <select id="sexInterest">
@@ -116,7 +126,7 @@
         <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Done</a>
       </div>
     </div>
-    <div id="age-range" class="modal">
+    <div id="age-range" class="modal age-range-modal modal-filter">
       <div class="modal-content">
         <div class="input-field col s12">
           <div class="row">
@@ -135,28 +145,120 @@
         <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Done</a>
       </div>
     </div>
-    <div id="range-distance" class="modal">
+    <div id="range-distance" class="modal range-distance-modal modal-filter">
       <div class="modal-content">
         <div class="input-field col s12">
               <input id="distance" type="number" class="validate">
               <label for="distance">Distance (in Kilometers)</label>
-
         </div>
       </div>
       <div class="modal-footer">
         <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Done</a>
       </div>
     </div>
+    <input type="number" class="start-from" name="" value="1" hidden>
 
+
+
+   <!-- Modal Structure -->
+   <div id="modalMatch" class="modal is_matched center">
+     <div class="modal-content">
+       <h4>厲害！You matched with <span class="matched-username"></span>!</h4>
+       <img src="../static/picture/no-pic.png">
+       <p><span class="matched-distance"></span> km from you</p>
+       <a class="waves-effect waves-teal btn deep-purple lighten-2">Start Chating!<i class="material-icons left">chat_bubble_outline</i></a>
+     </div>
+   </div>
 
     {% include "partials/chat.html"%}
     <!--  Scripts -->
     {% include "partials/scripts.html" %}
     <script>
-    $( ".no-like" ).click(function() {
-      thisParent = $(this).parent();
-      var usernameClicked = ($(this).parent().parent().children('.card-image').children('.card-title').text())
+    var options = [
+    {
+      selector: '.end-match-cards', offset: 0, callback: function(el){
+        getNewNodes()
+        Materialize.scrollFire(options);
+      }
+    }];
+    Materialize.scrollFire(options);
 
+    function getNewNodes() {
+      var age = $( ".btn.age-range" ).text().split("-");
+      var ageMin = parseInt(age[0]);
+      var ageMax = parseInt(age[1]);
+      var startFrom = (parseInt($(".start-from").val())* 20)+ 1;
+      ageMin = ageMin < 18 ? 18 : ageMin;
+      ageMax = ageMax > 99 ? 99 : ageMax;
+      var lookingFor = $( ".btn.looking-for" ).text();
+      var interestedIn = $( ".btn.interested-in" ).text();
+      var rangeDistance = parseInt($( ".btn.range-distance" ).text());
+      rangeDistance = rangeDistance < 1 ? 1 : rangeDistance;
+      jsonData = JSON.stringify({'startFrom': startFrom,'lookingFor':lookingFor, 'interestedIn':interestedIn, 'ageMax':ageMax, 'ageMin':ageMin, 'rangeDistance':rangeDistance});
+      $.ajax
+      (
+        {
+          method: 'POST',
+          url: {{ url_for('filter') }},
+          contentType: "application/json",
+          data: jsonData,
+          success: function(result)
+          {
+            alert("HERE");
+            if (result.success){
+              var matchesUsernames = result.matchesUsernames;
+              var matchesPictures = result.matchesPictures;
+              var matchesLocations = result.matchesLocations;
+              var matchesAges = result.matchesAges;
+              var matchesDistances = result.matchesDistances;
+              var matchesLikes = result.matchesLikes;
+              matchesUsernamesLength = matchesUsernames.length;
+              htmlMatchCards = "";
+              alert("HERE");
+              for (var i = 0; i < matchesUsernamesLength; i++){
+                username = matchesUsernames[i];
+                htmlUser = "<div class=\"col m4\"><div class=\"card\"><div class=\"card-image\">";
+                if ((typeof(matchesPictures[username]) !== 'undefined') && (matchesPictures[username] != "")){
+                  htmlUser = htmlUser + "<img class=\"materialboxed\" data-caption=\""+username+"\" src=\""+matchesPictures[username]+"\">";
+                } else {
+                  htmlUser = htmlUser + "<img src=\"../static/picture/no-pic.png\">";
+                }
+                htmlUser = htmlUser + "<span class=\"card-title\" style=\"width:100%; background: rgba(0, 0, 0, 0.5);\">"+username+"</span></div>";
+                htmlUser = htmlUser + "<div class=\"center card-content\"><h5>"+ matchesAges[i]+" . "+matchesLocations[i] + "</h5>";
+                htmlUser = htmlUser + "<h5>"+matchesDistances[i]+" km away from your location</h5></div>";
+                htmlUser = htmlUser + "<div class=\"card-action center\">";
+                if (matchesLikes[i] > 0){
+                  htmlUser = htmlUser + "<a class=\"waves-effect waves-teal btn deep-purple lighten-2\">Liked<i class=\"material-icons left\">done</i></a>";
+                } else {
+                  htmlUser = htmlUser + "<a class=\"waves-effect btn-flat no-like waves-purple\">Like</a>";
+                }
+                htmlUser = htmlUser + "</div></div></div>";
+                htmlMatchCards = htmlMatchCards + htmlUser;
+
+                console.log(htmlMatchCards);
+              }
+              // $( ".match-cards").append(htmlMatchCards);
+              $( ".end-match-cards").before(htmlMatchCards);
+              $('.materialboxed').materialbox();
+              $(".start-from").val(parseInt($(".start-from").val())+ 1);
+
+            } else {
+              console.log('Error in AJAX');
+            }
+          }
+        }
+      );
+    }
+
+    $(".match-cards").on("click",".no-like", function(){
+      thisParent = $(this).parent();
+      var $card_node = $(this).closest(".card");
+      var pic = $($card_node).find(".card-image img").attr('src');
+      var distanceClicked = $($card_node).find(".card-distance").text();
+      var usernameClicked = $(this).closest(".card").find('.card-title').text();
+      console.log("clicked");
+      console.log(usernameClicked);
+      console.log($(this).closest(".card"));
       $.ajax
       (
         {
@@ -169,15 +271,12 @@
               console.log(result.message);
               if(result.matched)
               {
-                console.log('You got a match');
+                var $modal_node = $("#modalMatch");
+                $($modal_node).find(".matched-username").text(usernameClicked);
+                $($modal_node).find(".matched-distance").text(distanceClicked);
+                $($modal_node).find("img").attr("src",pic);
+                $('#modalMatch').modal('open');
               }
-              else
-              {
-                console.log('You did not get a match');
-              }
-
-
-
             }
             else
             {
@@ -186,64 +285,130 @@
 
           }
         }
-      );
+      );*/
     });
 
 
 
-    $( ".modal-close" ).click(function() {
+    $(".modal-filter").on("click",".modal-close", function(){
+      $( ".match-cards").html("");
+      $(".preloader-wrapper").css('display','block');
       // --------------------------------------
-      // Luis
-      // --------------------------------------
+      var is_change = false;
+      var age = $( ".btn.age-range" ).text().split("-");
+      var ageMin = parseInt(age[0]);
+      var ageMax = parseInt(age[1]);
+      var modal = $(this).closest(".modal");
+      if(modal.hasClass("looking-for-modal")){
+        $node = $(modal).find("ul.select-dropdown li.active");
+        if($node.size() > 0 ){
+          $( ".btn.looking-for" ).text($($node).text());
+          is_change = true;
+        }
+      } else if (modal.hasClass("interested-in-modal")) {
+        $node = $(modal).find("ul.select-dropdown li.active");
+        if($node.size() > 0){
+          $(".btn.interested-in").text($($node).text());
+          is_change = true;
+        }
+      } else if (modal.hasClass("age-range-modal")) {
+        $node = $(modal).find(".input-field input");
+        if($node.first().val() != ""){
+          ageMin = $node.first().val();
+          $node.first().val("");
+          is_change = true;
+        }
+        if($node.last().val() != ""){
+          ageMax = $node.last().val();
+          $node.last().val("");
+          is_change = true;
+        }
+      } else if (modal.hasClass("range-distance-modal")) {
+        $node = $(modal).find(".input-field input");
+        if($node.val() != ""){
+          var temp = $node.val() < 1 ? 1 : $node.val();
+          $(".btn.range-distance").text(temp);
+          is_change = true;
+          $node.val("");
+        }
+      }
+      ageMin = ageMin < 18 ? 18 : ageMin;
+      ageMax = ageMax > 99 ? 99 : ageMax;
+      age = ageMin + " - " + ageMax;
+      $(".btn.age-range").text(age);
       var lookingFor = $( ".btn.looking-for" ).text();
       var interestedIn = $( ".btn.interested-in" ).text();
-      var ageMin = parseInt($( ".btn.age-range" ).text().split("-")[0]);
-      var ageMax = parseInt($( ".btn.age-range" ).text().split("-")[1])
-      if (ageMin < 18)
-      {
-          ageMin = 18
-      }
       var rangeDistance = parseInt($( ".btn.range-distance" ).text());
-      var ageMin = 18;
-      var ageMax = 50;
-      var rangeDistance = 20000;
+      rangeDistance = rangeDistance < 1 ? 1 : rangeDistance;
       jsonData = JSON.stringify({'lookingFor':lookingFor, 'interestedIn':interestedIn, 'ageMax':ageMax, 'ageMin':ageMin, 'rangeDistance':rangeDistance});
-      $.ajax
-      (
-        {
-          method: 'POST',
-          url: {{ url_for('filter') }},
-          contentType: "application/json",
-          data: jsonData,
-          success: function(result)
+      if(is_change){
+        console.log('changed')
+        $.ajax
+        (
           {
-            console.log(result);
-            if (result.success)
+            method: 'POST',
+            url: {{ url_for('filter') }},
+            contentType: "application/json",
+            data: jsonData,
+            success: function(result)
             {
-              var matchesUsernames = result.matchesUsernames;
-              var matchesPictures = result.matchesPictures;
-              matchesUsernamesLength = matchesUsernames.length;
-              matchesPicturesLength = matchesPictures.length;
-              for (var i = 0; i < matchesUsernamesLength; i++) {
-                username = matchesUsernames[i];
-                profilePic = "";
+              console.log(result);
+              if (result.success)
+              {
+                var matchesUsernames = result.matchesUsernames;
+                var matchesPictures = result.matchesPictures;
+                var matchesLocations = result.matchesLocations;
+                var matchesAges = result.matchesAges;
+                var matchesDistances = result.matchesDistances;
+                var matchesLikes = result.matchesLikes;
 
-                if (typeof(matchesPictures[username]) !== 'undefined')
+                matchesUsernamesLength = matchesUsernames.length;
+                htmlMatchCards = "";
+
+                for (var i = 0; i < matchesUsernamesLength; i++)
                 {
-                  profilePic = matchesPictures[username];
-                }
+                  username = matchesUsernames[i];
+                  // Create cards for each user
 
+                  htmlUser = "<div class=\"col m4\"><div class=\"card\"><div class=\"card-image\">";
+                  if ((typeof(matchesPictures[username]) !== 'undefined') && (matchesPictures[username] != ""))
+                  {
+                    htmlUser = htmlUser + "<img class=\"materialboxed\" data-caption=\""+username+"\" src=\""+matchesPictures[username]+"\">";
+                  }
+                  else
+                  {
+                    htmlUser = htmlUser + "<img src=\"../static/picture/no-pic.png\">";
+                  }
+
+                  htmlUser = htmlUser + "<span class=\"card-title\" style=\"width:100%; background: rgba(0, 0, 0, 0.5);\">"+username+"</span></div>";
+                  htmlUser = htmlUser + "<div class=\"center card-content\"><h5>"+ matchesAges[i]+" . "+matchesLocations[i] + "</h5>";
+                  htmlUser = htmlUser + "<h5>"+matchesDistances[i]+" km away from your location</h5></div>";
+                  htmlUser = htmlUser + "<div class=\"card-action center\">";
+                  if (matchesLikes[i] > 0)
+                  {
+                    htmlUser = htmlUser + "<a class=\"waves-effect waves-teal btn deep-purple lighten-2\">Liked<i class=\"material-icons left\">done</i></a>";
+                  }
+                  else
+                  {
+                    htmlUser = htmlUser + "<a class=\"waves-effect btn-flat no-like waves-purple\">Like</a>";
+                  }
+                  htmlUser = htmlUser + "</div></div></div>";
+
+                  htmlMatchCards = htmlMatchCards + htmlUser;
+                }
+                $( ".match-cards").html(htmlMatchCards);
+                $('.materialboxed').materialbox();
+                $(".preloader-wrapper").css('display','none');
+              }
+              else
+              {
+                console.log('Error in AJAX');
               }
 
             }
-            else
-            {
-              console.log('Error in AJAX');
-            }
-
           }
-        }
-      );
+        );
+      }
 
     });
     </script>
