@@ -44,35 +44,6 @@
              </div>
         </div>
         <div class="match-cards">
-        <!--<div class="col m4">
-          <div class="card">
-            <div class="card-image">
-              <img src="https://scontent-hkg3-1.xx.fbcdn.net/v/t1.0-9/14199272_10153793602986994_6528017139146155017_n.jpg?oh=96ff396f3cbbbc3887242890b7b15266&oe=58DEE9DB">
-              <span class="card-title" style="width:100%; background: rgba(0, 0, 0, 0.5);">xiaosan_chez</span>
-            </div>
-            <div class="center card-content">
-              <h5>24 · Hsinchu City</h5>
-            </div>
-            <div class="card-action center">
-              <a class="waves-effect waves-teal btn deep-purple lighten-2">Liked<i class="material-icons left">done</i></a>
-            </div>
-          </div>
-        </div>
-        <div class="col m4">
-          <div class="card">
-            <div class="card-image">
-              <img src="https://scontent-hkg3-1.xx.fbcdn.net/v/t1.0-9/13179398_10153464657216479_372899908850126625_n.jpg?oh=3148ce9e6760a5760035224ed037014f&oe=58E9E32B">
-              <span class="card-title" style="width:100%; background: rgba(0, 0, 0, 0.5);">xiaolin</span>
-
-            </div>
-            <div class="center card-content">
-              <h5>22 · 台中</h5>
-            </div>
-            <div class="card-action center">
-              <a class="waves-effect btn-flat no-like waves-purple">Like</a>
-            </div>
-          </div>
-        </div>-->
         {% if browse_nodes %}
         {% for node in browse_nodes %}
         <div class="col m4">
@@ -87,7 +58,7 @@
             </div>
             <div class="center card-content">
               <h5>{{ node['age'] }} · {{ node['locationFormatted'] }}</h5>
-              <h5>{{ node['Distance']}} km away from your location</h5>
+              <h5><span class="card-distance">{{ node['Distance']}}</span> km away from your location</h5>
             </div>
             <div class="card-action center">
               {% if node["Likes"] > 0 %}
@@ -179,7 +150,6 @@
         <div class="input-field col s12">
               <input id="distance" type="number" class="validate">
               <label for="distance">Distance (in Kilometers)</label>
-
         </div>
       </div>
       <div class="modal-footer">
@@ -191,15 +161,12 @@
 
 
    <!-- Modal Structure -->
-   <div id="modalMatch" class="modal modal-fixed-footer center">
+   <div id="modalMatch" class="modal is_matched center">
      <div class="modal-content">
-       <h4>厲害！You got a match!</h4>
+       <h4>厲害！You matched with <span class="matched-username"></span>!</h4>
        <img src="../static/picture/no-pic.png">
-       <p>username . 10 km from you</p>
-
-     </div>
-     <div class="modal-footer">
-       <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Cool!</a>
+       <p><span class="matched-distance"></span> km from you</p>
+       <a class="waves-effect waves-teal btn deep-purple lighten-2">Start Chating!<i class="material-icons left">chat_bubble_outline</i></a>
      </div>
    </div>
 
@@ -210,7 +177,7 @@
     var options = [
     {
       selector: '.end-match-cards', offset: 0, callback: function(el){
-        getNewNodes()
+        getNewNodes();
       }
     }];
     Materialize.scrollFire(options);
@@ -281,8 +248,13 @@
 
     $(".match-cards").on("click",".no-like", function(){
       thisParent = $(this).parent();
-      var usernameClicked = ($(this).parent().parent().children('.card-image').children('.card-title').text())
+      var $card_node = $(this).closest(".card");
+      var pic = $($card_node).find(".card-image img").attr('src');
+      var distanceClicked = $($card_node).find(".card-distance").text();
+      var usernameClicked = $(this).closest(".card").find('.card-title').text();
       console.log("clicked");
+      console.log(usernameClicked);
+      console.log($(this).closest(".card"));
       $.ajax
       (
         {
@@ -295,15 +267,12 @@
               console.log(result.message);
               if(result.matched)
               {
-                console.log('You got a match');
+                var $modal_node = $("#modalMatch");
+                $($modal_node).find(".matched-username").text(usernameClicked);
+                $($modal_node).find(".matched-distance").text(distanceClicked);
+                $($modal_node).find("img").attr("src",pic);
+                $('#modalMatch').modal('open');
               }
-              else
-              {
-                console.log('You did not get a match');
-              }
-
-
-
             }
             else
             {
@@ -312,7 +281,7 @@
 
           }
         }
-      );
+      );*/
     });
 
 
