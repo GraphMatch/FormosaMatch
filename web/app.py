@@ -18,6 +18,7 @@ import uuid
 import os
 from flask_googlemaps import GoogleMaps
 from flask_googlemaps import Map, icons
+import random
 
 app = Flask(__name__)
 app.config.from_object(BaseConfig)
@@ -37,10 +38,14 @@ GoogleMaps(app)
 
 from modelssql.user import User
 from modelsneo.user import User as UserNeo
+<<<<<<< HEAD
 from modelssql.question_list import QuestionList
 from modelssql.match import Match
 from modelssql.message import Message
 from sqlalchemy.sql import text
+=======
+from modelssql.question import Question
+>>>>>>> 322e8b8f2014b4dfc54b219422b23789065f78b6
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -509,6 +514,12 @@ def get_my_messages(username):
     if(len(messages) == 0):
         return jsonify({'success': 0, 'user': username})
     return jsonify({'success': 1, 'user': username, 'messages': messages})
+
+@app.route('/get20q')
+def get20q():
+    questions = Question.query.all()
+    randomQuestion = random.choice(questions)
+    return jsonify({'success': 1, 'question': randomQuestion.text })
 
 def get_profile_pictures(users):
     users_dict = {}
