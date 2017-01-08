@@ -25,3 +25,6 @@ class Message(db.Model):
         self.sender_id = sender_id
         self.receiver_id = receiver_id
         self.delivered = delivered
+
+    def serialize(self):
+        return { 'id': self.id, 'message': self.text }
