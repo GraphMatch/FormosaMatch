@@ -62,7 +62,13 @@
             </div>
             <div class="center card-content">
               <h5>{{ node['age'] }} · {{ node['locationFormatted'] }}</h5>
-              <h5><span class="card-distance">{{ node['Distance']}}</span> km away from your location</h5>
+              <h5><span class="card-distance">
+              {% if node['Distance'] == 0%}
+              Nearby</span>
+              {% else %}
+              {{ node['Distance']}}</span> km away from your location
+              {% endif %}
+              </h5>
             </div>
             <div class="card-action center">
               {% if node["Likes"] > 0 %}
