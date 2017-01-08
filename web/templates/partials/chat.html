@@ -1,4 +1,4 @@
-<div class="chat-main" data-question="{{ url_for('get20q') }}">
+<div class="chat-main" data-question="{{ url_for('get20q') }}" data-sendmessage="{{ url_for('sendmessageto') }}" >
   <style id="dynamic-styles"></style>
   <div id="hangout" class="collapsed hide-on-med-and-down">
    <div id="head" class="style-bg deep-purple lighten-1"> <i class="mdi mdi-arrow-left"></i>
@@ -7,15 +7,17 @@
      <div class="overlay"></div>
      <div class="list-text">
      <ul class="list mat-ripple">
-       <li><img src="http://lorempixel.com/100/100/people/1/">
-         <div class="content-container">
-           <span class="name">Angie</span>
-           <span class="txt">i get the other  a bit </span>
-         </div>
-         <span class="time">
-           14:00
-         </span>
+       {% for match in mymatches %}
+          <li><img src="{{ matchesPictures[match['username']] }}">
+           <div class="content-container">
+             <span class="name">{{ match['username'] }}</span>
+             <span class="txt">I get the other  a bit </span>
+           </div>
+           <span class="time">
+             14:00
+           </span>
           </li>
+        {% endfor %}
      </ul>
      </div>
      <div class="list-chat">

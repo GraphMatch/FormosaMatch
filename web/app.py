@@ -84,6 +84,7 @@ def dashboard():
     if userN is not None:
         looking_for = (userN['sexPreference'])
         matches = userNeo.get_browse_nodes()
+        mymatches = userNeo.get_matches()
         if userN['minAge'] != None:
             age_min = int(float(userN['minAge']))
         else:
@@ -98,8 +99,14 @@ def dashboard():
         matchesUsernames = []
         for node in matches:
             matchesUsernames.append(node["username"])
+
+        mymatchesUsernames = []
+        for node in mymatches:
+            mymatchesUsernames.append(node["username"])
+
         matchesPictures = get_profile_pictures(matchesUsernames)
-    return render_template('dashboard.html', current_user = user,
+        mymatchesPictures = get_profile_pictures(mymatchesUsernames)
+    return render_template('dashboard.html', current_user = user, mymatches = mymatches, matchesPictures = mymatchesPictures,
      browse_nodes = matches, nodes_pictures = matchesPictures,
      interested_in = interested_in, looking_for = looking_for, age_min = age_min,
      age_max = age_max, newMatches=newMatchesLen ,emptyFieldsCount=emptyFieldsCount)
@@ -467,13 +474,32 @@ def filter():
             startFrom = 0
             if 'startFrom' in jsonData:
                 startFrom = jsonData['startFrom']
+            minHeight = None
+            if 'minHeight' in jsonData:
+                minHeight = jsonData['minHeight']
+            maxHeight = None
+            if 'maxHeight' in jsonData:
+                maxHeight = jsonData['maxHeight']
+            bodyType = None
+            if 'bodyType' in jsonData:
+                bodyType = jsonData['bodyType']
+            drinking = None
+            if 'drinking' in jsonData:
+                drinking = jsonData['drinking']
+            educationValue = None
+            if 'education' in jsonData:
+                educationValue = jsonData['education']
+            smoking = None
+            if 'smoking' in jsonData:
+                smoking = jsonData['smoking']
+
             lookingFor = jsonData['lookingFor']
             interestedIn = jsonData['interestedIn']
             ageMax = jsonData['ageMax']
             ageMin = jsonData['ageMin']
             rangeDistance = jsonData['rangeDistance']
 
-            matches = currentUserNeo.get_browse_nodes(distance = rangeDistance, gender=lookingFor, orientation = None, sexPreference = interestedIn, minAge = ageMin, maxAge = ageMax, startFrom=startFrom)
+            matches = currentUserNeo.get_browse_nodes(distance = rangeDistance, gender=lookingFor, orientation = None, sexPreference = interestedIn, minAge = ageMin, maxAge = ageMax, startFrom=startFrom,  minHeight=minHeight, maxHeight=maxHeight, bodyType=bodyType, drinking=drinking, educationValue=educationValue, smoking=smoking)
             matchesPictures = {}
             matchesUsernames = []
             matchesLocations = []
@@ -491,11 +517,27 @@ def filter():
         else:
             return jsonify({'success': 0, 'error':'Your user was not found. Check your session.'})
 
-@app.route('/sendmessage/', methods=['GET', 'POST'])
-def sendmessage():
-    """ my_matches """
+@app.route('/sendmessageto', methods=["POST"])
+def sendmessageto():
+    username = 'ijnul'
+    """ Send message """
+    receiver_user = User.query.filter_by(username = username).first()
+    if(receiver_user is None):
+        return jsonify({'success': -1, 'message': 'The user ' + username + ' does not exist'})
+    session_username = session.get('username')
+    session_user = User.query.filter_by(username = session_username).first()
+    match = Match.query.from_statement(text("SELECT * FROM match where status=:status AND ((user_a_id=:ida AND user_b_id=:idb) OR (user_a_id=:idb AND user_b_id=:ida)) ")).params(ida = session_user.id, idb = receiver_user.id, status = True).first()
+    if(match is None):
+        return jsonify({'success': -1, 'message': 'The match with the user ' + username + ' does not exist'})
+
+    session_user = User.query.filter_by(username = session_username).first()
     jsonData = request.get_json()
-    return jsonify({'success': 1, 'message': jsonData['message'] })
+    msg = jsonData['message'] #Get from the request
+    message = Message(text = msg, match_id = match.id, sender_id = session_user.id, receiver_id = receiver_user.id)
+    db.session.add(message)
+    db.session.commit()
+    db.session.close()
+    return jsonify({'success': 1, 'message': 'Message sent to user: ' + username })
 
 @app.route('/fullmap')
 def fullmap():
@@ -528,14 +570,18 @@ def fullmap():
 
 @app.route('/getnewmessagesfrom/<username>')
 def get_new_messages_from(username):
-    session_username = session.get('username')
     receiver_user = User.query.filter_by(username = username).first()
+    if(receiver_user is None):
+        return jsonify({'success': -1, 'message': 'The user ' + username + ' does not exist'})
+    session_username = session.get('username')
     session_user = User.query.filter_by(username = session_username).first()
-    match = Match.query.from_statement(text("SELECT * FROM match where (user_a_id=:ida AND user_b_id=:idb) OR (user_a_id=:idb AND user_b_id=:ida) ")).params(ida = session_user.id, idb = receiver_user.id).first()
+    match = Match.query.from_statement(text("SELECT * FROM match where status=:status AND ((user_a_id=:ida AND user_b_id=:idb) OR (user_a_id=:idb AND user_b_id=:ida)) ")).params(ida = session_user.id, idb = receiver_user.id, status = True).first()
+    if(match is None):
+        return jsonify({'success': -1, 'message': 'The match with the user ' + username + ' does not exist'})
     messages = Message.query.filter_by(match_id = match.id, receiver_id = session_user.id, delivered = False).all()
     if(len(messages) == 0):
-        return jsonify({'success': 0, 'user': username})
-    return jsonify({'success': 1, 'user': username, 'messages': messages})
+        return jsonify({'success': 0, 'message': 'No new message'})
+    return jsonify({'success': 1, 'user': username, 'messages': [m.serialize() for m in messages]})
 
 @app.route('/get20q')
 def get20q():
