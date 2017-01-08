@@ -73,6 +73,11 @@ def dashboard():
     age_min = 18
     age_max = 29
 
+    newMatchesA = (Match.query.filter_by(user_a_id = user.id, new=True).all());
+    newMatchesB = (Match.query.filter_by(user_b_id = user.id, new=True).all());
+
+    newMatchesLen = len(newMatchesA) + len(newMatchesB)
+
     interested_in = user.gender #man/woman
     userN = userNeo.find()
     if userN is not None:
@@ -96,7 +101,7 @@ def dashboard():
     return render_template('dashboard.html', current_user = user,
      browse_nodes = matches, nodes_pictures = matchesPictures,
      interested_in = interested_in, looking_for = looking_for, age_min = age_min,
-     age_max = age_max )
+     age_max = age_max, newMatches=newMatchesLen )
 
 
 @app.route('/register', methods=['POST'])
@@ -268,6 +273,11 @@ def profile():
         return redirect(url_for('index'))
     username = session.get('username')
     user = User.query.filter_by(username = username).first()
+    newMatchesA = (Match.query.filter_by(user_a_id = user.id, new=True).all());
+    newMatchesB = (Match.query.filter_by(user_b_id = user.id, new=True).all());
+
+    newMatchesLen = len(newMatchesA) + len(newMatchesB)
+
     if request.method == 'POST':
         file = request.files['profile_picture']
         filename = ""
@@ -358,7 +368,8 @@ def profile():
         current_user = user,
         age_range_min = age_range[0],
         age_range_max = age_range[1],
-        usernode = user_neo
+        usernode = user_neo,
+        newMatches=newMatchesLen
         )
 
 def allowed_file(filename):
@@ -406,14 +417,19 @@ def my_matches():
         flash('Sorry! You need to log in order to access to this page!')
         return redirect(url_for('index'))
     currentUsername = session['username']
+    user = User.query.filter_by(username = currentUsername).first()
     currentUserNeo = UserNeo(graph=graph, username=currentUsername)
+    newMatchesA = (Match.query.filter_by(user_a_id = user.id, new=True).all());
+    newMatchesB = (Match.query.filter_by(user_b_id = user.id, new=True).all());
 
-    # newMatchesA = (Match.query.filter_by(user_a_id = user.id, new=True).all());
-    # newMatchesB = (Match.query.filter_by(user_b_id = user.id, new=True).all());
+    newMatchesLen = len(newMatchesA) + len(newMatchesB)
 
-    newMatches = (Match.query.filter_by(new = True).all())
-    newMatchesLen = len(newMatches)
-
+    for match in newMatchesA:
+        match.new=False;
+    for match in newMatchesB:
+        match.new=False;
+    db.session.commit()
+    
     matches = []
     matchesLocations = []
     matchesAges = []
