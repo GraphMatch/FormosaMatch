@@ -7,7 +7,7 @@
       <a href="{{ url_for('profile') }}"><span class="white-text name">{{ current_user.username }}</span></a>
       <a href="{{ url_for('profile') }}"><span class="white-text email">{{ current_user.email }}</span></a>
     </div></li>
-    <li><a href="{{ url_for('my_matches') }}"><i class="material-icons">supervisor_account</i>Matches</a></li>
+    <li><a href="{{ url_for('my_matches') }}"><i class="material-icons">supervisor_account</i>Matches<span class="new badge">4</span></a></li>
     <li><a href="{{ url_for('dashboard')}}"><i class="material-icons">person_pin</i>Browse</a></li>
     <li><div class="divider"></div></li>
     <li><a class="subheader">Settings</a></li>
